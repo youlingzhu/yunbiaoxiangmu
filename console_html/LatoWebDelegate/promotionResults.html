@@ -1,0 +1,56 @@
+
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'推广成果' /}
+	
+	
+	<div class="main">
+  <div class="main_title main_title_w">
+  	    <a href="@{LatoWebDelegate.getIndexForm()}" class="list_back list_back_a">
+		   <img class="imgs" src="@{'/public/images/vector_header.png'}" >
+		</a>
+        <h3>推广成果</h3>
+  </div>
+   <div class="main_body" style="margin-top: -5px;">
+   
+				   <div class="table server_table clearfix">
+				   
+				   
+		 	 
+				<table data-toggle="table"  id="table" data-search="true" data-side-pagination="server"     data-pagination="true"    data-url="${flash.dataUrl}"  >
+					 <thead>
+						<tr>
+							#{list items:fieldList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+						</tr>
+					</thead>
+						
+				</table>	
+				</div>
+				
+   
+     </div> 
+ </div>
+	
+	
+
+<script type="text/javascript">
+		
+		
+	 $(document).ready(function() {
+	 
+	  $('#sub-item-1').addClass('in');
+		
+		$("#getFormDiv").hide();
+		
+		}
+		)
+		
+	
+	
+		
+		
+	
+ 
+</script>

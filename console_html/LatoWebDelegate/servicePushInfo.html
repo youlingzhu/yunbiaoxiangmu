@@ -1,0 +1,218 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'推送服务详情' /}
+#{set push:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{width: 280px;margin-top: 0px;}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class="lato-main-side service_pushInfo" >
+	<!-- <div id="lato-main-side_a">
+		<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">控制台&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">应用空间管理</a>
+	</div> -->
+	<div class="body_name body_menu1 clearfix service_pushInfo_one">
+		<label class="menu_names" id="menu_names">推送服务详情</label>
+	  </div>
+	<div id="lato-main-side_a">
+		<!-- <a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">控制台&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a"> 本地服务器&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">应用空间管理</a>
+	 -->
+	</div>
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;" >		
+	    
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				推送服务详情<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div>-->
+		#{if opened==2}
+		<div class="main_body service_pushInfo_two">
+			<div class="clearfix price_details" >
+			  <p class="text_explain service_pushInfo_two_p_one" id="text_free">服务已开通.</p> 
+			</div>
+			<br />
+			<div class="clearfix price_details" >
+			  <p class="text_explain" style="color:#000;margin-left: 15px;font-size: 18px;">如需更新秘钥,请点击&nbsp;</p> 
+			  <a class="btu_update service_pushInfo_two_p_two" id="updateButton" href="javascript:void(0)">更新秘钥</a>
+			</div>
+			<hr />
+			<div class="clearfix price_details" >
+				<p class="text_explain service_pushInfo_two_p_three">APP消息推送服务使用方法</p> 
+			</div>
+			<div class="clearfix price_details" >
+				<p class="text_explain service_pushInfo_two_p_four">开通服务后我们需要在云表空间中，通过执行业务公式对“APP待发送消息”模板进行新建，来完成APP消息推送。</p> 
+				
+				<a  href="https://www.iyunbiao.com/wiki/%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1:APP%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81%E6%9C%8D%E5%8A%A1" target="_blank" class="text_explain" style="margin-left: 15px;font-size: 18px;color: blue;"><u>详细教程</u></a>
+			</div>
+		</div>
+		#{/if}
+		#{elseif opened==1}
+		<div class="main_body service_pushInfo_three">
+			<div class="clearfix price_details" >
+			  <p class="text_explain service_pushInfo_two_p_five" id="text_free">服务开通中,请稍后再试...</p> 
+			</div>
+		</div>
+		#{/elseif}
+		#{else}
+		<div class="main_body">
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" id="openButton" href="javascript:void(0)">开通</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	$("#openButton").click(function(){
+		layer.confirm('是否确认开通推送服务?', {icon: 3, title:'提示'}, function(index){
+			var openPostUrl = "@{LatoWebDelegate.getServicePushOpen(serviceCode,serverAppId,serverAppCode,serverName)}";
+			$.ajax({
+				type:'post',
+				url: openPostUrl,
+				cache:false,
+				async: false,
+				dataType:'json',
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("开通成功!", {icon: 1}, function(index){
+							//详情页面
+							location = '@{LatoWebDelegate.getServicePushInfo(serviceCode,serverAppId,serverAppCode,serverName)}';
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	
+	$("#updateButton").click(function(){
+		layer.confirm('是否确认更新秘钥?', {icon: 3, title:'提示'}, function(index){
+			var updatePostUrl = "@{LatoWebDelegate.updatePushService()}";
+			$.ajax({
+				type:'post',
+				url: updatePostUrl,    
+				data: {'lato_params':'{"lato_server_id":"${serviceId}", "m_is_refresh_secret":true}', 'lato_global_app_id':"${serverAppCode}"},
+				cache:false,    
+				async: false,
+				dataType:'json',    
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("更新成功!", {icon: 1}, function(index){
+							location = location.href;
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	
+	
+});
+
+   serverCode();
+   function serverCode(){
+	   var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+        if(indexCode==-1){
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">推送服务</a>'
+        }else{
+        	
+			var urlServerName='${serverName}';
+			if(encodeURIComponent(urlServerName)==encodeURIComponent(nameServer)){
+				//nameServer='新应用空间';
+				nameServer='[应用空间]'+nameServer;
+				urlServerName='[服务器]'+urlServerName;
+			};
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+        	'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a">本地应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">'+urlServerName+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">推送服务</a>'
+        }
+
+   }
+
+   $('#reloadPages').click(function(){
+		history.go(0) 
+	})
+
+
+</script>
+
+<style>
+
+.menu_names{
+		font-size: 14px;
+		color:#373F4A;
+		margin-bottom: 6px;
+		font-weight: 700;
+		width: 300px;
+	}
+
+
+#openButton:hover{
+	color: #fff;
+	background-color: rgb(78,213,131);
+}
+#openButton:active{
+	color: #fff;
+	background-color: rgb(69,191,102);
+}
+.main_body_btn{
+   left:32px;
+   top:70px;
+}
+
+</style>
+
+
+
+
+#{/set}

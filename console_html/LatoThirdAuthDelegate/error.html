@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>提示页</title>
+
+ #{stylesheet 'error/style.css' /}
+<style type="text/css"></style>
+<script type="text/javascript">
+if ("${flash.autoRedirect}") {
+    alert("${flash.errorMsg}");
+    location = "#{if flash.loginUrl!=null}${flash.loginUrl}#{/if}#{else}@{LatoWebDelegate.getLoginForm()}#{/else}";
+}
+</script>
+</head>
+<body>
+  <div class="error_bg">
+      <div class="error_tishi">
+         <p>${flash.errorMsg}</p>
+         <div class="list_btn">
+            <a href="javascript:location.reload()">刷新</a>
+             <a href="#{if flash.loginUrl!=null}${flash.loginUrl}#{/if}#{else}@{LatoWebDelegate.getLoginForm()}#{/else}">重新登录</a>
+         </div>
+      </div>
+       
+  </div>
+
+</body>
+</html>

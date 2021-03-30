@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>微信支付</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+ <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+	
+#{script src:'1.0/jquery-3.2.1.min.js', id:'jquery' , charset:'utf-8' /}   
+#{stylesheet '/login/nav.css' /}
+#{stylesheet '/login/register.css' /}
+</head>
+
+<body class="service">
+
+<div class="navigation">
+	<div class="container">
+		<a href="/" class="logo left" id="J_logo"></a>
+		
+	</div>
+</div>
+
+
+<div class="account-box-wrapper">
+	
+    <div class="account-box">
+		
+        <div class="register-form">
+		<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.alipayRecharge()}">
+		<input type="hidden" name="codeUrl" value="${codeUrl}" id="codeUrl"/>
+		<input type="hidden" name="code" value="${code}" id="code"/>
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		<input type="hidden" name="redirectUrl" value="" id= "redirectUrl" />
+		<input type="hidden" name="lato_useraccount" value="${loginAccount}" id="lato_useraccount"/>
+            <div class="account-form-title">
+                <label>微信支付</label>
+            </div>
+			
+            
+			<div class="c1 " style="text-align:center">
+				<div class="form-group">
+					<img  id="qrcode" alt="二维码" src="@{LatoWebDelegate.buildQrcodeSwetake(codeUrl)}" class="for_eversheet" width="180" height="180">
+				</div>
+				
+				<div class="status status_browser js_status" id="wx_default_tip">
+			                <p class="zhifu_weixin">请使用微信扫描二维码支付</p>
+				</div>
+				<div style="text-align:center">
+					<button class="btn btn-success btn-lg w-lg wps_btn" float_="$float_" type="button" onclick="javascript:history.back(-1);"><span>关闭</span></button>
+				</div>
+				
+			</div>	
+			    
+            
+		</form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+ <script type="text/javascript">
+	
+	function check(){	
+			
+			var params=$("regForm").serialize();
+			 $.ajax({
+						url:"@{LatoWebDelegate.checkWxPayState(code)}",
+						type:'GET',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+						
+							var state = data.state;
+							if((state == "SUCCESS") == true)
+							{
+								var sucessUrl ="@{LatoWebDelegate.paySucessState(redirect,'')}";
+								
+								//window.open(sucessUrl,"_self","" );
+                                location.href = sucessUrl;
+							}else if( state == 'FAIL'){
+								window.clearInterval(t1); 
+								var failUrl ="@{LatoWebDelegate.payFailState('')}";
+								//window.open(failUrl,"_self","" );
+                                location.href = failUrl;
+							}
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+							
+						
+						}
+					
+					}
+			);
+	} 
+	
+	
+		
+	var t1 = window.setInterval(check,3000); 
+		
+		
+	
+	
+
+    </script>
+
+
+
+</body>
+
+
+</html>
+

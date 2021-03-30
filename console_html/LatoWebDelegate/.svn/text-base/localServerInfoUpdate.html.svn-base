@@ -1,0 +1,94 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'更新本地服务器' /}
+	
+<div class="main" >
+
+        <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('updateLocalServer')}" >
+		<input type="hidden" name="lato_objectId"  id="lato_objectId" value="${flash.lato_objectId}" /> 
+		<input type="hidden" name="lato_server_code"  id="lato_server_code" value="${flash.服务器编号}" /> 
+							
+		<div class="main_title">
+            <h3>更新本地服务器</h3>
+	    </div>
+	    
+		<div class="main_body">
+		 <div class="body_name body_menu1 clearfix">
+						 <label class="menu_name">名称</label>
+						 <input class="users_text servicecode_text" name="lato_server_name" id="lato_server_name" placeholder="服务器名称" value="${flash.服务器名称}" ></input>
+					 </div>
+					 <div class="body_name body_menu1 clearfix">
+						 <label class="menu_name">外部访问地址</label>
+						 <input class="users_text servicecode_text"  name="lato_server_url" id="lato_server_url" placeholder="如 http://www.abc.com:88" value="${flash.服务器访问地址}"></input>
+						 <p class="code_tishi">(非必填)当前服务器域名或者服务器IP地址加端口号</p>
+					 </div>
+					 <div class="body_pay body_menu1 clearfix">
+						 <label class="menu_name">备注</label>
+						 <textarea class="users_text fuwuqi_beizhu" name="lato_server_desc" id="lato_server_desc" placeholder="备注" value="${flash.服务器描述}">${flash.服务器描述}</textarea>
+					 </div>
+					 <div class="servercode">
+					    <a href="javascript:updateServerInfo()" class="servercode_sure">确认更新</a> 
+					 
+					  
+					 </div>
+	    </div>
+
+		
+        <!-- :form -->
+    </div>
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+ $(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+    });
+
+function updateServerInfo(){
+    if (!$("#lato_server_name").val()){
+        alert("空间名称不能为空");
+        return;
+    }
+    if ($("#lato_server_url").val()) {
+        //默认加上http://
+        if ($("#lato_server_url").val().toLowerCase().trim().indexOf("//") < 0) {
+            $("#lato_server_url").val("http://"+$("#lato_server_url").val());
+        }
+    }
+    var params=$("form").serialize();
+     $.ajax({
+        url:"@{LatoWebDelegate.putForm('updateLocalServer')}",
+        type:'POST',
+        dataType:'json',
+        data:params
+        ,success:function(data){	
+            var errCode = data.errorCode;
+            var erroMsg = data.errorMsg;
+            var url = data.url;
+            if(null != errCode && errCode.length > 0)
+            {
+                    
+             showErrorModel("修改服务器信息出现错误",erroMsg);
+            }else{
+                location.href = url;
+            }
+        }
+        ,error:function(XMLHttpRequest, textStatus, errorThrown){
+                    
+                    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                    var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                    var va11 =	decodeURI(text1);
+                    var val2="修改服务器信息出现错误";
+                    var dataObj=eval("("+va11+")");
+                    
+                    showErrorModel(val2,dataObj.message); 
+            }
+        }
+    );
+}
+
+</script>

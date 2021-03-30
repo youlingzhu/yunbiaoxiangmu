@@ -1,0 +1,108 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'datafocus服务详情' /}
+#{set datafocus:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{width: 280px;margin-top: 0px;}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;" >		
+	
+	
+		#{if opened==2}
+		<div class="main_body">
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">问答数量</label>
+				<label class="detail_text">${flash.问答数量} </label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">看板数量</label>
+				<label class="detail_text">${flash.看板数量} </label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">用户数量</label>
+				<label class="detail_text">${flash.用户数量} </label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">到期时间</label>
+				<label class="detail_text">${flash.到期时间} </label>
+				
+			</div>
+			
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" href="@{LatoWebDelegate.getServiceDatafoucsDilatation(serverAppId,serviceCode,serverAppCode,serverName)}">续费</a>
+				<a class="btu_upgrade sever_local" href="@{LatoWebDelegate.getDatafocusAppChangeForm(serverAppId,serviceCode,serverAppCode,serverName)}">升级</a>
+			</div>
+		</div>
+		#{/if}
+		#{elseif opened==1}
+		<div class="main_body">
+			<div class="clearfix price_details" >
+			  <p class="text_explain" id="text_free" style="margin-left: 15px;font-size: 20px;">服务开通中,请稍后再试...</p> 
+			</div>
+		</div>
+		#{/elseif}
+		#{else}
+		<div class="main_body">
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" id="openButton" href="javascript:void(0)">开通</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	$("#openButton").click(function(){
+		layer.confirm('是否确认开通datafocus服务?', {icon: 3, title:'提示'}, function(index){
+			var openPostUrl = "@{LatoWebDelegate.getServiceDatafoucsOpen(serviceCode,serverAppId,serverAppCode,serverName)}";
+			$.ajax({
+				type:'post',
+				url: openPostUrl,
+				cache:false,
+				async: false,
+				dataType:'json',
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("开通成功!", {icon: 1}, function(index){
+							//详情页面
+							location = '@{LatoWebDelegate.getServiceDatafocusInfo(serviceCode,serverAppId,serverAppCode,serverName)}';
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	 
+	
+});
+
+</script>
+#{/set}

@@ -1,0 +1,440 @@
+﻿
+        
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'云端应用密码重置' /}
+
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+javascript:history.go(-1)
+#{/set}
+#{set 'latoMainSide'}
+<div class="lato-main-side">
+  <!-- <div class="main_title">
+            <h3>云端应用密码重置</h3>
+  </div> -->
+  <div id="lato-main-side_a">
+		
+	
+</div>
+  <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.resetPwdCheckAccount()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${ybUserAccount}" id="lato_useraccount"/>
+		<input type="hidden" name="lato_phone" value="${ybUserAccount}" id="lato_phone"/>
+		<input type="hidden" name="lato_app_id" value="${appId}" id="lato_app_id" />
+  <div class="main_body main_body_pwd">
+	<!-- @{LatoWebDelegate.getAppInfoFormList()} -->
+					<div class="body_name body_menu1 clearfix reset_pwd" >
+						<label class="menu_names" id="menu_names">云端应用密码重置 </label>
+					</div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">会员账号</label>
+                     <label class="userinfo_text">${account}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">修改应用</label>
+                     <label class="userinfo_text">${appId}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">联系电话</label>
+                     <label class="userinfo_text">${phoneNumber}</label>
+                 </div>
+                
+                  <div class="body_name body_menu1 clearfix yangzhengma namebuckUpOne">
+				  <div class="form-group">
+                     <label class="menu_name">验证码</label>
+                     <input class="users_text pass_yanzheng value_color" name="lato_yzm" id="lato_yzm" ></input>
+                    <img  id="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                 </div>
+				 </div>
+                 <div class="body_pay body_menu1 clearfix namebuckUp reset_pwd_one">
+				 <div class="form-group">
+                     <label class="menu_name">手机验证码</label>
+                     <input class="users_text pass_yanzheng value_color"  name="lato_codePhoneText" id="lato_codePhoneText" ></input>
+					<a href="javascript:showtime(60)" name="phone" id="phone" class="phone_yanzheng">获取验证码</a>
+					<span id="reset_pwd_one_pic">请输入图形验证码</span>
+                 </div>
+				</div>
+				
+                  <div class="body_name body_menu1 clearfix namebuckUp">
+				  <div class="form-group">
+                     <label class="menu_name">新密码</label>
+                     <input class="users_text users_text_mima"  type="password" name="lato_pwd" id="lato_pwd" ></input>
+                 </div>
+                 </div>
+				 
+                  <div class="body_name body_menu1 clearfix namebuckUp">
+				  <div class="form-group">
+                     <label class="menu_name">确认密码</label>
+                     <input type="password" class="users_text users_text_xinmima"  name="lato_pwd_red" id="lato_pwd_red" value="" ></input>
+                 </div>  
+                 </div>
+                  <div class="body_pay body_menu1">
+                      <button class="btn_cloud">确认重置</button>
+                 </div>
+	</form>
+  </div>
+
+
+
+  
+				
+<script type="text/javascript">
+		
+	
+var count ;
+
+function recoverySendSms(){
+
+	var i1 =document.getElementById('phone');
+	i1.innerHTML = "重新发送";
+	$("#phone").attr("href","javascript:showtime(60);");
+	$("#phone").attr("class","phone_yanzheng");
+
+}
+
+
+
+var id=null;
+function update_p() {
+	var i1 =document.getElementById('phone');
+	if(count <= 0) {
+		clearInterval(id);
+		i1.innerHTML = "重新发送";
+		$('#phone').css({'background':'#22cb64','color':'#fff'});
+		$("#phone").attr("href","javascript:showtime(60);");
+		$("#phone").attr("class","phone_yanzheng");
+	}
+	else {
+		printnr = count--;
+		$('#phone').css({'background':'#ddd','color':'#373F4A','border':'none'})
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+
+
+}
+
+
+
+function showtime(t){	
+		count = t;
+		var txyz = $("#lato_yzm").val();	
+				if(txyz.length <1){
+							document.getElementById("errorTypeSpan").innerText = "验证码错误";
+							document.getElementById("errorSpan").innerText = "请输入图形验证码";
+							$('#errorModel').modal({
+							keyboard: true
+					})
+					return;
+				}
+				
+				
+                clearInterval(id);
+
+				id =  window.setInterval("update_p()", 1000);
+				
+				$("#phone").removeAttr("href");
+				$("#phone").removeAttr("class");
+				 $("#phone").attr("class","phone_yanzheng_disabled");
+				var params=$("regForm").serialize();
+				var txyz = $("#lato_yzm").val();
+				
+				var templateName = $('#lato_templateName').val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+		
+		
+				var  v2 =showUserAction({checkPhone: $("#lato_useraccount").val(),txyz :txyz,key :$("#randomID").val(),type:'resetApp'}) 
+				
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{	
+									recoverySendSms();
+									window.clearInterval(id);
+									
+									   showErrorModel("短信发送失败",erroMsg);
+								
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									recoverySendSms();
+									window.clearInterval(id);
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发短信失败";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message);
+							}
+						}
+					);
+}
+function refresh(){
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+
+ 
+ 
+$(document).ready(function() {
+
+$('#sub-item-2').addClass('in');
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        },
+						remote: {
+									message: '图形验证码错误',
+									type: 'GET',
+									url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+								} 
+				}},
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				},
+                lato_codePhoneText: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        }
+                    }
+                }
+            }
+        })
+		.on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putAppResettingPwd}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							console.log(data,258);
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{
+								showErrorModel("重置密码出现错误",erroMsg);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = "@{LatoWebDelegate.getAppInfoFormList()}";
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+								var val2="重置密码出现错误";
+								console.log(val1);
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+		
+
+
+serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">应用空间详情</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">重置应用密码</a>'
+
+   }
+   
+   $('#reloadPages').click(function(){
+	   window.history.go(0);
+   })
+		
+   $('body').on('click',function(e){
+	console.log(e.target)
+	   if(e.target.className=='close'){
+		  
+		$('#errorModel').modal('hide');
+		$('modal-backdrop').modal('hide');
+	   }
+   })
+
+</script>
+
+<style>
+	
+    
+	.menu_names{
+		font-size: 14px;
+		color:#373F4A;
+		margin-bottom: 6px;
+		font-weight: 700;
+		width: 300px;
+	}
+
+	.upgrade_text {
+        background: #ffffff;
+   
+     }
+
+	 .upuser_text {
+        background: #ffffff;;
+   
+	 }
+	 .menu_name {
+  
+    	line-height: 31px;
+	}
+
+     .userinfo_text {
+			width: 237px;
+			height: 30px;
+			line-height: 30px;
+			border:none;
+			float: left;
+			font-size: 14px;
+			padding-left: 7px;
+			background: #ffffff;
+			color: #000;
+	}
+	
+	.help-block{
+		line-height: 30px;
+		
+	}
+	.yangzhengma img{
+		float: left;
+	}
+	.yangzhengma .help-block{
+		float: left;
+	}
+	.yangzhengma .help-block {
+      margin-left: 10px;
+   }
+
+   .namebuckUp,.namebuckUpOne{
+    position: relative;
+}
+.namebuckUp small{
+    position: absolute;
+    left: 190px;
+    top:-4px;
+}
+
+.namebuckUpOne small{
+	position: absolute;
+    left: 330px;
+    top:-4px;
+}
+#phone:hover{
+	color: #ffffff;
+	background-color: rgb(78,213,131);
+}
+#phone{
+	background-color: rgb(34,203,100);
+}
+#phone:active{
+	background-color: rgb(69,191,102);
+}
+
+.btn_cloud{
+	width: 103px;
+	margin-left: 233px;
+	height: 32px;
+	background-color: rgb(34,203,100);
+}
+.btn_cloud:active{
+	background-color: rgb(69,191,80);
+}
+
+.main_body {
+    padding-left: 0px;
+    margin-left: 3px;
+}
+
+.reset_pwd_one{
+	position: relative;
+}
+.reset_pwd_one span{
+	position: absolute;
+	left: 340px;
+	top: 4px;
+	color: red;
+	display: none;
+}
+
+
+
+
+</style>
+
+
+#{/set}

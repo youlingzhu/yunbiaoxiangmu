@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>云表会员注册</title>
+#{stylesheet '1.0/account.css' /}
+#{stylesheet '1.0/phone.css' /}
+#{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+#{script src:'1.0/bootstrap.min.js', id:'jquery' , charset:'utf-8' /}   
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+
+#{script '1.0/bootstrapValidator.min.js' /}    
+#{script '1.0/modelJs.js' /}
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c50f28e6b8bcf3f7177d43fe013e1f91";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div class=" wrap login_bg">
+      <div class="phone_top reg_bg" >
+      </div>
+      <div class="login_phoneBox">
+          <form role="form" id="regForm" method="post" action="">
+		  <input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		  <input type="hidden" name="lato_phone" value="${phone}" id="lato_phone"/>
+		  <input type="hidden" name="uuid" value="${uuid}" id="uuid"/>
+		  <input type="hidden" name="lato_invitation_code" value="${invitationCode}" id="lato_invitation_code"/>
+		  <input type="hidden" name="loginType" value="${loginType}" id="loginType"/>
+		 
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		 <div class="phone_content_reg" >
+			     
+			<div class="phone_input phone_name form-group">
+				<input type="text" value="" name="lato_name" id="lato_name" class="user_name" placeholder="请输入会员昵称" />
+		    </div>
+			 <div class="phone_input phone_password form-group">
+			      <input type="password" value="" id="lato_pwd" name="lato_pwd" class="password" placeholder="请输入密码" />
+			</div>
+			#{if loginType != 'vipLogin'}
+			<div class="phone_input phone_com form-group">
+				<input type="text" value="" name="lato_companies" id="lato_companies" class="user" placeholder="请输入您的公司名称" />
+		    </div>
+			
+			
+		   <!--	<div class="phone_input phone_qq form-group">
+				<input type="text" value="" name="lato_qq" id="lato_qq" class="user" placeholder="请输入您的QQ号码" />
+		    </div> -->
+            <!-- <div class="qrcodeBackground"></div> -->
+			#{/if}
+			<div class="phone_btn phone_sure">
+			     <input type="submit" value="完   成"/>
+			</div>
+			<div class="phone_reg phone_log">
+			    <p>已有账号，<a href="@{LatoWebDelegate.getLoginForm()}">立即登录</a></p>
+			</div>
+			</div>
+     </form>
+      </div>
+		
+	 
+	 
+  </div>
+  
+  
+	<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog sever_dialog" >
+		<div class="modal-content" style="width:500px; height:270px;">
+				
+				 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							
+						 </div>
+				
+			<div class="modal-body">
+                 <div class="modal_list">
+                    <div class="modal_error">
+                    </div>
+                    <p class="error_title" id="errorTypeSpan">提交失败</p>
+                    <span id="errorSpan"></span>
+                 </div>
+            
+                    
+			</div>
+		
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	
+	<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog sever_dialog" >
+		<div class="modal-content" style="width:500px; height:270px;">
+				
+				 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							
+						 </div>
+				
+			<div class="modal-body">
+                 <div class="modal_list">
+                    <div class="modal_error">
+                    </div>
+                    <p class="error_title" id="errorTypeSpan">提交失败</p>
+                    <span id="errorSpan"></span>
+                 </div>
+            
+                    
+			</div>
+		
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+				
+</body>
+</html>
+<script type="text/javascript" src="//pv.sohu.com/cityjson?ie=utf-8"></script>
+ <script type="text/javascript">
+ 
+
+	$('#errorModel').on('show.bs.modal', centerModals);
+ 
+ 
+ 
+ Date.prototype.format = function (format) {
+    var args = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+        "S": this.getMilliseconds()
+    };
+    if (/(y+)/.test(format))
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var i in args) {
+        var n = args[i];
+        if (new RegExp("(" + i + ")").test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
+    }
+    return format;
+};
+var ip = window.returnCitySN?window.returnCitySN.cip:"";
+var days = new Date().format("yyyy-MM-dd");
+var getIntoTime = new Date().format("hh:mm:ss");
+var registerId = localStorage.getItem("uuid");
+var fromData = {
+        "formId": 0,
+        "url": "new",
+        "latoVersion": 0,
+        "classTemplateName": "WPS入口页面数据",
+        "dataTableList": [{
+            "tableCaption": "WPS入口页面数据",
+            "fieldList": ["f1", "f2", "f3", "f4", "f5", "f6","f7","f8","f9"],
+            "deletedRecList": [],
+            "insertRecList": [
+                [3, days, getIntoTime, null, null, ip, "注册页面获取验证码",null,registerId]
+            ],
+            "updatedRecList": []
+        }]
+}
+
+$(document).ready(function() {
+    var url = "";
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+				#{if loginType != 'vipLogin'}
+				lato_companies:{
+				
+					validators: {
+                        notEmpty: {
+                            message: '公司名称不允许为空'
+                        }
+                    }
+				},
+				#{/if}
+				lato_name: {
+                    validators: {
+                        notEmpty: {
+                            message: '用户昵称不允许为空'
+                        }
+                    }
+                }
+				,
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                }
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+                  $.ajax({
+						url:"@{LatoWebDelegate.putPhoneUserRegister}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							var script = data.synLoginHtml;
+							url = data.openUrl;
+							if(null != errCode && errCode.length > 0)
+							{
+									
+							 showErrorModel("完善信息出现错误",erroMsg);
+							}else{
+								$(".login_phoneBox").empty();
+                                $(".login_phoneBox").append('<div class="qrcodeBackground"></div> <div style="width:350px;text-align:center;margin-top:20px;margin-bottom:80px;font-size:4vw">微信扫码加入云表学习群</div> <div class="phone_btn phone_sure"><a font-size="5vw" href="'+url+'">完成</a></div>')
+                                monitoring("注册成功")
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="完善信息出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+									   
+							}
+						}
+					);
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+function monitoring(message){
+     fromData.dataTableList[0].insertRecList[0][7] = $("#lato_phone").val();
+     if(message){
+        fromData.dataTableList[0].insertRecList[0][6] = message;
+     }
+     $.ajax({
+                        url:"http://www.iyunbiao.cn/13374/WPS%e5%85%a5%e5%8f%a3%e9%a1%b5%e9%9d%a2%e6%95%b0%e6%8d%ae/new",
+                        type:'POST',
+                        data:{
+                           "formJson":JSON.stringify(fromData)
+                        },
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/x-lato",
+                        },
+                        success:function(data){
+                                    
+                                    
+                        },
+                    });
+}
+		
+    </script>
+	
+

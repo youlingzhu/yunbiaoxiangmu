@@ -1,0 +1,146 @@
+﻿
+
+#{extends 'LatoWebDelegate/main.html' /}
+#{set 'moreStyles'}
+#{stylesheet '../javascripts/1.0/layui/css/layui.css' /}
+#{stylesheet '../javascripts/1.0/layui/css/lato-layout.css' /}
+#{script '1.0/layui/layui.js' ,charset:'utf-8' /}
+#{script '1.0/layui/lib/lato-common.js' ,charset:'utf-8' /}
+<style>
+.lato-title-side {
+	position: absolute;
+	top: 50px;
+	left: 220px;
+	padding-top: 15px;
+}
+.lato-left-side{
+	position: absolute;
+	top: 120px;
+	left: 220px;
+	width: 200px!important;
+	bottom: 0px!important;
+	//border-right: 1px solid #eee;
+	//box-shadow: 0 0 4px rgba(0,0,0,.3);
+	background-color: #EAEDF1;
+}
+.lato-main-side{
+	position: absolute;
+	top: 120px;
+	left: 417px;
+	right: 0px;
+	background: #fff;
+	//box-shadow: 0 0 4px rgba(0,0,0,.3);
+	padding-bottom: 60px;
+	padding-left: 10px;
+	bottom: 0px!important;
+}
+.lato-main-side form{
+	margin: 20px;
+}
+.lato-main-side .main_title_w2 {
+	position: absolute;
+	top: -70px;
+	left: -200px;
+	right: -200px;
+	padding-top: 15px;
+}
+.lato-main-side .main_title_w span[lato-separator]{margin: 0 10px;color: #999;padding-left: 0px;font-size: inherit;}
+.layui-side-child .layui-side-scroll{width: 210px;}
+.layui-side-child .layui-nav{padding: 0px; width: 200px; border-radius: 0; background: none}
+.layui-side-child .layui-nav-child{border-radius: 0;}
+.layui-side-child .layui-nav .layui-nav-title a, 
+.layui-side-child .layui-nav .layui-nav-title a:hover, 
+.layui-side-child .layui-nav-itemed>a{color: #666 !important;}
+.layui-side-child .layui-nav-item{padding: 5px 10px;}
+.layui-side-child .layui-nav-itemed .layui-nav-child{margin-bottom: 10px; background: none !important;}
+.layui-side-child .layui-nav .layui-nav-item a{height: 30px;line-height: 30px;color: #666;}
+.layui-side-child .layui-nav .layui-nav-item a:hover{background: none !important;}
+.layui-side-child .layui-nav .layui-nav-child a{color: #999 !important;}
+.layui-side-child .layui-nav .layui-nav-more{display: none;}
+.layui-side-child .layui-nav-tree .layui-this, 
+.layui-side-child .layui-nav-tree .layui-this>a, 
+.layui-side-child .layui-nav-tree .layui-nav-child dd.layui-this, 
+.layui-side-child .layui-nav-tree .layui-nav-child dd.layui-this a{background-color: #fff;; color: #5FB878 !important;}
+.layui-side-child .layui-nav .layui-nav-child a:hover{color: #009688 !important} 
+.layui-side-child .layui-nav-bar{background-color: #5FB878;}
+
+.btu_update{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_update:hover{ background:#19be59;}
+.btu_postpone{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_postpone:hover{ background:#19be59;}
+.btu_upgrade{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_upgrade:hover{ background:#19be59;}
+.btu_new{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_new:hover{ background:#19be59;}
+
+
+.product-nav-title {
+    width: 200px;
+    height: 70px;
+    line-height: 70px;
+    background: #D9DEE4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	text-align: center;
+}
+</style>
+#{/set}
+
+<div class="lato-title-side main_title_w main_title ">
+	<h3 class="title">
+		#{get 'title' /}<span lato-separator>&nbsp;</span>
+	</h3>
+	<a href="#{get 'returnLink' /}" class="list_back">#{get 'returnLinkLable' /}</a>
+</div>
+<div class="layui-side layui-side-child lato-left-side">
+
+  <div class="layui-side-scroll">
+    <!-- <div class="product-nav-title">
+      <a title="返回" href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" >
+	    <img src="./public/images/1.0/goback.png" style="width: 30px"/>
+      </a>
+    </div> -->
+    <!-- 左侧子菜单 -->
+    <ul class="layui-nav layui-nav-tree site-demo-table-nav">
+      <li class="layui-nav-item #{if appInfo}layui-this#{/if}">
+	    #{if serviceCode}
+          <a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">应用空间详情</a>
+        #{/if}
+        #{else}
+		  <a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}">应用空间详情</a>
+        #{/else}
+      </li>
+      <li class="layui-nav-item #{if sms}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServiceSmsInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">短信服务</a>
+      </li>
+      <li class="layui-nav-item #{if push}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServicePushInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">推送服务</a>
+      </li>
+	  <!-- <li class="layui-nav-item #{if datafocus}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServiceDatafocusInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">datafocus服务<span class="layui-badge-dot"></span></a>
+      </li> -->
+	  <li class="layui-nav-item #{if wxThirdAuth}layui-this#{/if}">
+        <a href="@{LatoThirdAuthDelegate.getWxThirdAuthInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">微信第三方授权<span class="layui-badge-dot"></span></a>
+      </li>
+	  <li class="layui-nav-item" id="li_workwx">
+        <a href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('workwx',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">企业微信授权<span class="layui-badge-dot"></span></a>
+      </li>
+      <!-- 本地服务器才出现这个选项 -->
+	  <li class="layui-nav-item #{if serviceCode==null}layui-hide#{/if}" id="li_dingtalk_app">
+        <a href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('dingtalk_app',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">钉钉授权(微应用)<span class="layui-badge-dot"></span></a>
+      </li>
+	  <li class="layui-nav-item" id="li_dingtalk_web">
+        <a href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('dingtalk_web',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">钉钉授权(第三方网站)<span class="layui-badge-dot"></span></a>
+      </li>
+    </ul>
+  </div>
+</div>
+<script>
+layui.use(['element'], function(){
+	var element = layui.element;
+	
+});
+</script>
+#{get 'latoMainSide' /}
+

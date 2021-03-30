@@ -1,0 +1,206 @@
+﻿#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'应用备份' /}
+
+<div class="main">
+
+
+
+	<!--<div class="main_title">
+		<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">
+			<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+		</a>
+
+		<h3>模板库备份</h3>
+	</div>-->
+    <div class="main_title main_title_w">
+		<a href="javascript:;" class="list_back list_back_a" onClick="history.go(-1)" >
+			<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+		</a>
+		<h3>模板库备份</h3>
+	</div>
+	<!-- <a href="javascript:;" class="list_back list_back_a" onClick="history.back(-1)"> -->
+	<div class="main_body">
+		<div class="table clearfix">
+			<table data-toggle="table" data-url="${flash.dataUrl}" data-height="500" id="events-id2" name="events-id2"
+				data-pagination="true" data-side-pagination="server" data-row-style="rowStyle">
+				<thead>
+					<tr class="line-bg">
+						#{list items:fieldList, as:'fieldObj' }
+						<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}"
+							data-switchable="true">${fieldObj.field}</th>
+						#{/list}
+						<th data-field="operate" data-formatter="operateFormatter" data-halign="center"
+							data-events="operateEvents">操&nbsp;&nbsp;作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	// $(document).ready(function () {
+
+	// 	$('#sub-item-5').addClass('in');
+
+
+	// })
+
+
+	function publishProduct(){
+        location.href = "@{LatoWebDelegate.publishProduct()}";
+		//window.open("@{LatoWebDelegate.publishProduct()}",'_self','')
+	}	
+	
+	 $(document).ready(function() {
+	 
+	 
+	 $('#sub-item-5').addClass('in');
+	 
+	 
+		
+		}
+		)
+		
+		var result="";
+		//查询
+		function queryForm(temp){
+			
+			var prodctCode =	temp.产品编号;
+			var prodctName = temp.产品名称;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getProdctVersionFormList(':prodctCode',':prodctName') /}
+		
+		
+			var  v2 =showUserAction({prodctCode: prodctCode,prodctName:prodctName}) 
+			
+		9	//openForm("${flash.templateName}",objectId);	
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+		//版本升级
+		function update(temp){
+			console.log(temp)
+			var appId = temp.应用唯一标识;
+            var appCode = temp.编号;
+			//var showUserAction = #{jsAction @LatoWebDelegate.publishproduct(':prodctCode',':prodctName') /}
+			var showUserAction = #{jsAction @LatoWebDelegate.publishproduct() /}
+			var  v2 =showUserAction({}) 
+			v2 = v2 +"?appId="+appId+"&appCode="+appCode+"&click=1";
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		
+		}
+
+
+
+	
+    function operateFormatter(value, row, index) {
+		
+		return [
+				'<ul class="btu_list" style="height:20px;width:100%">',
+				   '<li style="text-aglin:center;width:100%;height:20px"><a class="update shezhi" style="text-align:center;padding-right:4px" href="javascript:;">发布为产品</a></li>',
+				' </ul>'
+			].join('');		
+    }
+
+    window.operateEvents = {
+        
+        'click .update': function (e, value, row, index) {
+			
+			update(row);
+        }
+    };
+
+	
+
+
+
+
+
+
+</script>
+
+
+<style>
+   /* .fixed-table-body{
+	   overflow: auto;
+   }
+
+
+   .main .table table{
+		overflow: auto;
+	} */
+
+	.main{
+		padding-right: 10px;
+	}
+
+   .bootstrap-table .table>thead>tr>th {
+		vertical-align: bottom;
+		border-bottom: none; 
+   }
+
+
+ .fixed-table-container thead tr th:nth-child(1) {
+	width: 15%;
+ }
+ .fixed-table-container thead tr th:nth-child(2) { 
+	width: 15%;
+ }
+ .fixed-table-container thead tr th:nth-child(3) {
+	width: 20%;
+ }
+ .fixed-table-container thead tr th:nth-child(4) {
+	width: 15%;
+ }
+ .fixed-table-container thead tr th:nth-child(5) {
+	width: 10%;
+ }
+ .fixed-table-container thead tr th:nth-child(6) {
+	width:15%;
+ }
+ .fixed-table-container thead tr th:nth-child(7) {
+	width: 20%;
+ }
+
+ .fixed-table-container tbody tr td{
+    /* border: 1px solid rgb(211, 20, 71); */
+}
+
+.fixed-table-container tbody tr td:nth-child(1) {
+	width: 15%;
+ }
+ .fixed-table-container tbody tr td:nth-child(2) { 
+	width: 15%;
+ }
+ .fixed-table-container tbody tr td:nth-child(3) {
+	width: 20%;
+ }
+ .fixed-table-container tbody tr td:nth-child(4) {
+	width: 15%;
+ }
+ .fixed-table-container tbody tr td:nth-child(5) {
+	width: 10%;
+ }
+ .fixed-table-container tbody tr td:nth-child(6) {
+	width:15%;
+ }
+ .fixed-table-container tbody tr td:nth-child(7) {
+	width: 20%;
+ }
+
+
+
+
+/* 
+.fixed-table-container tbody tr td:nth-child(6){
+    padding-right: 11px!important;
+}
+.fixed-table-container tbody tr td:nth-child(7){
+	padding-right: 11px!important;
+} */
+
+
+
+</style>

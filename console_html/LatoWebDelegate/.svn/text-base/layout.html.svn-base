@@ -1,0 +1,11 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>#{get 'title' /}</title>
+  <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/main.css'}" />
+</head>
+<body>
+  <h1>#{get 'title' /}</h1>
+  #{doLayout /}
+  <div class="footer">Built with the play! framework</div>
+</body>
+</html>

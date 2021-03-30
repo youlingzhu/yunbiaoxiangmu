@@ -1,0 +1,66 @@
+﻿	 #{script src:'1.0/ajax.js', id:'jquery' , charset:'utf-8' /}  
+	 <script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 form_div main" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.postTestUserAgent()}" >
+			
+		
+	   
+	   
+	<div class="main_body">
+
+
+
+
+           <div class="col-md-9"> 
+		   
+		  ${userAgent}
+		   
+		   <div class="" id="productNameDiv" name="productNameDiv">
+					   <div class="clearfix">
+					   
+						<label class="menu_name">产品</label>
+						 <input type="text" value="" id="productName" name="productName" class="value_color"  />
+					   </div>
+					   <input type="button" onclick="tj()" value="提交" > </input>
+            </div>
+			
+		   
+					
+            </div>
+        <!-- :form -->
+    </div>
+	
+	
+	</form>
+</div>
+
+			
+
+
+<script type="text/javascript">
+
+function tj(){
+	alert('aaa');
+	
+ var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.postTestUserAgent}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							alert(data.value);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+									alert("出错啦");
+						}
+					}
+					);
+
+}
+	
+
+</script>

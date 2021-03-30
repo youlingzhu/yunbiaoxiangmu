@@ -1,0 +1,23 @@
+.left{float:left}
+.right{float:right}
+.navigation{-webkit-transition:all 0.4s ease-in-out 0s;-moz-transition:all 0.4s ease-in-out 0s;-ms-transition:all 0.4s ease-in-out 0s;-o-transition:all 0.4s ease-in-out 0s;transition:all 0.4s ease-in-out 0s;width:100%;height:70px;background-color:#fff;box-shadow:0 0 9px rgba(0,0,0,.3)}
+.navigation .bg{display:none;position:absolute;top:0;z-index:1;width:100%;height:70px}
+.navigation .logo{width:200px;height:70px;overflow:hidden;background:url(../../images/logo_b.png) no-repeat center center;background-size: contain;}
+.navigation .logo img{width:141px;margin-top:13px}
+.navigation .container{zoom:1;width:1188px;position:relative;z-index:2;height:100%;margin:0 83px;}
+.navigation .container:before,.navigation .container:after{content:"\0020";display:block;height:0}
+.navigation .container:after{clear:both}
+
+
+
+.index .navigation{box-shadow:none;background-color:transparent}
+.index .navigation .logo{background-image:url(../../images/logo.png)}
+.navigation{position:fixed;z-index:11;top:0; margin-left:-8px;}
+.navigation .bg{display:none}
+.navigation .logininfo .sub li{float:none;padding-left:30px}
+.navigation .logininfo .logout{padding:0 !important;margin:0 !important}
+.navigation .logininfo .button{border:0 none !important}
+.navigation .logininfo .button:hover{color:#fff}
+
+
+

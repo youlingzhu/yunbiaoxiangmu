@@ -1,0 +1,688 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'本地应用空间续费' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}
+#{/set}
+#{set 'latoMainSide'}
+
+<!-- 不知道干啥用的,先注释了 by Alan@181011
+<link href="@{'/public/stylesheets/fileinput.css'}" rel="stylesheet">
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput_locale_zh.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput_locale_zh.js"></script>
+
+javascript:history.go(-1)
+<script src="@{'/public/javascripts/ZeroClipboard.js'}"></script> -->
+
+<div class=" lato-main-side localService_appPostpone" >
+	<div id="lato-main-side_a">
+		
+	
+	</div>
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('postponeLocalServerApp')}" >
+				
+				<input type="hidden" name="lato_server_code"  id="lato_server_code" value="${flash.本地服务器编号}" /> 
+				<input type="hidden" name="lato_server_app_code"  id="lato_server_app_code" value="${flash.应用编号}" /> 
+				<input type="hidden" name="old_month"  id="old_month" value="${flash.购买时长}" /> 
+				<input type="hidden" name="lato_server_name"  id="lato_server_name" value="${flash.服务器名称}" /> 
+				<input type="hidden" name="lato_server_app_id"  id="lato_server_app_id" value="${flash.空间ID}" /> 
+				<input type="hidden" name="lato_add_month"  id="lato_add_month" value="" /> 
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				应用空间续费<span lato-separator>&nbsp;</span>
+			</h3>
+			@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div> -->
+  <div class="main_body">
+   <div class="col-md-9">
+				<div class="body_name body_menu1 clearfix" style="margin-top:-4px;">
+					<label class="menu_names" id="menu_names">本地应用空间续费</label>
+				</div>
+				<div class="body_name body_menu1 clearfix" style="margin-top: 14px;">
+                    <label class=" menu_name">应用名称</label>
+                    <label class="upgrade_text" id="serverName"></label>
+				 </div>
+                <div class="body_name body_menu1 clearfix" style="margin-top: 15px;">
+                    <label class=" menu_name">应用空间ID</label>
+                    <label class="upgrade_text"> ${flash.空间ID}</label>
+                 </div>
+               
+				 <div class="floatBox" style="width: 100%;margin-bottom: 70px;">
+					<div class="body_name body_menu1 clearfix floatLeft" style="margin-top: 14px;width: 280px;overflow: hidden;height:34px;float: left;">
+					   <label class=" menu_name">到期时间</label>
+					   <label class="upgrade_text" id="serverTimeOut" style="width: 180px;"></label>
+					</div>
+					<div class="body_name body_menu1 clearfix floatRight" style="margin-top: 14px;width: 300px;overflow: hidden;height: 34px;float: left;">
+					   <label class=" menu_name" style="width: 80px;">续费至</label>
+					   <label class="upgrade_text" id="serverMoneyEnd" style="width: 200px;color:#47CD69;"></label>
+					</div>
+				   </div>
+				   <div class="body_name body_menu1 clearfix" style="margin-top: 14px;width: 100%;overflow: hidden;">
+                    <label class=" menu_name" id="chaoTime">到期时长</label>
+                    <label class="upgrade_text" id="serverTime" style="color:#FB5040;"></label>
+				 </div>
+				 <div class="body_name body_menu1 clearfix" style="margin-top: 14px;">
+                    <label class=" menu_name" id="chaoMoney">欠费金额</label>
+                    <label class="upgrade_text" id="serverMoney" style="color:#FB5040;"></label>
+                 </div>
+				 
+				 <div class="body_name body_menu1 clearfix">
+					<label class="menu_name">服务器名称</label>
+					<label class="upgrade_text">${flash.本地服务器编号}(${flash.服务器名称})</label>
+				</div>
+				 
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">购买时长</label>
+                    <div class="slider-date" id="slider-date-1" style="margin-left: 10px;margin-top: 2px;">
+                          <!--底层-->
+                          <ul class="slider-bg clearfix">
+                              <li>1</li>
+                              <li>2</li>
+                              <li>3</li>
+                              <li>4</li>
+                              <li>5</li>
+                              <li>6</li>
+                              <li>7</li>
+                              <li>8</li>
+                              <li>9</li>
+                              <li>1年</li>
+                              <li>2年</li>
+                              <li>3年</li>
+                              <li>10年</li>
+                          </ul>
+                      
+                          <!--互动层-->
+                         <div class="slider-bar">
+                              <ul class="slider-bg clearfix">
+                                  <li>1<span>1个月</span></li>
+                                  <li>2<span>2个月</span></li>
+                                  <li>3<span>3个月</span></li>
+                                  <li>4<span>4个月</span></li>
+                                  <li>5<span>5个月</span></li>
+                                  <li>6<span>6个月</span></li>
+                                  <li>7<span>7个月</span></li>
+                                  <li>8<span>8个月</span></li>
+                                  <li>9<span>9个月</span></li>
+                                  <li>1年<span>1年</span></li>
+                                  <li>2年<span>2年</span></li>
+                                  <li>3年<span>3年</span></li>
+                                  <li>10年<span>10年</span></li>
+                              </ul>-->
+                              <!--滑块按钮-->
+                             <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+                         </div>
+                         </div>
+                 </div>
+                  <div class="clearfix price_details" style="position: relative;">
+					 <p class="text_explain" id="text_free" style="font-size: 10px;position: absolute;left:8px;">购买一年以上立享9折</p> 
+				 </div>
+                  <div class=" body_name body_menu1 clearfix re_btn">
+				  <p class="cost_prompt" style="text-align: right;">原价<s class="cost_price" id="cost_price"></s><span class="save_price" >立省￥<span id="save_price"></span></sapn></p>
+                      <label class="pay">总费用：<b><span id="productPrice" name="productPrice"> </span> </b></label>
+                <button type="submit" class="btn btn-spacepay" id="btnSuccess" data-dismiss="modal">确认支付</button>
+                  </div>
+                   <div class="pay_prompt" style="right: 20px;">
+                     <p class="pay_tishi"><span id="errorMsg" name="errorMsg"></span></p>
+                     </div>
+    </div>			
+			  </div>		
+        <!-- :form -->
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+$(document).ready(function() {
+	
+	$("#lato_space_size").val(10);
+	$('#sub-item-2').addClass('in');
+	
+});
+
+      serverCode();
+	 
+	 
+	  Date.prototype.toJSON = function () { return this.toLocaleString();}
+      var strTime=JSON.stringify(new Date()).slice(1);
+	  var strArr=strTime.split(' ')[0];
+	  var newDay=strArr;    // 今天的年月日
+	  var newTime=new Date();
+	  var oldTimestr1=null;
+
+
+
+		ajaxuser();
+		function ajaxuser(){
+				var serverAppCode='${serverAppCode}';
+				var serverAppId='${serverAppId}';
+				var serviceCode='${serviceCode}';
+				var serverName='${serverName}';
+				
+				var dataJson="serverAppCode="+serverAppCode+"&serverAppId="+serverAppId+"&serviceCode="+serviceCode+"&serverName="+serverName;
+					$.get('@{LatoWebApiDelegate.getLocalServerAppInfo}?'+dataJson, function (data) {  
+					var data = JSON.parse(data);		
+						oldTimestr1 =data.到期时间;
+						var oldDay=oldTimestr1.slice(0,10);
+						$('#serverName').text(data.应用名称);
+						$('#serverId').text(data.空间ID);
+						$('#serverTimeOut').text(data.到期时间);
+						$('#serverTime').text(monthT(oldDay,newDay)+'（月）');
+						if(getTimestamp(oldTimestr1,newTime)>0){
+					          $('#chaoMoney').text('剩余金额');
+                        }
+					})
+		}
+		 
+		
+        
+
+		var tatoleMonth=0;
+
+		function monthT(startDate,endDate) {
+			var  startDate1=0;
+			var  endDate1=0;
+			var  times =0;
+			console.log(startDate,194)
+			console.log(endDate,195)
+			startDate = startDate.split("-");
+			endDate = endDate.split("/");
+			startDate1 = parseInt(startDate[0]) * 12 + parseInt(startDate[1]);
+			endDate1 = parseInt(endDate[0]) * 12 + parseInt(endDate[1]);
+            tatoleMonth=parseFloat(startDate1);  // 到期时间总的月份
+			if(getTimestamp(oldTimestr1,newTime)>0){   // 过期
+				times=endDate1-startDate1;
+				if(parseInt(endDate[2])-parseInt(startDate[2])<0){
+					times-=1;
+					if(endDate[2]==28&&endDate[1]==2){
+						times+=1;
+					}else if(endDate[2]==30&&(endDate[1]==4||endDate[1]==6||endDate[1]==9||endDate[1]==11)){
+						times+=1; 
+					}
+				}
+			}else if(getTimestamp(oldTimestr1,newTime)<0){
+				times=startDate1-endDate1;
+				if(parseInt(stateDate[2])-parseInt(endDate[2])<0){
+					times-=1;
+					if(stateDate[2]==28&&stateDate[1]==2){
+						times+=1;
+					}else if(stateDate[2]==30&&(stateDate[1]==4||stateDate[1]==6||stateDate[1]==9||stateDate[1]==11)){
+						times+=1; 
+					}
+				}
+			}
+			return times;
+		}
+	
+		var tatoleMoney=0;
+		ajaxInit();
+		function ajaxInit(){
+			    var serverAppCode='${serverAppCode}';
+				var serverAppId='${serverAppId}';
+				var serviceCode='${serviceCode}';
+				var serverName='${serverName}';
+				var dataJson="serverAppCode="+serverAppCode+"&serverAppId="+serverAppId+"&serviceCode="+serviceCode+"&serverName="+serverName;
+					$.get('@{LatoWebApiDelegate.getLocalServerAppInfo}?'+dataJson, function (data) {  
+					var data = JSON.parse(data);		
+					var oldTimestr1 =data.到期时间;
+					console.log(oldTimestr1,235)
+					var	oldDay=oldTimestr1.slice(0,10);
+					var endTime11=oldTimestr1.slice(0,10);
+					var startDate=endTime11.split('-');
+					var endTime22=oldTimestr1.slice(8,10);
+					var endTime33=oldTimestr1.slice(10);
+					var	startDate1 = parseInt(startDate[0]) * 12 + parseInt(startDate[1]);
+					var giveInteger=parseInt(startDate1/12);                  // 移动了    
+					var giveRest=parseInt(startDate1%12);   
+						if(getTimestamp(oldTimestr1,newTime)<0){    
+							giveRest+=1;    
+							if(giveRest<10){
+								giveRest="0"+giveRest;
+							}                          // 移动了 
+							var strEnd=giveInteger+'-'+giveRest+'-'+endTime22+' '+endTime33;
+							$('#serverMoneyEnd').text(strEnd)
+						}else{	
+							var	oldDay=getTimeFn().slice(0,10);
+							var	oldDayEnd=getTimeFn().slice(11);
+							var startDate=oldDay.split('-');
+							giveRest=parseInt(startDate[1])+1;
+							if(giveRest<10){
+								giveRest="0"+giveRest;
+							}  
+							var strEnd=startDate[0]+'-'+ giveRest + '-' +  startDate[2] + "  " + oldDayEnd;
+							$('#serverMoneyEnd').text(strEnd)
+						}
+                        fn()
+					})
+				    function fn(){
+						var oldTimestr1=$('#serverTimeOut').text();
+						var	oldDay=oldTimestr1.slice(0,11);
+						var dataJosn={};
+						dataJosn['lato_server_code']='${serviceCode}';
+						dataJosn['lato_server_app_code']='${serverAppCode}';
+						dataJosn['lato_server_name']='${serverName}';
+						dataJosn['lato_server_app_id']='${serverAppId}';
+						dataJosn['lato_add_month']=monthT(oldDay,newDay);
+					$.post('@{LatoWebDelegate.queryProductPrice("postponeLocalServiceForm")}',dataJosn,function(data){
+						var data=JSON.parse(data);
+						tatoleMoney=data.总费用;
+						if(tatoleMoney==0||tatoleMoney==null){
+							$('#serverMoney').text(0)
+						}
+						else{		
+						    $('#serverMoney').text(data.总费用);
+						}					
+					})
+				}	
+			
+		}
+
+		
+
+function getTimeFn(){
+	var date = new Date();//实例一个时间对象；
+	var year = date.getFullYear();//获取系统的年；
+	var month = date.getMonth()+1;//获取系统月份，由于月份是从0开始计算，所以要加1
+	var day = date.getDate();
+	var hour = date.getHours();//获取系统时间
+	var minute = date.getMinutes(); //分
+	var second = date.getSeconds();//秒
+	if(month<10){
+		month="0"+month;
+	}
+	if(day<10){
+		day="0"+day;
+	}
+	if(hour<10){
+		hour="0"+hour;
+	}
+	if(minute<10){
+		minute="0"+minute;
+	}
+	if(second<10){
+		second="0"+second;
+	}
+	var str=year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+	return str;
+	
+}
+       
+
+
+function alertProduct(idName,limit){
+	 $( "#"+idName ).val( limit );
+	queryMoney();
+	$('#defaultForm').data('bootstrapValidator').updateStatus(idName,'NOT_VALIDATED').validateField(idName);
+}
+function queryMoney(){
+		 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+			$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("postponeLocalServiceForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					console.log(data)
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('errorMsg').innerText=error;
+					else{
+						document.getElementById('cost_price').innerText="￥"+data.原价;   // 原价
+						document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2); // 立即省钱
+						document.getElementById('productPrice').innerText=data.总费用;                     // 总费用
+						document.getElementById('errorMsg').innerText="";                                 // 错误的信息
+					}
+				}    
+			});    
+	}
+	
+(function($) {
+    $.fn.sliderDate = function(setting) {
+        var defaults = {
+                callback: false //默认回调函数为false
+            }
+        //如果setting为空，就取default的值
+        var setting = $.extend(defaults, setting);
+        this.each(function() {
+            //插件实现代码 
+            //var $sliderDate = $(".slider-date");
+            var $sliderDate = $(this);
+			var $sliderBar = $sliderDate.find(".slider-bar");
+			var $sliderBtn = $sliderDate.find(".slider-bar-btn");
+			var liWid = 50+1; //单个li的宽度
+
+			//滚动指定的位置
+			var sliderToDes = function(index){
+
+				//最大不能超过11
+				if(index > 12){
+					index = 12;
+				}
+
+				//最小不能小于 0 
+				if(index < 0){
+					index = 0;
+				}
+
+				//背景动画
+				$sliderBar.animate({
+					"width" : liWid*(index+1)
+				},500);
+
+				//执行回调
+				if(setting.callback){
+					setting.callback(index);
+				}
+
+			};
+
+			//点击 - 滚动到指定位置
+			$sliderDate.on('click', "li", function(e) {
+				//执行滚动方法
+				sliderToDes($(this).index());
+			});
+			
+			//默认为1个月
+			sliderToDes(0);
+			
+			//拖动 - 滚动到指定位置
+			$sliderBtn.on('mousedown', function(e) {
+				var $this = $(this);
+				var pointX = e.pageX - $this.parent().width();
+				var wid = null;
+
+				//拖动事件
+				$(document).on('mousemove',function(ev){
+					wid = ev.pageX - pointX
+					if(wid > 20 && wid < 620){
+						$sliderBar.css("width", wid);
+					}
+				}).on('mouseup',function(e){
+					$(this).off('mousemove mouseup');
+					var index = Math.ceil(wid/liWid) - 1;
+					sliderToDes(index);
+				});
+			});
+        });
+    }
+})(jQuery);
+
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+$('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('postponeLocalServerApp')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("应用续费出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+						
+								//alert('333');
+								var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="应用续费出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+					
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+				
+				
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+			
+$(function(){
+	function a(index){
+		 var month = index +1;
+		if(month == 10)
+			month = 12;
+		else if(month == 11)
+			month = 24;
+		else if(month == 12)
+			month = 36;
+		else if(month == 13)
+			month = 120;
+		$("#lato_add_month").val(month);
+		var indexMonth=index+1;
+		if(index==9){
+			indexMonth=12;
+		}else if(index==10){
+			indexMonth=24;
+		}else if(index==11){
+			indexMonth=36;
+		}else if(index==12){
+			indexMonth=120
+		}else{
+			indexMonth=index+1;
+		}
+
+
+		var endTime=$('#serverTimeOut').text();
+		var strEnd="";
+				 var endTime1=endTime.slice(0,10);
+				 var endTime2=endTime.slice(8,10);
+				 var endTime3=endTime.slice(10);
+				 var totalMonth=0;
+				 var giveRest=0;
+				 var giveInteger=0;
+				 if(getTimestamp(oldTimestr1,newTime)>0){
+					var	oldDay=getTimeFn().slice(0,10);
+					var	oldDayEnd=getTimeFn().slice(11);
+					var startDate=oldDay.split('-');
+					var startDate1 = parseInt(startDate[0]) * 12 + parseInt(startDate[1])+indexMonth; 
+					var giveInteger=parseInt(startDate1/12);
+					var giveRest=startDate1%12;
+					var endTime2= startDate[2];
+					if(giveRest<10){
+						giveRest='0'+giveRest
+					}
+					var strEnd=giveInteger+'-'+ giveRest + '-' +  timeFn(giveRest,endTime2) + "  " + oldDayEnd;
+					$('#serverMoneyEnd').text(strEnd);
+				 }else{
+				   var  endDir=endTime1.slice(0,10);   // 类似 2021-01-28
+                   endDir=endTime.split('-');
+                   var startDate1 = parseInt(endDir[0]) * 12 + parseInt(endDir[1])+indexMonth;
+                   var giveInteger=parseInt(startDate1/12);
+                   var giveRest=startDate1%12;
+                   if(giveRest<10){
+                        giveRest='0'+giveRest;
+                    }
+				   strEnd=giveInteger+'-'+giveRest+'-'+timeFn(giveRest,endTime2)+' '+endTime3;
+				   if(timeFn(giveRest,endTime2)){
+					 $('#serverMoneyEnd').text(strEnd);
+				   }
+				  
+				 }
+
+			
+
+		queryMoney();
+	}
+	$("#slider-date-1").sliderDate({callback:a});
+});
+
+
+
+
+function timeFn(giveRest,endTime1){   // 日期时间判断最后一天的情况
+	
+	 if(giveRest&&endTime1){
+		if(endTime1==31&&(giveRest==4||giveRest==6||giveRest==9||giveRest==11)){
+         endTime1=30;
+		}
+		else if((endTime1==31||endTime1==30||endTime1==29)&&giveRest==2){
+			endTime1=28;
+		}else{
+			endTime1=endTime1;
+		}
+		  return endTime1;
+	}
+
+}
+
+function getYearMonDate(){  // 添加年 月 日函数
+	var d=new Date();
+	var year=d.getFullYear();
+	var month=d.getMonth()+1;
+	var datas=d.getDate();
+	var str=year+'-'+twoStrFn(month)+'-'+twoStrFn(datas);
+	return str;
+}
+
+function twoStrFn(str){   // 增加时间字符串函数
+   if(parseInt(str)<10){
+	   str='0'+str;
+   }else{
+	   str=str;
+   }
+   return str;
+}
+
+function getTimestamp(oldTimestr1,newTime){  // 增加时间戳函数
+	if(oldTimestr1){
+		oldTimestr1=oldTimestr1.replace(/-/g,'/');
+		var newTime=Date.parse(newTime);
+		var oldTime=Date.parse(oldTimestr1);
+		var time=newTime-oldTime;
+		return time;
+	}
+}
+
+   serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+		
+			var urlServerName='${serverName}';
+			if(encodeURIComponent(urlServerName)==encodeURIComponent(nameServer)){
+				nameServer='[应用空间]'+nameServer;
+				urlServerName='[服务器]'+urlServerName;
+			};
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+        	'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a">本地应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">'+urlServerName+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}" class="list_back_a">应用空间详情</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">续费</a>'
+        
+   }
+
+    $('#reloadPages').click(function(){
+		window.history.go(0)
+	})
+   
+	
+	
+</script>
+
+<style>
+	
+	.main_body .body_menu1 {
+		margin-top: 15px;
+		margin-bottom: 6px;
+	}
+	.menu_names{
+		font-size: 14px;
+		color:#373F4A;
+		margin-bottom: 6px;
+		font-weight: 700;
+		width: 300px;
+		font-family:Microsoft YaHei;
+	}
+	.menu_name {
+		color: rgba(55, 63, 74, 0.6);
+		text-align: left;
+		width: 94px;
+		height: 20px;
+		float: left;
+		line-height: 33px;
+	}
+	
+#btnSuccess{
+	border: none;
+	outline:none;
+	color: #fff;
+	margin-top: -4px;
+}
+button.btn{
+	border: none;
+	outline:none;
+	color: #fff;
+}
+#btnSuccess:hover{
+	color: #fff;
+	background-color: rgb(78,213,131);
+}
+#btnSuccess:active{
+	color: #fff;
+	background-color: rgb(69,191,102);
+}
+.main_body {
+    padding-left: 0px;
+    font-size: 14px;
+	background-color: #fff;
+	margin-left: -12px;
+}
+	
+	</style>
+
+#{/set}

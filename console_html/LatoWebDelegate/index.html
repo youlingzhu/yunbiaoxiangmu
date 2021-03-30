@@ -1,0 +1,195 @@
+﻿#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'主页' /}
+	<div class="console_download_inst">
+	
+     <div class="home_section_main clearfix"> 
+           <p class="main_down_inst">下载安装</p>
+        
+		  #{pc_display_class /}
+             <div class="install_txt top_left">
+                 <p class="install_title">安装必读</p>
+                   <div class="install_text">
+                         <ul>
+                             <li><span></span>请用微信先扫描右侧二维码或点击直接入Q群，有专人指导安装和学习。</li>
+                              <li><span></span>安装方式分为“本地安装”或“云端安装”，请根据需要自行选择。</li>
+                         </ul>
+                    </div>   
+             </div>
+              
+             <div class="install_qq top_left">
+                 <span class="qq_title">微信扫码加入云表学习群</br>专人指导安装和学习</span>
+                <div class="in_qq">
+                   <p class="qq_img"></p>
+                </div> 
+                  <!-- <a class="stu_btu" target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=1924366ee20b4d190b72b5e5133e89c3add9081c2cd373403589b49dcb47a097">扫描或点击可加入</a>	 -->			
+				 <!-- <a class="stu_btu" target="_blank" href="http://www.iyunbiao.com/wpa/jq">点击可加入Q群</a>		 -->
+             </div>
+			 
+			 
+			 <div class="install_list top_left">
+                 <p class="install_title">安装列表</p>
+                 <div class="install_btn_list">
+                     <ul class="in_btn_list">
+                         <li>
+                         <a class="local_btn" href="@{LatoWebDelegate.getLocalServiceFormList()}">
+                              <p class="btn_title">本地安装</br>(含免费版安装)</p>
+                              <p class="local_text">PC端服务器程序，安装到本地电脑或服务器</p>
+                         </a>
+                         </li>
+                         <li><a class="local_btn1" href="@{LatoWebDelegate.createCloudApp()}">
+                          <p class="btn_title">云端安装</p>
+                              <p class="local_text">云端开通应用空间,数据保存云端,免去安装烦恼,随时随地进行访问</p>
+                         </a></li>
+                         <li><a class="local_btn2" href="http://www.iyunbiao.com/bbs/t-1856-1.html" target="_blank">
+                          <p class="btn_title">安装帮助</p>
+                              <p class="local_text">教你如何轻松搞定安装</p>
+                         </a></li>
+                         <!-- <li><a class="local_btn3" href="https://bbs.iyunbiao.com/t-4858-1.html" target="_blank">
+                            <p class="btn_title">学习帮助</p>
+                                <p class="local_text">让你轻松掌握软件开发机制</p>
+                           </a></li> -->
+                           <li><a class="local_btn2" href="https://bbs.iyunbiao.com/t-4858-1.html" target="_blank">
+                            <p class="btn_title">学习帮助</p>
+                                <p class="local_text">让你轻松掌握软件开发机制</p>
+                           </a></li>
+                     </ul>
+                 </div>  
+             </div>
+         </div>
+		 <!-- phone-->
+		 #{phone_display_class /}
+            
+			 <div class="install_list top_left phone_list">
+                 <p class="install_title">安装列表</p>
+                 <div class="install_btn_list">
+                     <ul class="in_btn_list">
+                         <li>
+                         <a class="local_btn" href="@{LatoWebDelegate.newApp()}">
+                              <p class="btn_title">本地安装</br>(含免费版安装)</p>
+                              <p class="local_text">PC端服务器程序，安装到本地电脑或服务器</p>
+                         </a>
+                         </li>
+                         <li><a class="local_btn1" href="@{LatoWebDelegate.createCloudApp()}">
+                          <p class="btn_title">云端安装</p>
+                              <p class="local_text">云端开通应用空间,数据保存云端,免去安装烦恼,随时随地进行访问</p>
+                         </a></li>
+                         <li><a class="local_btn2" href="http://www.iyunbiao.com/bbs/t-1856-1.html" target="_blank">
+                          <p class="btn_title">安装帮助</p>
+                              <p class="local_text">教你如何轻松搞定安装</p>
+                         </a></li>
+                     </ul>
+                 </div>  
+             </div>
+			 
+         </div>
+		 
+		 
+		 
+         <div class="section_main_bottom">
+           <p class="install_title">常见问题解决办法</p>
+           <div class="question clearfix">
+            <div class="question_list">
+                  <ul>
+                    <li class="clearfix">
+                        <p>01</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1856-1.html" target="_blank">
+                           <h3>如何正确安装云表？</h3>
+                           <span>1.在云表官网www.iyunbiao.com注册云表的会员账号；2.登陆云表会员中心</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>02</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1110-1.html " target="_blank">
+                           <h3>如何安装云表进销存(免费版)？</h3>
+                           <span>1.请在浏览器中登陆地址：https://www.iyunbiao.com/appstore/jxc.html
+
+2.选择立即购买</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>03</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1292-1.html " target="_blank">
+                           <h3>云表平台新手如何快速入门？</h3>
+                           <span>云表是什么？有哪些优势？可以做什么样的系统？做出来的系统是什么样子的呢？</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>04</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1226-1.html" target="_blank">
+                           <h3>云表app使用教程？</h3>
+                           <span>云表平台APP现在处于推广期，手机端不需要另外收费。手机端只支持查看和填报功能，由于手机端窗口小操作不方便，所以不能在手机端进行云表系统的设计。</span>
+                        </a>
+                    </li>
+                  </ul>
+            </div>
+             <div class="question_list">
+                  <ul>
+                    <li class="clearfix">
+                        <p>05</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1315-1.html" target="_blank">
+                           <h3>在同一局域网络下如何实现多人登录？</h3>
+                           <span>【云表免费版、标准版】中都有60个模板与3个并发，3个并发指同时在线人数最大为3人，所以本教程的目的是为了解决部分人在同一局域网登录别人的云表时所需要用到的！次你</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>06</p>
+                        <a href="http://www.iyunbiao.com/bbs/forum.php?mod=viewthread&fid=36&tid=1231&highlight=" target="_blank">
+                           <h3>云表本地版如何在外网使用？</h3>
+                           <span>云表本地版如果需要在外网使用，必须使用将内网映射到外网的工具，比如花生壳之类似的。
+
+下面提供一个工具及具体的步骤（由云表客户提供）：NAT123域名解析软件穿透内网步骤</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>07</p>
+                        <a href="http://www.iyunbiao.com/bbs/t-1134-1.html" target="_blank">
+                           <h3>云表浏览器和云表服务器入门介绍？</h3>
+                           <span>云表浏览器（本地版在使用前请先确保云表服务器已经启动）</span>
+                        </a>
+                    </li>
+                    <li class="clearfix">
+                        <p>08</p>
+                        <a href=" http://www.iyunbiao.com/bbs/t-1861-1.html" target="_blank">
+                           <h3>云表本地版本如何升级到最新版 </h3>
+                           <span>1、备份数据库;2、备份附件
+将安装相对路径下的  D:\LatoServer\apache-tomcat-7.0.22\webapps\ROOT\WEB-INF\application\data
+attachments目录下的附件复制一份</span>
+                        </a>
+                    </li>
+                  </ul>
+            </div>
+             <div class="question_list">
+                  <ul>
+                   
+                    <li class="clearfix">
+                        <p>09</p>
+                        <a href="http://www.iyunbiao.com/bbs/forum.php?mod=viewthread&fid=36&tid=1232&highlight=%E5%B9%B6%E5%8F%91" target="_blank">
+                           <h3>云表的用户数和并发数分别是什么意思？</h3>
+                           <span>云表的用户是在云表系统中拥有账号的用户，比如系统有3个账号，那么就有3个用户数。云表平台云端是按照用户数收费。</span>
+                        </a>
+                    </li>
+                  
+                  </ul>
+            </div>
+            </div>
+         </div>
+     </div>
+ </div>
+
+
+	
+ <script type="text/javascript">
+	
+	
+    $(document).ready(function() {
+        $('#sub-item-2').addClass('in');
+    });
+    
+     
+
+	
+ </script>
+<style>
+    
+
+</style>

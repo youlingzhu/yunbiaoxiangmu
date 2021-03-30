@@ -1,0 +1,487 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'短信服务详情' /}
+#{set sms:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{width: 280px;margin-top: 0px;}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class="lato-main-side service_smsInfo" >
+	<div class="body_name body_menu1 clearfix service_smsInfo_title">
+		<label class="menu_names" id="menu_names">短信服务详情</label>
+	  </div>
+	<!-- <div id="lato-main-side_a">
+		<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">控制台&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">应用空间管理</a>
+	</div> -->
+	<div id="lato-main-side_a">
+		
+		<!-- <a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_1">控制台&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a"> 本地服务器&nbsp;>></a>
+		<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">应用空间管理</a>
+	 -->
+	</div>
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;">		
+	
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				短信服务详情<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div>-->
+		
+		#{if opened==2}
+		<div class="main_body service_smsInfo_main_body">
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">短信签名</label>
+				<label class="detail_text">${flash.短信签名} </label>
+				<a class="btu_update" id="setterButton" href="javascript:void(0)">更新</a>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">已使用短信条数</label>
+				<label class="detail_text">${flash.使用条数} </label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">剩余短信条数</label>
+				<label class="detail_text">${flash.剩余条数} </label>
+				<a class="btu_upgrade" href="@{LatoWebDelegate.getServiceSmsPostpone(serviceCode,serverAppId,serverAppCode,serverName,flash.服务ID)}">续费</a>
+			</div>
+			<div class="first_steps divTableTemplate" >
+				<p class="first_tit">短信模板列表<span>（请点击下方按钮，创建您的专属模板）</span></p>
+			</div>
+			<div class="main_body_btn clearfix divTableTemplate service_smsInfo_one">
+				<a class="btu_new sever_local"  id="addTemplateButton" href="javascript:void(0)">新建短信模板</a>
+				<a class="btu_new sever_local"  id="addTemplateSrcButton" href="javascript:void(0)">从常用模板中选择</a>
+			</div>
+			<div class="table server_table clearfix divTableTemplate">
+				<table id="table" data-search="true" data-side-pagination="server" data-pagination="true" data-url="" >
+					<thead>
+						<tr class="line-bg">
+							#{list items:fieldList, as:'fieldObj' }
+							<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+							#{/list} 
+							<th data-field="operate" data-formatter="operateFormatter"  data-halign="center" data-events="operateEvents">操 &nbsp;&nbsp;&nbsp;  作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		#{/if}
+		#{elseif opened==1}
+		<div class="main_body service_smsInfo_main_body_one">
+			<div class="clearfix price_details" >
+			  <p class="text_explain" id="text_free">服务开通中,请稍后再试...</p> 
+			</div>
+		</div>
+		#{/elseif}
+		#{else}
+		<div class="main_body service_smsInfo_main_body_two">
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" id="openButton" href="javascript:void(0)">开通</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+<div id="divOpen" class="service_smsInfo_main_body_three">
+  <form class="layui-form" onsubmit="return false;">
+    <div class="layui-form-item">
+      <label class="menu_name">短信签名</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_sms_sign_name" value="${flash.短信签名}" lay-verify="required" id="lato_sms_sign_name" autocomplete="off" placeholder="请输入短信签名" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="divUpdateContent" class="service_smsInfo_main_body_four">
+  <form class="layui-form" onsubmit="return false;">
+   <input type="hidden" name="lato_server_id" value="${flash.服务ID}" />
+    <div class="layui-form-item">
+      <label class="menu_name">短信签名</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_sign" value="${flash.短信签名}" lay-verify="required" autocomplete="off" placeholder="请输入短信签名" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">是否更新秘钥</label>
+      <div class="layui-input-block" style="display: flex;">
+  	    <input type="checkbox" name="m_is_refresh_secret" lay-skin="primary" value="true" title="更新" >
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free">如非必要,请不要随意更新</p> 
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="divSmsTemplate" class="service_smsInfo_main_body_five">
+  <form class="layui-form" lay-filter="formSmsTemplate" onsubmit="return false;">
+    <input type="hidden" name="templateId" value="" />
+    <input type="hidden" name="parentTemplateId" value="" />
+    <input type="hidden" name="lato_server_id" value="${flash.服务ID}" />
+	<input type="hidden" name="lato_uuid" value="" />
+    <input type="hidden" name="type" value="" />
+    <div class="layui-form-item">
+      <label class="menu_name">名称</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_template_name" value="" autocomplete="off" placeholder="请输入短信模板名称" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">模板</label>
+      <div class="layui-input-block" style="display: flex;">
+        <textarea  name="lato_template" autocomplete="off" class="layui-textarea" onkeydown="if(event.keyCode==13)return false;" onblur="this.value=this.value.replace(/[\r\n]/gi,'')" placeholder="例子：{1}通知您可以通过移动端使用{2}系统,请下载APP并注册开通{3}"></textarea>
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">签名</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_sign" value="" autocomplete="off" placeholder="请输入短信签名" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">备注</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_desc" value="" autocomplete="off" placeholder="请输入备注" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain service_smsInfo_duan" id="text_free"></p> 
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div id="divSrcTable" class="service_smsInfo_main_body_six">
+	<form class="layui-form" onsubmit="return false;">
+		<div class="table server_table clearfix divTableTemplate">
+			<table data-toggle="table" data-url="${flash.dataSrcUrl}" data-height="400" id="srcTable" data-pagination="true" data-side-pagination="server" data-search="true" data-row-style="rowStyle">
+				<thead>
+					<tr class="line-bg">
+						#{list items:publicTemplateFieldList, as:'fieldObj' }
+						<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+
+						<th data-field="operate" data-formatter="operateFormatterSrc"  data-halign="center" data-events="operateEventsSrc">操 &nbsp;&nbsp;&nbsp;  作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	$("#openButton").click(function(){
+		layer.open({
+			type: 1
+			,title: '开通短信服务'
+			,content: $("#divOpen")
+			,btn: ['确认']
+			,area: ['400px', '200px']
+			,yes: function(index, layero){
+				var openPostUrl = "@{LatoWebDelegate.getServiceSmsOpen(serviceCode,serverAppId,serverAppCode,serverName)}";
+				
+				$.ajax({
+					type:'post',
+					url: openPostUrl,    
+					data: layero.find("form").serialize(),    
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert("开通成功!", {icon: 1}, function(index){
+								//详情页面
+								location = '@{LatoWebDelegate.getServiceSmsInfo(serviceCode,serverAppId,serverAppCode,serverName)}';
+								//购买页面
+								//location = '@{LatoWebDelegate.getServiceSmsPostpone(serviceCode,serverAppId,serverAppCode,serverName)}';
+							});
+						}
+					}
+				});  
+				return false;
+			}
+		});
+		form.render();
+	});
+	
+	
+	$("#addTemplateSrcButton").click(function(){
+		layer.open({
+			type: 1
+			,title: '常用短信模板列表'
+			,content: $("#divSrcTable")
+			,btn: ['关闭']
+			,area: ['800px', '630px']
+			,yes: function(index, layero){ 
+				layer.close(index);
+			}
+		});
+		form.render();
+	});
+	
+	$("#setterButton").click(function(){
+		layer.open({
+			type: 1
+			,title: '修改设置'
+			,content: $("#divUpdateContent")
+			,btn: ['确认']
+			,area: ['400px', '300px']
+			,yes: function(index, layero){
+				var updatePostUrl = "@{LatoWebDelegate.updateSmsService()}";
+				$.ajax({
+					type:'post',
+					url: updatePostUrl,    
+					data: {'lato_params':JSON.stringify(params2Json(layero.find("form").serialize())),'lato_global_app_id':"${serverAppCode}"},    
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert("更新成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+				});  
+				return false;
+			}
+		});
+		form.render();
+	});
+	
+	window.openSmsTemplate = function(data, params) {
+		params = params||{};
+		var title = params.title||(data?'修改短信模板':'新建短信模板');
+		layer.open({
+			type: 1
+			,title: title
+			,content: $("#divSmsTemplate")
+			,btn: ['确认']
+			,area: ['500px', '480px']
+			,yes: function(index, layero){
+				templateUpdateUrl = params.templateUpdateUrl||"@{LatoWebDelegate.putServiceSmsTemplateUpdate(serviceCode,serverAppId,serverAppCode,serverName)}";
+				
+				$.ajax({    
+					type:'post',        
+					url: templateUpdateUrl,    
+					data: layero.find("form").serialize(),    
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert(title+"成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+				});
+				return false;
+			}
+			,success: function(layero, index){
+				//初始化
+				form.val("formSmsTemplate", {
+				  "templateId": data?data["templateId"]:""
+				  ,"parentTemplateId": data?data["parentTemplateId"]:""
+				  ,"serviceId": data?data["serviceId"]:""
+				  ,"type": data?data["type"]:""
+				  ,"lato_template_name": data?data["名称"]:""
+				  ,"lato_template": data?data["模板"]:""
+				  ,"lato_sign": data?data["签名"]:""
+				  ,"lato_desc": data?data["备注"]:""
+				  ,"lato_uuid": data?data["UUID"]:""
+				})
+			}
+		});
+		form.render();
+	};
+	
+	$("#addTemplateButton").click(function(){openSmsTemplate();});
+	
+    window.operateEvents = {
+    	'click .edit': function (e, value, row, index) {
+    		openSmsTemplate($.extend({}, row, {type:'应用模板'}));
+    	},
+    	'click .delete': function (e, value, row, index) {
+			var templateDeleteUrl = "@{LatoWebDelegate.deleteServiceSmsTemplate(serviceCode,serverAppId,serverAppCode,serverName)}";
+    		layer.confirm('是否确认删除'+(row["名称"]?row["名称"]:'')+'?', {
+    			title: '确认操作'
+    		}, function (index, layero) {
+				$.ajax({
+					type:'post',
+					url: templateDeleteUrl,
+					data: {lato_uuid:row['UUID']},
+					cache:false,
+					async: false,
+					dataType:'json',
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert("删除成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+				});
+				return false;
+    		});
+    	},
+    	'click .addTemplate': function (e, value, row, index) {
+			//打开新建常用短信模板页面,要修饰一下部分字段
+    		openSmsTemplate($.extend({}, row, {type:'常用模板',serviceId:'',UUID:''})
+			
+			,{title:"新建常用短信模板",templateUpdateUrl:"@{LatoWebDelegate.smsServiceSmsTemplateLibraryUpdate()}"});
+    	}
+    };
+	//加载模板明细数据
+	$('#table').bootstrapTable({
+		url: '${flash.dataUrl}'
+	});
+	$('.divTableTemplate').show();
+});
+function operateFormatter(value, row, index) {
+	return [
+			//'<ul class="btu_list">',
+			//'<li><a class="xiangqing edit" href="javascript:;">修改</a></li>',
+			//' <li><a class="xiangqing delete" href="javascript:">删除</a></li>',
+			//' </ul>'
+			'<div class="btu_list">',
+			'<span><a class="xiangqing edit" href="javascript:;">修改</a></span>',
+			'<span><a class="xufei delete" href="javascript:">删除</a></span>',
+			(row['parentTemplateId']?'':'<span><a class="shenji addTemplate" href="javascript:">添加到常用模板</a></span>'),
+			'</div>'
+		].join('');
+}
+var operateEventsSrc = {
+    	'click .add': function (e, value, row, index) {
+    		openSmsTemplate($.extend({}, row, {type:'应用模板',serviceId:'${serviceId}',parentTemplateId:row['templateId'],templateId:'',UUID:''}),{title:'引用模板'});
+    	}
+	}
+function operateFormatterSrc(value, row, index) {
+	return [
+			'<div class="btu_list">',
+			'<span><a class="xiangqing add" href="javascript:;">添加</a></span>',
+			'</div>'
+		].join('');
+}
+
+
+ 
+
+   serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+		console.log(nameServer);
+        if(indexCode==-1){
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">短信服务</a>'
+        }else{
+        	
+			//var urlServerName=decodeURIComponent(window.location.search.slice(1).split('&')[3].split('=')[1]);
+			var urlServerName='${serverName}';
+			if(encodeURIComponent(urlServerName)==encodeURIComponent(nameServer)){
+				nameServer='[应用空间]'+nameServer;
+				urlServerName='[服务器]'+urlServerName;
+			};
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+        	'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a">本地应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">'+urlServerName+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">短信服务</a>'
+        }
+   }
+
+   $('#reloadPages').click(function(){
+		history.go(0) 
+	})
+
+
+
+
+
+</script>
+
+
+<style>
+
+ 
+	.menu_names{
+		font-size: 14px;
+		color:#373F4A;
+		margin-bottom: 6px;
+		font-weight: 700;
+		width: 300px;
+	}
+
+    #openButton:hover{
+		color: #ffffff;
+	}
+
+
+</style>
+
+
+
+#{/set}

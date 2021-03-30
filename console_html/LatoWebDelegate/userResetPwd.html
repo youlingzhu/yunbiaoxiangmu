@@ -1,0 +1,354 @@
+﻿
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'重置密码' /}
+
+<div id="pc" hidden>
+	<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putUserResettingPwd()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${account}" id="lato_useraccount"/>
+		<input type="hidden" name="lato_phone" value="${account}" id="Lato_phone"/>
+    <div class="reset_banner">
+	  
+         <div class="login_wrap">
+		    <div class="rest_pwd"></div>
+			  <div class="login_yinying reset_yinying"></div>
+            <div class="login_main">
+                 <h2>重置密码</h2>
+                 <div class="label_list">
+				 
+                    <label class="user_resetword reset_name"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input class="lab_input"  value="${account}" readonly="readonly" />
+                      </label>
+                   
+				     <div class="form-group">
+                      <label class="user_login user_password1" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input placeholder="请输入密码" name="lato_pwd" id="lato_pwd" class="lab_input" type="password"/>
+                      </label>
+					 </div>
+					 <div class="form-group">
+					 <label class="user_login user_password" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+					
+                      <input placeholder="请确认密码"  name="lato_pwd_red" id="lato_pwd_red" class="lab_input" type="password"/>
+					  </label>
+					  </div>
+                         
+                       <div class="form-group">
+                      <label class="user_login user_img"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input placeholder="请输入图形验证码" name="lato_yzm" id="lato_yzm" class="lab_input"/>
+                      </label>
+					  <img borde="2" class="captcha" id="txm" name="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                      </div>
+					  
+                      <div class="phone_list clearfix">
+					     <div class="form-group">
+                        <label class="user_login reset_code">
+						
+						<input placeholder="请输入验证码"  name="lato_codePhoneText" id="lato_codePhoneText"/>
+						</label>
+						<a  href="javascript:sendSms();" class="reset_yanzhengma" id="restSend" name="restSend">获取验证码</a>
+						</div>
+                    </div>
+					<div class=" clearfix">
+                    <p class="reset_yanzheng">将会向<span>${account}</span>发送验证码</p>
+					<p class="userreset_account">已有账号,<a href="@{LatoWebDelegate.getLoginForm()}">立即登录</a></p>
+					</div>
+                 </div>
+                 <div class="btn_list">
+                     <input type="submit" class="btn_login" id="reset_sure" value="确  认"></input>
+                 </div>
+            </div>
+              
+         </div>
+    </div>
+	</form>
+</div>
+
+<div id="mobile" hidden>
+    #{stylesheet '1.0/userResetPwd-mobile.css' /}
+    <div class="mobileBackground">
+        <img src="@{'/public/images/1.0/logo_bg.jpg'}" />
+    </div>
+    <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putUserResettingPwd()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${account}" id="lato_useraccount"/>
+		<input type="hidden" name="lato_phone" value="${account}" id="lato_phone"/>
+        <div class="login_wrap">
+            <div class="rest_pwd"></div>
+            <div class="login_yinying reset_yinying"></div>
+            <div class="login_main">
+                <div class="label_list">
+
+                    <div class="inputBox">
+                        <label class="user_resetword reset_name" onmouseover="this.style.borderColor='#4ea638'"
+                            onmouseout="this.style.borderColor=''">
+                            <img src="@{'/public/images/1.0/peson.png'}">
+                            <input class="lab_input" value="${account}" placeholder="请输入手机号码" readonly="readonly" />
+                        </label>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="inputBox">
+                            <label class="user_login user_password1" onmouseover="this.style.borderColor='#4ea638'"
+                                onmouseout="this.style.borderColor=''">
+                                <img src="@{'/public/images/1.0/mima.png'}">
+                                <input placeholder="请输入密码" name="lato_pwd" id="lato_pwd" class="lab_input"
+                                    type="password" />
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="inputBox">
+                            <label class="user_login user_password" onmouseover="this.style.borderColor='#4ea638'"
+                                onmouseout="this.style.borderColor=''">
+                                <img src="@{'/public/images/1.0/mima.png'}">
+                                <input placeholder="请确认密码" name="lato_pwd_red" id="lato_pwd_red" class="lab_input"
+                                    type="password" />
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="imageCode">
+                            <label class="user_login user_img" onmouseover="this.style.borderColor='#4ea638'"
+                                onmouseout="this.style.borderColor=''">
+                                <img src="@{'/public/images/1.0/phonema.png'}" style="width: 8%;">
+                                <input placeholder="请输入图形验证码" name="lato_yzm" id="lato_yzm" class="lab_input" />
+                            </label>
+                            <img borde="2" class="captcha" id="txm" name="txm" alt="验证码"
+                                src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                        </div>
+
+                    </div>
+
+                    <div class="phone_list clearfix">
+                        <div class="form-group">
+                            <div class="messageCode">
+                                <label class="user_login reset_code">
+                                    <img src="@{'/public/images/1.0/phonema.png'}" style="width: 8%;">
+                                    <input placeholder="请输入验证码" name="lato_codePhoneText" id="lato_codePhoneText" />
+                                </label>
+                                <a href="javascript:sendSms();" class="reset_yanzhengma" id="restSend"
+                                    name="restSend">获取验证码</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class=" clearfix">
+                        <span class="userreset_account">已有账号,<a href="@{LatoWebDelegate.getLoginForm()}">立即登录</a></span>
+                    </div>
+                </div>
+                <div class="btn_list">
+                    <input type="submit" class="btn_login" id="reset_sure" value="确  认"></input>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+    
+ <script type="text/javascript">
+var count ;
+
+function update_p() {
+	var i1 =document.getElementById('restSend');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#restSend").attr("href","javascript:showtime(60);");
+		$("#restSend").removeAttr("style");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+
+function showtime(t){
+				
+				
+				count = t;
+				var txyz = $("#lato_yzm").val();
+				
+				
+				var phone = $("#lato_phone").val();
+				
+				var params=$("form").serialize();
+				
+				
+				$("#restSend").removeAttr("href");
+				
+				$("#restSend").attr("style","cursor:not-allowed");
+				var id =  window.setInterval("update_p()", 1000);
+				var account = $("#lato_useraccount").val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var  v2 =showUserAction({checkPhone:account,txyz :txyz,key :$("#randomID").val(),type:'reset'}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params,
+						success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{	
+									window.clearInterval(id);
+									recoverySendSms();
+								  showErrorModel("发送短信出现错误",erroMsg);
+							}
+							
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+								
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+}
+ 
+function sendSms(){
+
+	if(!$('#regForm').data('bootstrapValidator').isValid()){
+				
+				return;
+			}
+			
+	showtime(60);
+}
+
+function refresh(){
+	
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+ 
+$(document).ready(function() {
+
+    if (!IsPC()) {
+        $('link[href$="/account.css"]').prop('disabled', true);
+        $("meta").first().after('<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">');
+        $(".login_footer").hide();
+        $("#mobile").show();
+        $("#pc").empty().hide();
+        
+    } else {
+        $("#pc").show();
+        $("#mobile").empty().hide();
+        
+    }
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+							remote: {
+							message: '图形验证码错误',
+							type: 'GET',
+							url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+						}
+				}},
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+        })
+        .on('success.field.bv', function(e, data) {
+            //console.log('success.field.bv -->', data.element);
+        }).on('success.form.bv', function(e) {
+             e.preventDefault();
+             var params=$("form").serialize();
+             $.ajax({
+                    url:"@{LatoWebDelegate.putUserResettingPwd}",
+                    type:'POST',
+                    dataType:'json',
+                    data:params
+                    ,success:function(data){
+                    
+                        var errCode = data.errorCode;
+                        var erroMsg = data.errorMsg;
+                        if(null != errCode && errCode.length > 0)
+                        {
+                            showErrorModel("找回密码发生错误",erroMsg);
+                            $('#regForm :submit').removeAttr("disabled");
+                        }else{
+                            location.href = "@{LatoWebDelegate.getIndexForm()}";
+                        }
+                        
+                        
+                    },
+                    beforeSend: function(xhr) {
+                        //checkIsEversheetWeb(xhr);
+                    }
+                    ,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="找回密码发生错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                $('#regForm :submit').removeAttr("disabled");
+                        }
+                    }
+                );
+             
+             
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('added.field.bv', function(e, data) {
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('removed.field.bv', function(e, data) {
+            //console.log('Removed element -->', data.field, data.element);
+        });
+    });
+
+		
+    </script>
+
+
+
+
+	

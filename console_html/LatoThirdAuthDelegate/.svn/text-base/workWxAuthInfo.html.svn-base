@@ -1,0 +1,240 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'企业微信授权' /}
+#{set workWxAuth:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{
+    width: 280px;
+    margin-top: 0px;
+    display: inline-block;
+    white-space: nowrap;/*保证文本内容不会自动换行，如果多余的内容会在水平方向撑破单元格*/ 
+    overflow: hidden; /*隐藏超出单元格的部分*/
+    text-overflow: ellipsis; /*将被隐藏的那部分用省略号代替*/
+}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;" >		
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				企业微信授权<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div>-->
+		#{if opened}
+		<div class="main_body">
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">企业名称</label>
+				<label class="detail_text">${flash.企业名称}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">企业ID</label>
+				<label class="detail_text">${flash.企业ID}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">AgentID</label>
+				<label class="detail_text">${flash.AgentId}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix" style="display:none">
+				<label class="menu_name_app">AppKey</label>
+				<label class="detail_text">${flash.AppKey}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">AppSecret</label>
+				<label class="detail_text">${flash.AppSecret}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">授权时间</label>
+				<label class="detail_text">${flash.授权时间}</label>
+			</div>
+			<div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">授权状态</label>
+				<label class="detail_text">${flash.授权状态=="true"?"开启":"关闭"}</label>
+				<a class="btu_update" id="setterButton" href="javascript:void(0)">更新</a>
+			</div>
+		</div>
+		#{/if}
+		#{else}
+		<div class="main_body">
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" id="setterButton" href="javascript:void(0)">开通</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+<div id="divUpdateContent" style="display:none;padding: 20px;padding-bottom: 0px;">
+  <form class="layui-form" lay-filter="formUpdateContent" onsubmit="return false;">
+    <input type="hidden" name="lato_server_id" id="lato_server_id" value="${flash.服务ID}" />
+    <input type="hidden" name="lato_grant_id" id="lato_grant_id" value="${flash.授权ID}" />
+    <input type="hidden" name="lato_grant_type" id="lato_grant_type" value="workwx" />
+    <div class="layui-form-item">
+      <label class="menu_name">企业名称</label>
+      <div class="layui-input-block" >
+        <input type="text" name="lato_corp_name" id="lato_corp_name" value="${flash.企业名称}" autocomplete="off" placeholder="请输入企业名称" class="layui-input">
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">企业ID</label>
+      <div class="layui-input-block" >
+        <input type="text" name="lato_corp_id" id="lato_corp_id" value="${flash.企业ID}" autocomplete="off" placeholder="请输入企业ID" class="layui-input">
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">AgentId</label>
+      <div class="layui-input-block" >
+        <input type="text" name="lato_agent_id" id="lato_agent_id" value="${flash.AgentId}" autocomplete="off" placeholder="请输入AgentId" class="layui-input">
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item" style="display:none">
+      <label class="menu_name">AppKey</label>
+      <div class="layui-input-block" >
+        <input type="text" name="lato_app_key" id="lato_app_key" value="${flash.AppKey}" autocomplete="off" placeholder="请输入AppKey" class="layui-input">
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">AppSecret</label>
+      <div class="layui-input-block" >
+        <input type="text" name="lato_app_secret" id="lato_app_secret" value="${flash.AppSecret}" autocomplete="off" placeholder="请输入AppSecret" class="layui-input">
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">授权状态</label>
+      <div class="layui-input-block" >
+        <input type="radio" name="lato_authorizer_status" value="true" title="开启" ${flash.授权状态=="true" || flash.服务ID == null?"checked":""}>
+        <input type="radio" name="lato_authorizer_status" value="false" title="关闭" ${flash.授权状态=="true" || flash.服务ID == null?"":"checked"}>
+        <div class="clearfix error_details" >
+          <p class="text_explain" style="margin-left: 0px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name" style="color:red">
+        <i class="layui-icon layui-icon-tips"></i>
+        <a href="https://www.iyunbiao.com/wiki/" target="_blank" style="color:red">填写说明</a>
+      </label>
+    </div>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer ,form = layui.form;
+	
+    //检查ids数组的字段值是否为空,空则进行提示,并返回false
+    var checkFieldsIsEmpty = function(ids, tips) {
+        if (!(ids instanceof Array)) {
+            ids = [ids];
+        }
+        var isPassed = true;
+        for (var i in ids) {
+            var item = $("#"+ids[i]);
+            if (item.length && !item.val()) {
+                isPassed = false;
+                item.next(".error_details").find("p").text(tips?tips:item.attr("placeholder"));
+                item.blur(function(){
+                    $(this).next(".error_details").find("p").text("");
+                });
+            }
+        }
+        return isPassed;
+    }
+    
+	$("#setterButton").click(function(){
+		layer.open({
+			type: 1
+			,title: $("#lato_server_id").val()?'修改授权信息':'新建授权信息'
+			,content: $("#divUpdateContent")
+			,btn: ['确认']
+			,area: ['500px', '420px']
+			,yes: function(index, layero){
+                var isPassed = checkFieldsIsEmpty(["lato_corp_name","lato_corp_id","lato_agent_id","lato_app_secret"]);
+                if (!isPassed)return false;
+                
+				var updatePostUrl = "@{LatoThirdAuthDelegate.updateThirdAuthInfoService(serviceCode,serverAppId,serverAppCode,serverName)}";
+				$.ajax({
+					type:'post',
+					url: updatePostUrl,    
+					data: layero.find("form").serialize(),
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0") {
+							layer.alert(data['errorMsg'], {icon: 5,title:"请求出错"}, function(index){
+                                if (data['url'])
+                                    window.open(data['url'],"_blank");
+                                layer.close(index);
+                            });
+                        } else{
+							layer.alert("更新成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+                    ,error:function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.alert(XMLHttpRequest.responseText, {icon: 5,title:"请求出错"}, function(index){
+                            window.open("@{LatoWebDelegate.getLoginForm}","_blank");
+                            layer.close(index);
+                        });
+                    }
+				});  
+				return false;
+			}
+			,success: function(layero, index){
+				//初始化
+				/*form.val("formUpdateContent", {
+				  "templateId": data?data["templateId"]:""
+				  ,"parentTemplateId": data?data["parentTemplateId"]:""
+				  ,"serviceId": data?data["serviceId"]:""
+				  ,"type": data?data["type"]:""
+				  ,"lato_template_name": data?data["名称"]:""
+				  ,"lato_template": data?data["模板"]:""
+				  ,"lato_sign": data?data["签名"]:""
+				  ,"lato_desc": data?data["备注"]:""
+				  ,"lato_uuid": data?data["UUID"]:""
+				})*/
+			}
+		});
+		form.render();
+	});
+	
+	
+});
+
+</script>
+#{/set}

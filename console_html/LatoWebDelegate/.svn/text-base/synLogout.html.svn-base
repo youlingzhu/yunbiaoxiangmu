@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>正在退出</title>
+</head>
+<body>
+<!--[if lt IE 9]>
+    <script src="public/javascripts/1.0/html5shiv.js"></script>
+    <script src="public/javascripts/1.0/respond.min.js"></script>
+    <![endif]-->
+	#{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+
+	#{list items:srcList, as:'src'}
+        <input type="hidden" name="${src.id}" value="${src.url}" id="${src.id}"/>
+    #{/list}
+<script>
+function jumpurl(){  
+  location='@{LatoWebDelegate.getLoginForm()}';  
+}  
+$(document).ready(function() {
+	setTimeout('jumpurl()',1000);  
+})
+$(document).ready(function() {
+    #{list items:srcList, as:'src'}
+
+        var url = document.getElementById("${src.id}");
+    
+        var scpt = document.createElement("SCRIPT");
+            scpt.type = "text/javascript";
+            scpt.src =url.value;
+            scpt.reload = 1;
+        document.getElementsByTagName("body")[0].appendChild(scpt);
+    #{/list}
+	
+})
+
+</script>
+</body>
+</html>

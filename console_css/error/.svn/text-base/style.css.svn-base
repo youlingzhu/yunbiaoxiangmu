@@ -1,0 +1,102 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+*{
+    margin:0px;
+    padding:0px;
+}
+
+a{
+    text-decoration:none;
+}
+
+
+@media screen and (min-width:1280px){
+    .success_bg{ background:url(../../images/1.0/success.png) no-repeat; width:100%; height:100vh; background-size:100%; margin:0 auto; position:relative;}
+    .success_bg .success_tishi{width:80%; color:#313131; text-align:center; position:absolute; top:340px;  font-size:22px;margin:auto;}
+    .success_bg .success_tishi span{ color:#fe7676;}
+    .success_bg .success_tishi a{color:#3db1fa; font-size:21px; padding-left:10px;}
+    .error_bg{ background:url(../../images/1.0/error.png) no-repeat; width:100%; height:100vh; margin:0 auto; text-align:center; position:relative;background-size:100% 100vh;}
+    .error_bg .error_tishi{ position:absolute; top:350px;width:100%;text-align:center;margin:auto;margin-top:3%;}
+    .error_bg .error_tishi p{ font-size:24px; color:#566065; width:100%;margin-bottom:3%;}
+    .error_bg .error_tishi a{ color:#19a3fa; font-size:18px; padding-left:20px;text-decoration:none;}
+}
+
+
+@media screen and (max-width:1280px){
+	*{
+        margin: 0px;
+        padding: 0px;
+    }
+    .success_bg {
+        background: url(../../images/1.0/success.png) no-repeat;
+        width: 100%;
+        height:100vh;
+        background-size:300% 100%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        background-clip: center;
+        background-origin: center;
+        background-position-x: center;
+    }
+
+    .success_bg .success_tishi {
+        position: initial;
+        padding-top: 40vh;
+        margin-left: auto;
+    }
+
+    .success_bg .success_tishi span {
+        color: #fe7676;
+    }
+
+    .success_bg .success_tishi a {
+        color: #3db1fa;
+        font-size: 21px;
+        padding-left: 10px;
+    }
+
+    .error_bg {
+        background: url(../../images/1.0/error.png) no-repeat;
+        width: 100%;
+        height:100vh;
+        background-size:300% 100%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        background-clip: center;
+        background-origin: center;
+        background-position-x: center;
+    }
+
+    .error_bg .error_tishi {
+        position: initial;
+        padding-top: 40vh;
+    }
+
+    .error_bg .error_tishi p {
+        font-size: 15px;
+        padding: 2% 5% 10% 5%;
+        color: #566065;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width:auto;
+        color:#666;
+    }
+
+    .error_bg .error_tishi a {
+        color: #19a3fa;
+        font-size: 14px;
+        padding: 3% 4.5% 3% 4.5%;
+        background:#00CFFF;
+        color:#fff;
+        border-radius:5px;
+   
+        
+    }
+}

@@ -1,0 +1,125 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'云表应用信息' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/set}
+#{set 'latoMainSide'}
+
+<script src="@{'/public/javascripts/1.0/clipboard.min.js'}"></script>
+<div class="lato-main-side" >
+              
+		 <!-- <div class="main_title main_title_w">
+            <h3>云端应用信息详情</h3>
+			<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+		 </div> -->
+		  <div class="main_body">
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">应用ID</label>
+							 <label class="detail_text">${flash.应用ID}</label>
+						 </div>
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">产品名称</label>
+							 <label class="detail_text">${flash.产品名称}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">用户数</label>
+							  <label class="detail_text">${flash.用户数}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">模板数</label>
+							 <label class="detail_text">${flash.模板数}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">空间容量</label>
+							 <label class="detail_text " style="width: 150px !important;" >${flash.附件容量}   </label>
+							 <div class="servercode" style="margin: auto;">
+								(单位:G) <span style="color:red"> </span>
+							 </div>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">已使用空间</label>
+							 <label class="detail_text " style="width: 150px !important;">${flash.已使用空间容量}</label>
+							<div class="servercode" style="margin: auto;">
+								(单位:M) <span style="color:red"> 延迟24小时同步更新</span>
+							 </div>
+						 </div>
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">到期时间</label>
+							 <label class="detail_text">${flash.到期时间}</label>
+						 </div> 
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">应用访问地址</label>
+							 <label class="detail_text add_text">${flash.应用访问地址}</label>
+							 
+							 
+							 <div class="servercode">
+							   
+							   <div id="btn" class="js-copy" data-clipboard-text="${flash.应用访问地址}">
+									<button class="add_copy" onclick="">复制</button>
+								</div>
+							 </div>
+						 </div>
+						 
+						  <div class="body_name body_menu1 clearfix">
+							   <label class="menu_name">广告横幅链接</label>
+								<label class="detail_text">${flash.横幅图片链接}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+						   <label class="menu_name">应用图标链接</label>
+							<label class="detail_text">${flash.图标图片链接}</label>
+						 </div>
+						 <div class="body_name body_menu1 menu_btnlist clearfix">
+								 <ul class="de_btn_list">
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getUpdateAppInfo(flash.全局应用ID,'',flash.应用ID,flash.全局应用ID)}">设置</a></li>
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getAppInfoFormPostpone(flash.应用ID,flash.全局应用ID)}">续费</a></li>
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getChangeAppInfoForm(flash.应用ID,flash.全局应用ID)}">升级</a></li>
+									<li><a class="de_anzhaung" id="productInstall" name="productInstall" style="visibility:visible" href="@{LatoWebDelegate.getInstallCloudsProduct(flash.产品名称,flash.应用ID,flash.电话,flash.全局应用ID,flash.应用名称)}"> 产品安装 </a></li> 
+									<!-- <li><a class="de_anzhaung" href="javascript:window.open('@{LatoWebDelegate.getAppBackup(flash.产品名称,flash.应用ID,flash.电话,flash.全局应用ID,flash.应用名称)}' )">模板库备份</a></li>  -->
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getResetAppPwd(flash.应用ID,flash.全局应用ID)}">重置应用密码</a></li>
+								 </ul>
+						 </div>
+						 
+			</div>
+				
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+
+ var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);//实例化
+
+    //复制成功执行的回调，可选
+    clipboard.on('success', function(e) {
+       alert('复制成功');
+    });
+
+    //复制失败执行的回调，可选
+    clipboard.on('error', function(e) {
+       alert('复制失败');
+    });
+
+ $(document).ready(function() {
+		
+		var productName = '${flash.产品名称}';
+		if(productName.length < 1){
+			var queryDevice=document.getElementById("productInstall");
+			queryDevice.style.visibility="hidden";
+		}
+		
+		$('#sub-item-2').addClass('in');	
+			
+    });
+
+
+
+</script>
+
+#{/set}

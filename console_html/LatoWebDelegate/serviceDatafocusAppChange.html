@@ -1,0 +1,304 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'升级datafocus实例订单' /}
+#{set datafocus:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/set}
+#{set 'latoMainSide'}
+
+<div class=" lato-main-side" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('changeDatafocusForm')}" >
+				
+				<input type="hidden" name="lato_server_code"  id="lato_server_code" value="${serverCode}" /> 
+				<input type="hidden" name="lato_app_code"  id="lato_app_code" value="${appCode}" /> 
+				<input type="hidden" name="lato_app_id"  id="lato_app_id" value="${appId}" /> 
+				<input type="hidden" name="old_user_limit"  id="old_user_limit" value="${flash.用户数}" /> 
+				<input type="hidden" name="old_pinboard_limit"  id="old_pinboard_limit" value="${flash.看板数}" /> 
+				<input type="hidden" name="old_answer_content" id="old_answer_content" value="${flash.问答数}" />
+				
+			  <!-- <div class="main_title main_title_w">
+					<h3>云端升级应用空间配置</h3>
+					<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+			  </div>-->
+			  
+			  <div class="main_body">
+			    <div class="col-md-9">
+							<div class="body_name body_menu1 clearfix">
+								<label class=" menu_name">应用ID</label>
+								<label class="upgrade_text"> ${appId}</label>
+							 </div>
+							  <div class="body_name body_menu1 clearfix form-group">
+							   <div class="clearfix">
+								<label class="menu_name">用户数</label>
+								<label class="upuser_text">${flash.用户数}</label>
+							   <label class="zengjia">增加至</label>
+								<input class="upuser_text_1" name="lato_user_number" id="lato_user_number"   onkeyup="alertProduct('lato_user_number',this.value)" value="${flash.用户数}"></input>
+							   
+									<span class=" butt butt_user user_3"  onclick="alertProduct('lato_user_number',3)">3用户</span>
+								   <span class=" butt butt_user user_5" onclick="alertProduct('lato_user_number',5)">5用户</span>
+								   <span class=" butt butt_user user_10" onclick="alertProduct('lato_user_number',10)">10用户</span>
+								   <span class=" butt butt_user user_30" onclick="alertProduct('lato_user_number',30)">30用户</span>
+								   <span class=" butt butt_user user_30" onclick="alertProduct('lato_user_number',100)">100用户</span>
+								  </div>
+							 </div> 
+							 
+							 <div class="body_name body_menu1 clearfix form-group">
+							  <div class="clearfix">
+								  <label class="menu_name">看板数</label>
+								  <label class="upuser_text">${flash.看板数}</label>
+								  <label class="zengjia">增加至</label>
+								 <input class="upuser_text_1" name="lato_pinboard_number" id="lato_pinboard_number" value="${flash.看板数}" onkeyup="alertProduct('lato_pinboard_number',this.value)"></input>
+								  <span class=" butt butt_pinboard user_3" onclick="alertProduct('lato_pinboard_number',30)" >30看板数</span>
+								  <span class=" butt butt_pinboard user_5" onclick="alertProduct('lato_pinboard_number',60)">60看板数</span>
+								  <span class=" butt butt_pinboard user_10" onclick="alertProduct('lato_pinboard_number',100)">100看板数</span>
+								  <span class=" butt butt_pinboard template_10" onclick="alertProduct('lato_pinboard_number',200)">200看板数</span>
+							 </div>
+							   </div>
+							   
+							   <div class="body_name body_menu2 clearfix form-group">
+							  <div class="clearfix">
+								  <label class="menu_name">问答数</label>
+								  <label class="upuser_text">${flash.问答数}</label>
+								  <label class="zengjia">增加至</label>
+								
+								 <input class="upuser_text_1" name="lato_answer_number" id="lato_answer_number" value="${flash.问答数}" onkeyup="alertProduct('lato_answer_number',this.value)"></input>
+								  <span class=" butt butt_answer user_3" onclick="alertProduct('lato_answer_number',30)" >30问答数</span>
+								  <span class=" butt butt_answer user_5" onclick="alertProduct('lato_answer_number',60)">60问答数</span>
+								  <span class=" butt butt_answer user_10" onclick="alertProduct('lato_answer_number',100)">100问答数</span>
+								  <span class=" butt butt_answer template_10" onclick="alertProduct('lato_answer_number',200)">200问答数</span>
+								</div>
+							</div>
+							   
+							   <!-- <div class="clearfix price_details">
+								 <p class="text_explain" id="text_free">购买一年以上立享9折</p> 
+								 
+							 </div>-->
+							  <div class=" body_name body_menu1 clearfix cloud_upgrade_btn">
+							   <p class="cost_prompt">原价<s class="cost_price" id="cost_price"></s><span class="save_price" >立省￥<span id="save_price"></span></sapn></p>
+							   
+								 
+								     <label class="pay">总费用：<b><span id="productPrice" name="productPrice"> </span> </b></label>
+							<button type="submit" class="btn btn-spacepay" data-dismiss="modal">确认支付</button>
+							  </div>
+							   <div class="pay_prompt"> <p class="pay_tishi"><span id="errorMsg" name="errorMsg"> </span></p>
+								 </div>
+								 
+								 
+							 
+				</div>
+				</div>
+				</form>
+				
+        <!-- :form -->
+    
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+function alertProduct(idName,limit){
+	 $( "#"+idName ).val( limit );
+	
+	$('#defaultForm').data('bootstrapValidator').updateStatus(idName,'NOT_VALIDATED').validateField(idName);
+
+	queryMoney();
+}
+
+	function queryMoney(){
+		
+		 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+			
+			$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("updateDatafocusForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('errorMsg').innerText=error;
+					else{
+						document.getElementById('productPrice').innerText=data.总费用;
+						document.getElementById('cost_price').innerText="￥"+data.原价;
+						document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+						document.getElementById('errorMsg').innerText="";
+					}
+				}    
+			});    
+	}
+	
+ $(document).ready(function() {
+ 
+ 	queryMoney();
+									
+	$('#sub-item-2').addClass('in');	
+    });
+
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                  
+					'lato_user_number':{
+						validators: {
+                            notEmpty: {
+                                message: '请输入用户数...'
+                            },
+   						 
+						 callback: {  
+                         message: '用户数不允许小余当前用户数',  
+                         callback: function(value, validator) {
+							var check = parseInt($("#old_user_limit").val());
+						
+							var check1 = parseInt($("#lato_user_number").val());
+							if(check> check1){
+								return false;
+							}
+							else{
+								return true;
+							}
+                         }  
+						},between: {
+								min: 1,
+								max: 10000,
+								message: '用户数最小为1...'
+							}
+                        }
+					
+					},
+					'lato_pinboard_number':{
+						validators: {
+								notEmpty: {
+									message: '请输入看板数量...'
+								},
+							callback: {  
+								 message: '不允许小于当前看板数量',  
+								 callback: function(value, validator) 
+								 {
+									if(parseInt($("#old_pinboard_limit").val())>parseInt($("#lato_pinboard_number").val()))
+										return false;
+											else
+										return true;
+								 }  
+							 
+							},between: {
+								min: 1,
+								max: 100,
+								message: '看板数量最小1个看板，最大100'
+							}
+							}
+						
+						}
+					,
+					'lato_answer_number':{
+						validators: {
+                            notEmpty: {
+                                message: '请输入问答数...'
+                            },
+						callback: {  
+							 message: '不允许小于当前问答数',  
+							 callback: function(value, validator) {
+								if(parseInt($("#old_answer_content").val())>parseInt($("#lato_answer_number").val()))
+							return false;
+								else
+							return true;
+							
+							 }  
+						 
+						}
+					
+					}
+					}
+					
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('changeDatafocusForm')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("升级应用出现错误",data.errorMsg);
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="升级应用出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message);
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+(function ($) {
+	var minValue = $("#old_attachment_content").val();
+	$('#attachment_content_spinner.spinner .btn:first-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) + 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#attachment_content_spinner.spinner .btn:last-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) - 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#lato_attachment_content').on('blur change' ,function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val());
+		if (curValue % 1024 != 0) {
+			curValue = Math.ceil(curValue/5)*5;
+		}
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+})(jQuery);
+
+	
+
+</script>
+
+#{/set}

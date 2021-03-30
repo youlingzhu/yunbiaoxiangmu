@@ -1,0 +1,726 @@
+﻿
+	
+#{extends 'LatoWebDelegate/buymain.html' /}
+#{set title:'购买云端应用' /}
+	
+ <div class="main_title_w">
+	<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">
+		<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+	</a>
+	<h3>购买云端应用</h3>
+	
+</div>
+
+<div class="main_width" >
+  
+
+<form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('applyCloudAppForm')}" >
+				
+					
+	<input type="hidden" name="lato_objectId"  id="lato_objectId" value="${flash.lato_objectId}" /> 
+	<input type="hidden" name="lato_code"  id="lato_code" value="1" /> 
+	<input type="hidden" name="lato_apply_code"  id="lato_apply_code" value="${flash.lato_apply_code}" /> 
+	<input type="hidden" id="lato_buy_month" name="lato_buy_month"  value="3"/>
+					
+				
+				
+	<div class="main_body clearfix">
+		<h3 class="titlehH3">购买云端应用</h3>
+		<div class="col-md-9">
+			<div class="body_name body_menu1 clearfix form-group" style="margin-top: 21px;">
+				<div class="clearfix">
+                    <label class=" menu_name">应用名称</label>
+                     
+					<input type="text" value="" id="lato_app_name" name="lato_app_name" placeholder="请输入应用名称" class="value_color"/>
+					 
+				</div>
+			</div>
+			<div class="body_name body_menu1 clearfix form-group">
+				<div class="clearfix">
+                    <label class="menu_name" >管理员账号</label>
+                    <input class="users_text" value=""  name="lato_app_account" id="lato_app_account" placeholder="请输入管理员账号"></input>
+                </div>
+			</div>
+			<div class="body_name body_menu1 clearfix form-group">
+				<div class="clearfix">
+                    <label class="menu_name">管理员密码</label>
+                    <input class="users_text"  value="" type="password" name="lato_app_password" id="lato_app_password" placeholder="请输入管理员密码"></input>
+				</div>
+			</div>
+				 
+			<div class="body_name body_menu1 clearfix form-group">
+				<div class="clearfix">
+					<label class="menu_name"  >确认密码</label>
+					<input class="users_text" type="password"  name="lato_app_password_check" id="lato_app_password_check" placeholder="请输入确认密码"></input>
+				</div>
+			</div>
+			
+            <div class=" body_menu1 body_users  clearfix form-group" id="userNumber">
+				<div class="clearfix">
+                   <label class="menu_name">用户数</label>
+                   <i id="userName_min">用户数最小为3</i>
+				    <input type="text" value="" id="lato_app_user_number" name="lato_app_user_number" placeholder="请输入用户数" class="value_color" onkeyup="alertProduct('lato_app_user_number',this.value)"/>
+				  
+                   <span class=" butt butt_user user_3" onclick="alertProduct('lato_app_user_number',3)" name="user_1" >3用户</span>
+				   <span class=" butt butt_user user_10"  onclick="alertProduct('lato_app_user_number',5)" name="user_2"  >5用户</span>
+                   <span class=" butt butt_user user_10" onclick="alertProduct('lato_app_user_number',10)"  name="user_3">10用户</span>
+                   <span class=" butt butt_user user_30" onclick="alertProduct('lato_app_user_number',30)" name="user_4" >30用户</span>
+				   <span class=" butt butt_user user_30" onclick="alertProduct('lato_app_user_number',100)" name="user_4" >100用户</span>
+				</div>
+			</div>
+			
+			<div class="body_menu1 body_template clearfix form-group" style="position: relative;" id="modelNumber">
+				<div class="clearfix">
+                   <label class="menu_name">模板数</label>
+				   <i id="backUpName_min">模板数最小为30</i>
+				    <input type="text" value="" id="lato_template_number" name="lato_template_number" placeholder="请输入模板数"  class="value_color" onkeyup="alertProduct('lato_template_number',this.value)"/>
+				   
+				   
+                   <span class=" butt butt_template user_3" onclick="alertProduct('lato_template_number',60)" name="t_1"  >60模板</span>
+                   <span class=" butt butt_template user_5" onclick="alertProduct('lato_template_number',100)" name="t_2" >100模板</span>
+                   <span class=" butt butt_template user_10" onclick="alertProduct('lato_template_number',150)" name="t_3">150模板</span>
+                   <span class=" butt butt_template template_10" onclick="alertProduct('lato_template_number',200)" name="t_4">200模板</span>
+				</div>
+			</div>
+			
+			
+			<div class="body_menu2 body_template clearfix form-group" style="margin-top: 20px;position: relative;" id="wangpanrongliang">
+				<div class="clearfix">
+                   <label class="menu_name">网盘容量(G)</label>
+				   
+				    <!-- <input type="text" value="" id="lato_attachment_content" name="lato_attachment_content" placeholder="请输入网盘容量"  class="value_color" onkeyup="alertProduct('lato_attachment_content',this.value)"/>
+				   
+				   
+                   <span class=" butt butt_template user_3" onclick="alertProduct('lato_attachment_content',10)" name="t_1"  >10G</span>
+                   <span class=" butt butt_template user_5" onclick="alertProduct('lato_attachment_content',20)" name="t_2" >20G</span>
+                   <span class=" butt butt_template user_10" onclick="alertProduct('lato_attachment_content',50)" name="t_3">50G</span>
+                   <span class=" butt butt_template template_10" onclick="alertProduct('lato_attachment_content',100)" name="t_4">100G</span> -->
+				   
+                    <!-- <div class="slider-date" id="lato_attachment_content-1">
+                          <ul class="slider-bg clearfix">
+                              <li>10</li>
+                              <li>15</li>
+                              <li>25</li>
+                              <li>30</li>
+                              <li>50</li>
+                              <li>60</li>
+                              <li>80</li>
+                              <li>100</li>
+                              <li>200</li>
+                              <li>300</li>
+                              <li>500</li>
+                              <li>1024</li>
+                          </ul>
+                         <div class="slider-bar">
+                              <ul class="slider-bg clearfix">
+                                  <li>10<span>10G</span></li>
+                                  <li>15<span>15G</span></li>
+                                  <li>25<span>25G</span></li>
+                                  <li>30<span>30G</span></li>
+                                  <li>50<span>50G</span></li>
+                                  <li>60<span>60G</span></li>
+                                  <li>80<span>80G</span></li>
+                                  <li>100<span>100G</span></li>
+                                  <li>200<span>200G</span></li>
+                                  <li>300<span>300G</span></li>
+                                  <li>500<span>500G</span></li>
+                                  <li>1024<span>1024G</span></li>
+                              </ul>
+                             <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+                         </div>
+                    </div> -->
+					<div id="attachment_content_spinner" class="input-group spinner" style="float:left;">
+						<input type="text" class="value_color" value="10" data-rule="quantity" id="lato_attachment_content" name="lato_attachment_content">
+						<div class="input-group-btn-vertical">
+						  <button class="btn btn-default" type="button"><i class="spinner-up"></i></button>
+						  <button class="btn btn-default" type="button"><i class="spinner-down"></i></button>
+						</div>
+					</div>
+					<div class="clearfix price_details" >
+						<p class="text_explain" id="text_free" style="margin-left: 15px;">附件会占用网盘容量</p> 
+					</div>
+				</div>
+			</div>
+            <div class="body_name body_menu1 clearfix form-group" id="serverCodeParentDiv" style="display:none">
+                <div class="clearfix">
+                    <label class="menu_name" >服务器编号</label>
+                    <input type="hidden" class="users_text" value=""  name="lato_server_code" id="lato_server_code" placeholder="请选择"></input>
+                    <div id="serverCodeListDiv" class="list-group" style="display: inline;">
+                        
+                    </div>
+                </div>
+            </div>
+			
+			<div class="body_name body_menu1 clearfix">
+				<div class="clearfix">
+					<label class="menu_name" style="line-height: 16px;" >购买时长</label>
+					<div class="slider-date" id="slider-date-1">
+                          <!--底层-->
+                          <ul class="slider-bg clearfix">
+                              <li>1</li>
+                              <li>2</li>
+                              <li>3</li>
+                              <li>4</li>
+                              <li>5</li>
+                              <li>6</li>
+                              <li>7</li>
+                              <li>8</li>
+                              <li>9</li>
+                              <li>1年</li>
+                              <li>2年</li>
+                              <li>3年</li>
+                          </ul>
+                      
+                          <!--互动层-->
+                         <div class="slider-bar">
+                              <ul class="slider-bg clearfix">
+                                  <li>1<span>1个月</span></li>
+                                  <li>2<span>2个月</span></li>
+                                  <li>3<span>3个月</span></li>
+                                  <li>4<span>4个月</span></li>
+                                  <li>5<span>5个月</span></li>
+                                  <li>6<span>6个月</span></li>
+                                  <li>7<span>7个月</span></li>
+                                  <li>8<span>8个月</span></li>
+                                  <li>9<span>9个月</span></li>
+                                  <li>1年<span>1年</span></li>
+                                  <li>2年<span>2年</span></li>
+                                  <li>3年<span>3年</span></li>
+                              </ul>
+                              <!--滑块按钮-->
+                             <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+                         </div>
+                    </div>
+				</div>
+			</div>
+			<div class="clearfix price_details">
+				<p class="text_explain" id="text_free">购买一年以上立享9折</p> 
+			</div>
+			<div class=" body_name body_menu1 clearfix re_btn" style="position: relative;height: 90px;width: 100%;">
+				<p class="cost_prompt">
+					原价
+					<s class="cost_price" id="cost_price"></s>
+					<span class="save_price" >立省￥<span id="save_price"></span></sapn>
+				</p>
+				<div class="pagBox" style="text-align: right;">
+					<label class="pays">总费用：<b><span id="productPrice" name="productPrice"> </span> </b></label>
+					<button type="submit" id="sub_1"  name="sub_1" class="btn btn-spacepay" data-dismiss="modal">确认支付</button>
+				</div>
+			</div>
+			<div class="pay_prompt">
+				<p class="pay_tishi"><span id="errorMsg" name="errorMsg"> </span></p>
+			</div>
+         
+                
+		</div>
+			
+        <!-- :form -->
+	</div>
+</form>
+</div>
+
+
+<script type="text/javascript">
+	
+ $(document).ready(function() {
+	var serverCodeList = "${serverCodes}".replace(/[\s]/gi,"").replace(/[\s,;，；]+/gi,";").replace(/(^;)|(;$)/gi,"").split(";");
+    for (var i in serverCodeList) {
+        var node = $('<a href="javascript:void(0)" class="list-group-item" style="display:inline;width:120px;">'+serverCodeList[i]+'</a>');
+        if (i == 0) {
+            //默认选中第一个
+            node.addClass("active");
+            $("#lato_server_code").val(serverCodeList[i]);
+        }
+        $("#serverCodeListDiv").append(node);
+    }
+    //大于一个时才显示出来
+    if (serverCodeList.length > 1) {
+        $("#serverCodeParentDiv").show();
+    }
+    //单击事件
+    $("#serverCodeListDiv a").click(function(){
+        $("#serverCodeListDiv a").removeClass("active");
+        $(this).addClass("active");
+        $("#lato_server_code").val($(this).text());
+    });
+});
+    
+(function ($) {
+	var minValue = 10;
+	$('#attachment_content_spinner.spinner .btn:first-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) + 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#attachment_content_spinner.spinner .btn:last-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) - 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#lato_attachment_content').on('blur change' ,function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val());
+		if (curValue % 1024 != 0) {
+			curValue = Math.ceil(curValue/5)*5;
+		}
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+})(jQuery);
+
+	
+ $(document).ready(function() {
+		
+	$("#lato_attachment_content").val(10);	
+});
+	
+function alertColor(inputId)
+	{
+				  var x=document.getElementById(inputId);
+				  x.style.color="#5f6468";
+					
+	}
+	
+ $(document).ready(function() {
+ 
+	$("#lato_app_user_number").val("3");
+	$("#lato_template_number").val("60");
+ 	$("#lato_space_size").val("10");
+	queryMoney();
+	$('#sub-item-2').addClass('in');	
+    });
+
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+
+
+
+	
+(function($) {
+    $.fn.sliderDate = function(setting) {
+		
+        var defaults = {
+				
+                callback: false //默认回调函数为false
+            }
+			
+			
+        //如果setting为空，就取default的值
+        var setting = $.extend(defaults, setting);
+        this.each(function() {
+            //插件实现代码 
+            //var $sliderDate = $(".slider-date");
+            var $sliderDate = $(this);
+			var $sliderBar = $sliderDate.find(".slider-bar");
+			var $sliderBtn = $sliderDate.find(".slider-bar-btn");
+			var liWid = 50+1; //单个li的宽度
+	
+			//滚动指定的位置
+			var sliderToDes = function(index){
+
+				//最大不能超过11
+				if(index > 11){
+					index = 11;
+				}
+
+				//最小不能小于 0 
+				if(index < 2){
+					index = 2;
+				}
+
+				//背景动画
+				$sliderBar.animate({
+					"width" : liWid*(index+1)
+				},500);
+
+				//执行回调
+				if(setting.callback){
+					setting.callback(index);
+				}
+
+			};
+			
+			//默认为3个月
+			sliderToDes(2);
+			
+			//点击 - 滚动到指定位置
+			$sliderDate.on('click', "li", function(e) {
+				//执行滚动方法
+				sliderToDes($(this).index());
+			});
+
+			//拖动 - 滚动到指定位置
+			$sliderBtn.on('mousedown', function(e) {
+				var $this = $(this);
+				var pointX = e.pageX - $this.parent().width();
+				var wid = null;
+
+				//拖动事件
+				$(document).on('mousemove',function(ev){
+					wid = ev.pageX - pointX
+					if(wid > 20 && wid < 620){
+						$sliderBar.css("width", wid);
+					}
+				}).on('mouseup',function(e){
+					$(this).off('mousemove mouseup');
+					var index = Math.ceil(wid/liWid) - 1;
+					sliderToDes(index);
+				});
+			});
+        });
+    }
+})(jQuery);
+
+
+$(function(){
+	function setBuyMonth(index){
+		
+		 var month = index +1;
+		if(month == 10)
+			month = 12;
+		else if(month == 11)
+			month = 24;
+		else if(month == 12)
+			month = 36;
+			
+		$("#lato_buy_month").val(month);
+		queryMoney();
+	}
+	
+	$("#slider-date-1").sliderDate({callback:setBuyMonth});
+});
+
+function alertProduct(idName,limit){
+	
+	console.log(idName,400)
+	if(idName=='lato_app_user_number'&&parseFloat(limit)<3){
+		$('#userName_min').show()
+
+	}else if(idName=='lato_template_number'&&parseFloat(limit)<30){
+		$('#backUpName_min').show()
+	}else{
+	//	console.log(idName,limit,408)
+		$('#userName_min').hide();
+        $('#backUpName_min').hide() 
+		$("#"+idName).val(limit);
+		$('#defaultForm').data('bootstrapValidator')  
+						.updateStatus(idName, 'NOT_VALIDATED',null)  
+						.validateField(idName); 
+		alertColor(idName);
+		queryMoney();  
+	}
+	
+	
+}
+	
+	
+	function queryMoney(){
+		 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+			$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("applyCloudAppForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					console.log(data,430);
+					var error = data.error;
+					if(error.length > 0){
+						document.getElementById('errorMsg').innerText=error;
+						console.log(error,423)
+				    }else{
+						document.getElementById('productPrice').innerText=data.总费用;
+						document.getElementById('cost_price').innerText="￥"+data.原价;
+						document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+						document.getElementById('errorMsg').innerText="";
+					}
+				}    
+			});    
+	}
+	
+	
+	
+	
+	
+	
+
+
+
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+				 
+				excluded : ':disabled',  
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+					'lato_attachment_content':{
+					 validators: {
+                            notEmpty: {
+                                message: '请填写网盘容量...'
+                            },between: {
+								min: 10,
+								max: 10000,
+								message: '网盘容量最小为10最大为10000'
+							}
+                        }
+					},
+                    'lato_app_name': {
+                        validators: {
+                            notEmpty: {
+                                message: '空间名称不能为空...'
+                            }
+                        }
+                    },'lato_app_account':{
+						  validators: {
+                            notEmpty: {
+                                message: '管理员账号不能为空...'
+                            }
+                        }
+					},'lato_app_password':{
+						validators: {
+                           notEmpty: {
+                            message: '管理员密码不允许为空'
+							} ,stringLength: {
+								min: 6,
+								max: 30,
+								message: '请输入长度最短为6位最长为30位的密码'
+							},
+							different: {
+								field: 'lato_app_account',
+								message: '密码与账号不允许重复'
+							}
+                        }
+					},'lato_app_password_check':{
+						  validators: {
+											notEmpty: { message: '确认密码不允许为空'},
+											identical: {
+												field: 'lato_app_password',
+												message: '输入的验证密码不匹配'
+											}
+									 }
+					},'lato_app_user_number': {
+                        validators: {
+                            notEmpty: {
+                                message: '请填写用户数...'
+                            },between: {
+								min: 1,
+								max: 10000,
+								message: '用户数最大为10000'
+							}
+                        }
+                    },'lato_template_number': {
+                        validators: {
+                            notEmpty: {
+                                message: '请填写模板数...'
+                            },between: {
+								min: 30,
+								max: 1000000,
+								message: '模板数最小为30'
+							}
+                        }
+                    }
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				console.log(e);
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('applyCloudAppForm')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							console.log(data);
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								 showErrorModel("创建应用出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                  //  console.log(errorThrown);
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="创建应用出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+				//alert('error.field.bv'+data.field);
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+			
+				//alert('success.field.bv'+data.field);
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+				//alert('added.field.bv'+data.field);
+                //console.log('Added element -->', data.field, data.element);
+            })
+			
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+
+
+
+
+
+.main_width {
+	 padding-left: 3px;
+	padding-top: 0px;
+	
+}
+
+.main_body .body_menu1 {
+	margin-top: 19px;
+	position: relative;
+}
+
+
+.help-block{
+	position: absolute;
+	left: 190px;
+	top: 0px;
+}
+.titlehH3{
+	font-weight: 700;
+    font-size: 14px;
+    font-family: Microsoft YaHei;
+    color: #373F4A;
+	margin-top: 18px;
+	margin-bottom: 2px;
+	padding-left: 15px;
+}
+
+
+#userNumber small{
+	position: absolute;
+	top: 26px;
+	left: -54px;
+}
+.cost_prompt {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    color: #22cb64;
+    text-align: right;
+}
+
+.btn-spacepay {
+    height: 36px;
+    width: 98px;
+    background: #47CD69;
+    color: #fff;
+    margin-top: -5px;
+    margin-left: -4px;
+}
+
+.pays {
+    min-width: 138px!important;
+    height: 36px;
+    border: 1px solid #22bc64;
+    color: #22cb64;
+    border-radius: 4px;
+    line-height: 36px;
+	padding-left: 10px;
+	text-align: left;
+}
+
+#modelNumber small{
+	position: absolute;
+	top: 26px;
+	left: -54px;
+}
+
+#wangpanrongliang small{
+	position: absolute;
+	top: 28px;
+	left: -54px;
+}
+
+.btn-spacepay{
+	margin-left: -5px;
+}
+
+#userName_min,#backUpName_min{
+	color: #FB5040;
+	position: absolute;
+	left: 96px;
+	top: 32px;
+	font-size: 10px;
+	display: none;
+}
+
+
+</style>

@@ -1,0 +1,111 @@
+﻿#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'订单查询' /}
+
+
+<div class=" main">
+	<div class="main_title main_title_w">
+		<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back list_back_a">
+				<img class="imgs" src="@{'/public/images/vector_header.png'}" >
+			</a>
+		<h3>订单管理</h3>
+	</div>
+	<div class="main_body" style="margin-top: -5px;">
+		<div class="table clearfix">
+			<table data-toggle="table" data-url="${flash.dataUrl}" id="events-id2" name="events-id2"
+				data-pagination="true" data-side-pagination="server" data-search="true">
+				<thead>
+					<tr class="line-bg">
+						#{list items:fieldList, as:'fieldObj' }
+						<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}"
+							data-switchable="true">${fieldObj.field}</th>
+						#{/list}
+						<th data-field="operate" data-formatter="operateFormatter" data-halign="center"
+							data-events="operateEvents" class="fixedtd operate">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function sq() {
+
+		window.open("@{LatoWebDelegate.createLocalService()}")
+	}
+
+	$(document).ready(function () {
+
+
+		$('#sub-item-4').addClass('in');
+
+	})
+
+
+	//打开订单详情
+	function editForm(temp) {
+
+		var orderCode = temp.订单号;
+		var showUserAction = #{jsAction @LatoWebDelegate.orderForm(':code') /};
+		var v2 = showUserAction({
+			code: orderCode
+		})
+		//window.open(v2,'_self',''); 
+		location.href = v2;
+	}
+
+	function cancellation(temp) {
+		var formCode = temp.订单号;
+		var showUserAction = #{jsAction @LatoWebDelegate.getCancellationOrderForm(':formCode') /};
+	
+		var v2 = showUserAction({
+			formCode: formCode
+		})
+		//window.open(v2,'_self',''); 
+		location.href = v2;
+	}
+
+
+
+	function operateFormatter(value, row, index) {
+		var status = row.支付状态;
+
+		if (status == '未支付') {
+
+			return [
+				'<ul class="btu_list">',
+				'<li><a class="playment xiangqing" href="javascript:">支付</a> </li> ',
+				'<li><a class="detail xufei" href="javascript:">详情</a></li>',
+				' <li><a class="cancellation shenji" href="javascript:">作废</a></li>',
+				' </ul>'
+			].join('');
+
+
+		} else {
+
+			return [
+				'<ul class="btu_list">',
+				'<li><a class="detail xufei" href="javascript:">详情</a></li>',
+				' </ul>'
+			].join('');
+
+		}
+	}
+
+	window.operateEvents = {
+		'click .playment': function (e, value, row, index) {
+			editForm(row);
+		},
+		'click .detail': function (e, value, row, index) {
+			editForm(row);
+		},
+		'click .cancellation': function (e, value, row, index) {
+			cancellation(row);
+		}
+	};
+
+
+</script>

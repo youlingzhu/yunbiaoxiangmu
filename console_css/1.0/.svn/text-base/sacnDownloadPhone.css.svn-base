@@ -1,0 +1,427 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form, 
+fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0; 
+	padding:0;
+}
+
+html,body {font-family:"微软雅黑",'Roboto-Regular';font-size:62.5%; margin:0 auto; padding:0;} 
+body{font-size:12px;font-size:3.2rem ; /* 12÷10=1.2 */} p{font-size:14px;font-size:1.4rem;}
+table { 
+	border-collapse:collapse; /*让表格边框细线*/
+	border-spacing:0; /*清除边框间距*/
+} 
+fieldset,img { 
+	border:0 none; /*有些浏览器默认这些标签有边框，所以要清除默认边框*/
+	display:block;
+} 
+address,caption,cite,code,dfn,em,i,u,b,strong,th,var {
+	font-style:normal; 
+	font-weight:normal; 
+	/*清除标签默认文本样式和加粗*/
+}
+input,textarea{
+	outline:0 none;/*去掉文本框的默认轮廓线*/
+} 
+ol,ul { 
+	list-style:none; /*清除列表默认样式*/
+} 
+
+h1,h2,h3,h4,h5,h6 { 
+	font-size:100%; 
+	font-weight:normal;/*清除标题标签的默认样式*/
+} 
+a{
+	text-decoration:none;/*大部分页面中的链接没有下划线*/
+}
+
+.clearfix:after{
+		height:0;
+		content:" ";
+		display:block;
+		overflow:hidden;
+		clear:both;
+	}
+.clearfix{
+	zoom:1;/*IE低版本浏览器不支持after伪类所以要加这一句*/}
+	
+.wrap{width:1080px;margin:0 auto;background:#fff; font-size:32px;font-size:3.2rem; position:relative; overflow:hidden; min-height:1920px; }
+.top{height:170px;background: #FFF;}
+.logo{background:url(../../images/1.0/download/logo.jpg) no-repeat;width: 310px;height:125px;margin: 23px 0 0px 10px;float: left;display: block;}
+.logo a{ display:block; height:125px;}
+.menu{ float:right; background:url(../images/phoneindex/menu.jpg) no-repeat; width:70px; height:77px; margin: 45px 40px 0 0; position:relative;s}
+.menu a{ display:inline-block; width:70px; height:77px; }
+.index_b{ height:650px; background:url(../images/phoneindex/index_1.png) no-repeat;}
+/*轮播*/
+
+#lunbobox {
+	width:100%;
+	height:650px;
+	position:relative;
+}
+.lunbo {
+	width:100%;
+	height:650px;
+}
+.lunbo img {
+	width:100%;
+	height:650px;
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+#lunbobox ul {
+	width:90px;
+	position:absolute;
+	bottom:30px;
+	right:45%;
+	z-index:5;
+	margin-left:-45px;
+}
+#lunbobox ul li {
+	cursor:pointer;
+	width:15px;
+	height:15px;
+	border-radius:40px;
+	float:left;
+	list-style:none;
+	background:#fff;
+	text-align:center;
+	margin:0px 5px 0px 0px;
+}
+#toleft {
+	display:none;
+	width:30px;
+	height:100px;
+	font-size:40px;
+	line-height:100px;
+	text-align:center;
+	color:#f4f4f4;
+	/*background:#cccccc;
+	*/
+    /*background:url("../images/toleft.jpg")no-repeat center;
+	*/
+    position:absolute;
+	top:90px;
+	left:12px;
+	cursor:pointer;
+	z-index:99;
+}
+#toright {
+	display:none;
+	width:30px;
+	height:100px;
+	font-size:40px;
+	line-height:100px;
+	text-align:center;
+	color:#f4f4f4;
+	/*background:#cccccc;
+	*/
+    position:absolute;
+	top:90px;
+	right:0px;
+	cursor:pointer;
+	z-index:99;
+	
+}
+.menu_r{ background-color:rgba(36,36,36,1.0);width:520px; min-height:730px; position:absolute; right:0;top:170px; color:#fff; padding-top:50px; display:none;}
+.menu_r .menu_list ul li{width:520px; font-size:42px; line-height:120px;}
+.menu_r .menu_list ul li h3{ border-bottom:2px solid #666; padding-left:40px; cursor:pointer;}
+.c_c{background:url(../images/phoneindex/c_c.png) no-repeat 400px center;}
+.nLi_choose{ background:url(../images/phoneindex/c_t.png) no-repeat 400px center;}
+.menu_r .menu_list .sub{ background:#1d1d1d; opacity:1; display:none; margin-top:-15px;}
+.menu_r .menu_list .sub li{ border-bottom:2px solid #3b3b3b; padding-left:84px; font-size:36px; color:#d7d7d7;}
+.nLi a h3{ color:#fff;}
+.nLi h3{ color:#fff !important;}
+.menu_r .menu_list .end_li h3{ border-bottom:none;}
+.menu_r .menu_list .sub li a{color:#d7d7d7}
+
+.end_li{ margin-left:12px !important;}
+.end_li a{margin-left:20px; padding:20px 70px; color:#fff; font-size:3.0rem;}
+.end_li .log_btu{ background:#4ea638;}
+.end_li .reg_btu{ background:#797979;}
+.breadcrumbs{background:#F7F7F7; height:100px; padding-left:30px; font-size:3.2rem; line-height:100px;}
+.down_anzhuo{ width:190px; height:70px; font-size:28px; color:#fff; background:url(../../images/1.0/download/anzhuo_btn.png) no-repeat; position:absolute; top:540px; left:120px; text-align:center; line-height:65px; padding-left:20px; display:block;}
+.down_ios{ width:190px; height:70px; font-size:28px; color:#fff; background:url(../../images/1.0/download/ios_btn.png) no-repeat; position:absolute; top:540px; left:330px; text-align:center; line-height:65px; padding-left:20px; display:block;}
+.content_in2{ margin-bottom:40px;background:url(../images/phoneindex/in_2.png) no-repeat center;}
+.content_in2 h3{ padding-top:90px; padding-left:330px; font-size:4.4rem;}
+.content_in2  b{ display:block; width:120px; border-bottom:3px #4EA638 solid; margin: 10px auto 15px auto}
+.in2_text{ padding-top:52px; color:#727171; margin-left:150px;}
+.in2_text .in2_list_l{ float:left; margin-right:110px; }
+.in2_text .in2_list_r{ float:left;}
+.in2_text ul li{  padding-left:40px; margin-bottom:42px;background:url(../images/phoneindex/push_price_list_check_blue.png) no-repeat 0 center;}
+.content_in3{ background:url(../images/phoneindex/in_3.png) no-repeat center; height:600px;}
+.content_in3 h3{ width:1080px; display:block; text-align:center; font-size:4.4rem; color:#fff; padding-top:124px;}
+.in3_text{ width:830px; height:166px; background-color:rgba(255,255,255,.28); margin:80px auto; padding:35px 70px;}
+.in3_text p{ color:#fff; font-size:3.2rem; margin-bottom:30px;}
+.in3_text p b{ padding-left:94px;}
+.content_in4 h3{ text-align:center; font-size:4.4rem; padding-top:95px;}
+.in4_text{ padding-top:84px; height:500px; margin:0 auto; text-align:center;}
+.in4_bg{ background:#ededed;}
+.in4_text img{ margin:auto auto;}
+.in4_text .text_title{ font-size:3.4rem; padding-top:70px; padding-bottom:50px;}
+.in4_text .in4_text_p{ width:826px; margin:0 auto; font-size:3.2rem; color:#727171; line-height:50px; padding-bottom:64px;}
+.content_in5{ background:url(../images/phoneindex/in_5.png); height:600px; text-align:center;}
+.content_in5 h3{ font-size:4.4rem; color:#fff; text-align:center; padding-top:160px;}
+.content_in5 p{ padding-top:40px; font-size:3.0rem; color:#fff;}
+.content_in5 .in5_list{ margin:0 auto; width:544px; font-size:2.4rem; }
+.content_in5 .in5_list li{ float:left; color:#fff; margin-right:60px; width:208px; height:62px; border:1px solid #fff; text-align:center; margin-top:110px; line-height:60px; border-radius:6px;}
+.content_in5 .in5_list li:hover{ background-color:rgba(256,256,256,.3);}
+.content_in6{text-align:center; padding-bottom:45px;}
+.content_in6 h3{ font-size:4.4rem; padding-top:64px;}
+.content_in6 b{display:block; width:120px; border-bottom:3px #4EA638 solid; margin: 10px auto 15px auto;}
+.content_in6 p{ color:#727171; font-size:3.2rem; padding-top:30px;}
+.content_in6 .in6_text { margin:0 auto; width:920px; }
+.content_in6 .in6_text .title_list .list_text{ float:left; width:150px; height:50px; border:2px solid #d7dbde; border-radius:26px; margin-right:76px; margin-top:60px; line-height:48px; font-size:3rem
+; color:#374552;}
+.content_in6 .in6_text .in6_text_in{ text-align:left;}
+
+.content_in6 .in6_text .in6_text_title{ font-size:3.2rem; color:#000;}
+.content_in6 .in6_text.introduce_text{ padding-top:30px;}
+.content_in6 .in6_text .title_list li.active, .content_in6 .in6_text .title_list li:hover{background: #4EA638; color: #fff; border: 1px solid #4EA638;}
+
+.content_in7{ height:1348px; background:#20455e; text-align:center;}
+.content_in7 h3{ padding-top:60px; color:#fff; font-size:4.4rem;}
+.content_in7 .list_img{ width:942px; margin:0 auto; padding-top:72px;}
+.content_in7 .list_img .apply_list li{ float:left; width: 436px; height:502px; background:#fff; margin-bottom:40px;}
+.content_in7 .list_img .apply_list .list_l{ margin-right:20px;}
+.content_in7 .list_img .apply_list .list_r{ margin-left:20px;}
+.content_in7 .list_img .apply_list li img{ width:374px; height:268px; padding:40px 30px;}
+.content_in7 .list_img .apply_list li h4{ font-size:3.6rem;}
+.content_in7 .list_img .apply_list li p{ font-size:3.2rem; color:#b0afaf; padding-top:20px;}
+.content_in8{ height:876px;padding-bottom:40px;}
+.content_in8 h3{ padding-top:70px; text-align:center; font-size:4.4rem;}
+.content_in8 .in8_text{ width:1010px; margin:0 auto; text-align:left; font-size:3.2rem; color:#696868; padding-top:80px; line-height:56px;}
+.content_in8 .in8_title{float:right; margin:0 auto; font-size:3.2rem; padding-right:40px; padding-top:40px; color:#696868; padding-bottom:70px;}
+.content_in8 .logo_list{ width:1030px; margin:0 auto;}
+.content_in8 .logo_list li{  width:306px; height:124px; border:1px solid #8d8d8d; margin-right:50px; margin-bottom:50px; float:left;}
+.content_in8 .logo_list .logo_end{ margin-right:0px; }
+.content_in8 .logo_list a{  display:block; width:306px; height:124px;}
+.content_in8 .logo_list .logo_1{background:url(../images/phoneindex/logo_1.png) no-repeat center center;}
+.content_in8 .logo_list .logo_2{background:url(../images/phoneindex/logo_2.png) no-repeat center center;}
+.content_in8 .logo_list .logo_3{background:url(../images/phoneindex/logo_3.png) no-repeat center center;}
+.content_in8 .logo_list .logo_4{background:url(../images/phoneindex/logo_4.png) no-repeat center center;}
+.content_in8 .logo_list .logo_5{background:url(../images/phoneindex/logo_5.png) no-repeat center center;}
+.content_in8 .logo_list .logo_6{background:url(../images/phoneindex/logo_6.png) no-repeat center center;}
+.content_in9{ height:600px; background:url(../images/phoneindex/in9_1.png) no-repeat;}
+/*云表平台*/
+.eversheet_b{ height:660px; background:url(../images/phoneindex/eversheet.png) no-repeat;}
+.content_ever2{ text-align:center;}
+.content_ever2 h3{ font-size:4.4rem; text-align:center; padding-top:62px; padding-bottom:50px;}
+.content_ever2 .ever_tit{ font-size:2.6rem; color:#727171; line-height:48px; width:1020px; margin:0 auto; text-align:left;}
+.ever2_list{ padding-bottom:70px;}
+.ever_bg{ background:#ededed;}
+.ever2_list img{ margin:0 auto; padding-top:42px;}
+.ever2_list h4{ font-size:3.4rem; color:#0070ca; text-align:center; padding-top:60px;}
+.ever2_list p{ width:1020px; text-align:center; margin:0 auto; line-height:50px; font-size:2.8rem; color:#7d7d7d; padding-top:60px;}
+.content_ever3{ background:#f3f3f3; padding-bottom:40px;}
+.content_ever3 h3{ text-align:center; padding-top:55px; font-size:4.4rem;}
+.content_ever3 .custom_list li{ float:left; width:510px; text-align:center; font-size:2.8rem; height:420px;}
+.content_ever3 .custom_list li img{ margin:0 auto; padding-top:80px;}
+.content_ever3 .custom_list li p{ width:503px; margin:0 auto; padding-top:110px;font-size:2.8rem;}
+.content_ever4{ height:660px; background:url(../images/phoneindex/ever4.png) no-repeat;}
+.content_ever5{ padding-bottom:40px;}
+.content_ever5 h3{ text-align:center; padding-top:65px; font-size:4.4rem; padding-bottom:60px;}
+.ever5_text img{ margin:0 auto; padding-bottom:40px;}
+.ever5_text .dis_list{ width:1020px; margin:0 auto;}
+.ever5_text .dis_list li{ width:418px; float:left; height:120px; padding:30px 0; font-size:2.8rem; color:#747474;}
+.ever5_text .dis_list .dis_list_l{ margin-right:20px; background:url(../images/phoneindex/ever5_1.png) no-repeat 0px 36px; padding-left:50px}
+.ever5_text .dis_list .dis_list_r{ margin-left:20px; background:url(../images/phoneindex/ever5_2.png) no-repeat 0px 36px;padding-left:50px}
+.content_ever6{ height:600px; background:url(../images/phoneindex/ever6.png) no-repeat;}
+.content_ever7{ height:600px; background:url(../images/phoneindex/ever7.png) no-repeat;}
+.content_ever8{ padding-bottom:40px;}
+.content_ever8 h3{ text-align:center; font-size:4.4rem; padding-top:60px; padding-bottom:60px;}
+.content_ever8 .ever8_text .inter_list{ width:1020px; margin:0 auto;}
+.content_ever8 .ever8_text .inter_list li{ float:left; width:310px; text-align:center;}
+.content_ever8 .ever8_text .inter_list li img{ margin:0 auto; padding:40px 0px;}
+.content_ever8 .ever8_text .inter_list li h4{ font-size:3.2rem; padding-bottom:40px;}
+.content_ever8 .ever8_text .inter_list li p{ font-size:2.8rem; color:#aeaeae; width:318px; margin:0 auto; }
+.content_ever9{ background:url(../images/phoneindex/ever9.png); height:600px;}
+.content_ever10{ background:url(../images/phoneindex/ever10.png); height:600px;}
+/*云表365*/
+.iyunbiao365_b{ height:660px; background:url(../images/phoneindex/iyunbiao365.png) no-repeat;}
+.iyunbiao365_b a{ display:block; height:660px;}
+.content_product{ height:1116px;}
+.content_product h3{ font-size:4.4rem; text-align:center; padding-top:60px;}
+.content_product b{display:block; width:80px; border-bottom:3px #4EA638 solid; margin: 10px auto 15px auto; margin-bottom:40px;}
+.content_product .product_text{ background:url(../images/phoneindex/iyb_span.png) no-repeat; width:1018px; margin:0 auto;height:938px;}
+.content_product .product_text .product_list{ width:1020px; margin:0 auto;}
+.content_product .product_text .product_list li{ float:left; width:510px; text-align:center; height:490px;}
+.content_product .product_text li img{ margin:0 auto; padding-top:50px; padding-bottom:60px;}
+.content_product .product_text li h4{ font-size:3.2rem;}
+.content_product .product_text li p{ font-size:2.8rem; color:#878787; width:470px; margin:0 auto; text-align:center; padding-top:40px;}
+.content_people{ height:1070px;}
+.content_people h3{ padding-top:60px; font-size:4.4rem; text-align:center;}
+.content_people b{display:block; width:80px; border-bottom:3px #4EA638 solid; margin: 10px auto 15px auto; margin-bottom:40px;}
+.content_people .people_text{ width:1020px; margin:0 auto;}
+.content_people .people_text ul li{ float:left; text-align:center; margin-bottom: 0px; margin-top: 0px;}
+.content_people .people_text ul .list_p_1{ width:594px; height:340px; background:url(../images/phoneindex/iyb_ple_1.png) no-repeat;}
+.content_people .people_text ul .list_p_text1{ width:426px; height:340px; background:#f3f5f5;}
+.content_people .people_text ul .list_p_text1 h4{ font-size:3.2rem; padding-top:102px;}
+.content_people .people_text ul .list_p_text1 p{ padding-top:50px; font-size:2.8rem; color:#878787;}
+.content_people .people_text ul .list_p_text2{ width:594px; height:260px; background:#f3f5f5;}
+.content_people .people_text ul .list_p_text2 h4{ font-size:3.2rem; padding-top:70px;}
+.content_people .people_text ul .list_p_text2 p{ padding-top:50px; font-size:2.8rem; color:#878787;}
+.content_people .people_text ul .list_p_2{ background:url(../images/phoneindex/iyb_ple_2.png) no-repeat; width:424px; height:260px;}
+.content_people .people_text ul .list_p_3{ width:594px; height:282px; background:url(../images/phoneindex/iyb_ple_3.png) no-repeat;}
+.content_people .people_text ul .list_p_text3{ width:426px; height:282px; background:#f3f5f5;}
+.content_people .people_text ul .list_p_text3 h4{ font-size:3.2rem; padding-top:90px;}
+.content_people .people_text ul .list_p_text3 p{ padding-top:40px; font-size:2.8rem; color:#878787;}
+.content_function{ padding-bottom:40px;}
+.content_function h3{ padding-top:55px; text-align:center; font-size:4.4rem;}
+.content_function b{display:block; width:80px; border-bottom:3px #4EA638 solid; margin: 10px auto 15px auto; margin-bottom:40px; }
+.content_function .function_table table{ width:1020px; margin:0 auto; border:1px solid #e4e4e4; padding-bottom:40px;}
+.content_function .function_table table td{ border-right:1px solid #e4e4e4;}
+.content_function .function_table .tb_img{ width:340px; border-right:1px solid #e4e4e4; background:url(../images/phoneindex/table_xian.png) no-repeat center; height:230px;}
+.content_function .function_table .tb_img .tb_price{ padding-left:150px; font-size:3.2rem; margin-top:-22px;}
+.content_function .function_table .tb_img .tb_fun{ padding-left:20px; font-size:3.2rem; margin-top:50px; }
+.content_function .function_table .tb_title h4{ font-size:40px; text-align:center;}
+.content_function .function_table .tb_title p{ font-size:2.8rem; padding-top:35px; text-align:center; color:#2b2b2b;}
+.content_function .function_table .tb_color_w{ height:100px; background:#fff; text-align:center; border-top:1px solid #e4e4e4;}
+.content_function .function_table .tb_color_bg{ height:100px; background:#effef1; text-align:center; border-top:1px solid #e4e4e4;}
+.content_function .function_table .tb_one_w{ width:340px; font-size:3.2rem;}
+.content_function .function_table .tb_two_w{width:170px; font-size:3.2rem;}
+.more_product{ color:#03c34d;}
+.beizhu{ color:#fb0101;}
+.brand_head{ background:url(../images/phoneindex/brand_h.png); height:179px; width:100%;}
+.contant_brand ul li{ height:300px; padding:30px 30px; border-bottom:1px solid #e3e2e2;}
+.contant_brand .brand_img{ width:330px; height:300px; float:left; display: block;}
+.contant_brand .brand_art{ margin-left:30px; width:650px; height:300px; float:left;}
+.contant_brand .brand_art h2{ font-size:3.2rem; color:#000; text-align:center; margin-top:26px;}
+.contant_brand .brand_art .brand_text{ height:140px; margin-top:30px; font-size:3.2rem; line-height:40px; color:#9e9e9e;}
+.contant_brand .brand_art .brand_auth{ margin-top:30px;}
+.contant_brand .brand_art .brand_auth span{ font-size:3.2rem; color:#000;padding-right:30px;}
+
+/*下载*/
+.down_banner{ height:546px; width:100%; background:url(../../images/1.0/download/down_banner.jpg) no-repeat;}
+.down_content1{ background:url(../../images/1.0/download/down_conten1.jpg); height:420px; width:100%;}
+ .down_right{ float:right; margin-top:180px; text-align:center;}
+ .down_left{ float:left; margin-top:180px; text-align:center;}
+ .down_content1 h1{ margin-left:70px; font-size:3.6rem; color:#3cae29;margin-right:70px;}
+.down_content1 p{font-size:2.6rem; margin-top:24px; margin-right:70px;}
+ .down_content2{ background:url(../../images/1.0/download/down_conten2.jpg); height:420px; width:100%;}
+.down_content2 h1{ margin-left:70px; font-size:3.6rem; color:#3cae29;margin-left:70px;}
+.down_content2 p{font-size:2.6rem; margin-top:24px;margin-left:70px;}
+.down_content3{ background:url(../../images/1.0/download/down_conten3.jpg); height:420px; width:100%;}
+.down_content3 h1{ margin-left:70px; font-size:3.6rem; color:#3cae29;margin-right:70px;}
+.down_content3 p{font-size:2.6rem; margin-top:24px;margin-right:70px;}
+.down_content4{ background:url(../../images/1.0/download/down_conten4.jpg); height:420px; width:100%;}
+.down_content4 h1{ margin-left:100px; font-size:3.6rem; color:#3cae29;}
+.down_content4 p{font-size:2.6rem; margin-top:24px; margin-left:62px;}
+/*
+尾部*/
+.foot{ height:154px; background:#25292e; text-align:center;}
+.foot .foot_phone{ color:#fff; font-size:2.8rem; padding-top:30px;}
+.foot .foot_phone span{ color:#13c54a;}
+.foot .foot_adress{ font-size:2.4rem; color:#848585; padding-top:40px;}
+
+.main{ float: left;width:1080px;}
+.excerpt{background-color: #fff;padding: 30px 30px;height:360px;border-bottom: 1px solid #e3e2e2;}
+.excerpt .focus {float: left;width:330px;margin-right:30px;}
+.excerpt .thumbnail img {width: 330px;height: 300px;display:block; margin-right:30px;}
+.excerpt header{ margin:5px 40px 5px 30px;overflow:hidden; width:660px;white-space: nowrap;text-overflow: ellipsis;}
+.excerpt h2{font-size: 32px;color: #000;margin-top: 10px;}
+.excerpt h2 a{ color:#000;}
+.excerpt p{ height: 140px;margin-top: 30px;font-size: 2.4rem;line-height: 40px;color:#9e9e9e;}
+.excerpt p span{font-size: 2.4rem;color: #000;padding-right: 30px;}
+.main .pagenavi {float: right;margin:0 auto;margin-bottom: 15px; margin-top: 15px;list-style:none; margin-right:40px;}
+
+.wrap li { margin-left:0px; list-style:none;margin-bottom: 15px; margin-top:15px; }
+/*.pagenavi li{ float:left;margin-left:30px; list-style:none;margin-bottom: 15px; margin-top:15px; } 
+
+
+
+.related-post {
+	overflow:hidden;
+	padding-top:20px
+}
+.related-post h6{ font-size:1.8rem;margin-bottom:10px;font-weight:700; color: #666}
+.related-post dl {
+	margin-left:-25px;
+}
+.related-post dd {
+	float: left;
+	display:inline;
+	width:180px;
+	height:170px;
+	margin:0 0 20px 23px;
+}
+.related-post dd a img {
+	display:block;
+	width:180px;
+	height:115px;
+	border:none;
+	overflow:hidden;
+	margin-bottom:5px;
+	padding: 0px
+}
+.related-post dd:hover img {
+	opacity:0.8;
+	filter:alpha(opacity=80);
+}
+.related-post dd span {
+	display:block;
+	height:68px;
+	overflow:hidden;
+	line-height:34px;
+	font-size:2.0rem;
+	color:#333
+}
+.related-post dd:hover span {
+	color:#999
+}
+*/
+.header:before, .container:before, .footer:before, .header:after, .container:after, .footer:after {
+	display:table;
+	content:"";
+	line-height:0
+}
+.header:after, .container:after, .footer:after {
+	clear:both
+}
+
+.content_banner{display: block;height:610px;overflow: hidden;}
+.banner{ width:100%; height:100%; background:url(../images/phone/banner.png) no-repeat;}
+.content_1{ height:691px; margin-top:20px; }
+.content1_img{ background:url(../images/phone/content_1.png) no-repeat 10px center; width:100%; height:100%;}	
+.content_2{ height:940px;}
+.content2_img{ background:url(../images/phone/content_2.png) no-repeat; width:100%; height:100%;}
+.content_3{ height:940px;}
+.content3_img{ background:url(../images/phone/content_3.png) no-repeat; width:100%; height:100%;}
+.content_4{ height:940px;}
+.content4_img{ background:url(../images/phone/content_4.png) no-repeat; width:100%; height:100%;}	
+.content_5{ height:940px;}
+.content5_img{ background:url(../images/phone/content_5.png) no-repeat; width:100%; height:100%;}
+	
+	.content_6{ height:940px;}
+.content6_img{ background:url(../images/phone/content_6.png) no-repeat; width:100%; height:100%;}
+	
+	.content_7{ height:940px;}
+.content7_img{ background:url(../images/phone/content_7.png) no-repeat; width:100%; height:100%;}
+	
+	.content_8{ height:940px;}
+.content8_img{ background:url(../images/phone/content_8.png) no-repeat; width:100%; height:100%;}
+.content_9{ height:712px;}
+.content9_img{ background:url(../images/phone/content_9.png) no-repeat; width:100%; height:100%;}
+.login_bg{ background:url(../images/phone/bg.jpg) no-repeat;    background-size: cover;}
+.logo_top{ margin-top:122px; height:158px; width:100%;}
+.logo_img{ background:url(../images/phone/logo.jpg) no-repeat center; width:387px; height:158px; margin:auto;}
+.login_content{width: 100%;min-height: 1010px;margin: auto;}
+.row_login{height:auto;margin:140px 110px 0 110px;}
+.row_login input{height: 130px; width: 100%; margin: 20px 0 30px 0; border:none; border-bottom:2px solid #bababa; font-size:46px; color:#bababa;font-family: "微软雅黑",'Roboto-Regular';
+}
+.row_login .user{ padding-left:20px;}
+.row_login .password{ padding-left:20px;}
+.row_login .btn-1{ background:#39ba20 none repeat scroll 0 0; color:#fff;margin-top:150px;}
+.register_btn a{ color:#39ba20; float: right; font-size:40px;}
+.row_login .identifying{ width:540px; float:left; padding-left:20px;}
+.row_login .btn-2{ float:right; width:280px; height:130px; color:#fff; font-size:40px; background:#39ba20; margin-top:20px;}
+.register_btn a{ color:#39ba20; float: right; font-size:46px;}
+.btn-3{ float:right;color:#fff !important; font-size:40px; background:#39ba20; margin-top:50px !important;}
+
+input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; }
+
+
+

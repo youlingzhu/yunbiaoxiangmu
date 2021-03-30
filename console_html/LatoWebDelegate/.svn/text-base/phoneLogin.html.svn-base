@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>云表会员登录</title>
+#{stylesheet '1.0/account.css' /}
+#{stylesheet '1.0/phone.css' /}
+#{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+#{script src:'1.0/bootstrap.min.js', id:'jquery' , charset:'utf-8' /}    
+	
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+#{script '1.0/bootstrapValidator.min.js' /}    
+#{script '1.0/modelJs.js' /}
+#{script '1.0/openApp.js' /}   
+#{script src:'1.0/md5-min.js', charset:'utf-8' /} 
+<!--#{script src:'1.0/login.js', charset:'utf-8' /}  -->
+<script>document.write("<script type='text/javascript' src='@{'/public/javascripts/1.0/login.js'}?v=1.1'><\/script>");</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c50f28e6b8bcf3f7177d43fe013e1f91";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+<body >
+  <div class=" wrap login_bg_phone">
+      <div class="phone_top logo_top">
+      </div>
+	<form id="defaultLoginForm" method="post" class="form-horizontal" action="">
+        <input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+        <input type="hidden" name="loginType" value="${loginType}" id="loginType"/>
+	    <div class="phone_content third_auth_list" id="userLoginBox" >
+		    <div class="phone_input phone_user form-group">
+			      <input type="text" value="" class="user" id ="account" name="account" placeholder="用户名/手机号码" autocomplete="off" />
+			</div>
+			<div class="phone_input phone_password form-group">
+			      <input type="password" value="" id="password" name="password" class="password" placeholder="密码" autocomplete="off" />
+			</div>
+			<div class="phone_btn">
+			     <input type="submit" value="登  录"/>
+			</div>
+			<div class="phone_action" style="display:flex;justify-content : flex-end;color:#878C92">
+
+			     
+               
+ <span id="messageLogin">短信登录</span>
+		<span>&nbsp;| &nbsp;</span>
+		<a  href="@{LatoWebDelegate.getUserRegister('',redirect,loginType)}" style="color:#878C92">免费注册</a>
+                <span>&nbsp;| &nbsp;</span>
+			    <a href="@{LatoWebDelegate.getUserResetPwd()}" style="color:#878C92">忘记密码</a>
+			     	
+			</div>
+		</div>
+    </form>
+        
+	<form id="messageLoginForm" method="post" class="form-horizontal" action="">
+        <input type="hidden" name="redirect" value="${redirect}" />
+        <input type="hidden" name="loginType" value="${loginType}" />
+        <input type="hidden" name="type" value="sms" />
+        <div class="phone_content third_auth_list" id="messageLoginBox" style="display:none;">
+            <div class="phone_input phone_user form-group">
+			      <input type="text" value="" class="user" id ="phoneNumber" name="account" placeholder="手机号码" autocomplete="off" />
+			</div>
+			<div class="phone_input phone_password form-group">
+			      <input  value="" id="shortMessage" name="password"  style="width:66%;"     class="password" placeholder="请输入短信验证码" autocomplete="off" />
+                  <span id="sendMessage" style="width:32%;float:right;position:relative;top:15px; background:#26B768;color:#fff;padding:20px 1.5% 20px 1.5%;border-radius:3px;">发送验证码</span>
+			</div>
+			<div class="phone_btn">
+			     <input type="submit" value="登  录"/>
+			</div>
+			<div class="phone_action" style="display:flex;justify-content : flex-end;color:#878C92">
+                <span id="userLogin">&lt;&lt;账号密码登录</span>
+				     <span>&nbsp;| &nbsp;</span>
+			     <a  href="@{LatoWebDelegate.getUserRegister('',redirect,loginType)}" style="color:#878C92">免费注册</a>	
+                <span>&nbsp;| &nbsp;</span>
+			    <a href="@{LatoWebDelegate.getUserResetPwd()}" style="color:#878C92">忘记密码</a>
+			     				
+			</div>
+        </div>
+    </form>
+    
+   
+	
+	
+	
+	<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog sever_dialog" >
+		<div class="modal-content" style="width:500px; height:270px;">
+				
+				 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							
+						 </div>
+				
+			<div class="modal-body">
+                 <div class="modal_list">
+                    <div class="modal_error">
+                    </div>
+                    <p class="error_title" id="errorTypeSpan">提交失败</p>
+                    <span id="errorSpan"></span>
+                 </div>
+            
+                    
+			</div>
+            
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+				
+				
+</body>
+</html>
+
+
+
+ <script type="text/javascript">
+ //发送短信
+var postVerifiAction = #{jsAction @LatoWebDelegate.postPhoneVerifiApplication(':checkPhone',':type') /};
+var setTimer = null;
+// 获取URL地址参数
+function getUrlParam(name, url) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    if (!url || url == ""){
+	    url = window.location.search;
+    }else{	
+    	url = url.substring(url.indexOf("?"));
+    }
+    r = url.substr(1).match(reg)
+    if (r != null) return decodeURIComponent(r[2]); return "";
+}
+
+
+
+
+function restBindSeedMessageBtnClick(){
+   if(setTimer){
+    clearInterval(setTimer);
+   }
+   $("#sendMessage").unbind();
+   $("#sendMessage").text("发送验证码");
+   $("#sendMessage").click(function(){
+        seedMessage(this);
+    
+    }) 
+}
+	
+$(document).ready(function() {
+
+    //发送验证码
+    $("#sendMessage").click(function(){
+        seedMessage(this);
+    
+    })
+
+    $('#defaultLoginForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+            
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                account: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入账号'
+                        } 
+                    }
+                },  
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入密码'
+                        } 
+                    }
+                }
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+        })
+        .on('success.field.bv', function(e, data) {
+            //console.log('success.field.bv -->', data.element);
+        }).on('success.form.bv', function(e) {
+            e.preventDefault();
+			postLogin("@{LatoWebDelegate.login}", e.currentTarget);
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('added.field.bv', function(e, data) {
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('removed.field.bv', function(e, data) {
+            //console.log('Removed element -->', data.field, data.element);
+        });
+        
+        
+    $('#messageLoginForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                account: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入手机号'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: { message: '请输入验证码'}
+                    }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+			//console.log('error.field.bv -->', data.element);
+		})
+		.on('success.field.bv', function(e, data) {
+			//console.log('success.field.bv -->', data.element);
+		}).on('success.form.bv', function(e) {
+			e.preventDefault();
+			postLogin("@{LatoWebDelegate.login}", e.currentTarget);
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('added.field.bv', function(e, data) {
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('removed.field.bv', function(e, data) {
+			//console.log('Removed element -->', data.field, data.element);
+		});
+        
+        $("#messageLogin").click(()=>{
+            $("#userLoginBox").css("display","none");
+            $("#messageLoginBox").css("display","block");
+        })
+        
+          $("#userLogin").click(()=>{
+            $("#messageLoginBox").css("display","none");
+            $("#userLoginBox").css("display","block");
+        })
+
+        eversheetAppByLogin('${appServiceUrl}');
+        
+        //[{"authtype":"wx","caption":"微信授权登录","hasmoreinfo":false,"inappbrowser":false,"url":""}]
+        //加上授权登录列表在.third_auth_list里面
+        var userAgent = (navigator.userAgent+"").toLowerCase();
+        var bNeedWxAuth = userAgent.indexOf("micromessenger")>=0 && userAgent.indexOf("wxwork")<0 ;
+        var strSupportThirdAuthUrls = getUrlParam("supportThirdAuthUrls");
+        var linkTpl = '<div class="phone_action auth_list_url"><a class="" href=""></a></div>';
+        if (strSupportThirdAuthUrls) {
+            try {
+                var supportThirdAuthUrls = eval("0?0:"+strSupportThirdAuthUrls);
+                if (supportThirdAuthUrls && supportThirdAuthUrls.length) {
+                    for (i in supportThirdAuthUrls) {
+                        if (supportThirdAuthUrls[i].url ) { // && supportThirdAuthUrls[i].inappbrowser
+                            bNeedWxAuth = false;//有其他授权地址,不微信授权了
+                            var linkNode = $(linkTpl);
+                            linkNode.find("a").attr("class",supportThirdAuthUrls[i].authtype).attr("href",supportThirdAuthUrls[i].url).text(supportThirdAuthUrls[i].caption);
+                            $(".third_auth_list").append(linkNode);
+                        }
+                    }
+                }
+            }catch(e){
+                
+            }
+        }
+        if (bNeedWxAuth && location.href.indexOf("supportThirdAuthUrls") < 0) {
+            #{verbatim}
+            var defaultAuthUrl = '${flash.defaultAuthUrl}';
+            #{/verbatim}
+            if (defaultAuthUrl) {
+                location.href = defaultAuthUrl;
+            }
+        }
+    });
+
+		
+    </script>

@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>云表-会员注册</title>
+
+#{stylesheet '1.0/phone.css' /}
+<script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="//libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+#{script '1.0/bootstrapValidator.min.js' /}    
+#{script '1.0/modelJs.js' /}
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c50f28e6b8bcf3f7177d43fe013e1f91";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div class=" wrap login_bg">
+      <div class="phone_top reg_bg" >
+      </div>
+		  <form role="form" id="regForm" method="post" action="">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		 
+			
+			<div class="phone_content_reg" >
+			     
+			<div class="phone_input phone_name from-group">
+				<input type="text" value="" name="lato_qq" class="user_name" placeholder="请输入会员名称" />
+		    </div>
+			 <div class="phone_input phone_password from-group">
+			      <input type="password" value="" id="lato_pwd" name="lato_pwd" class="password" placeholder="请输入密码" />
+			</div>
+			<div class="phone_input phone_com from-group">
+				<input type="text" value="" name="lato_qq" id="lato_qq" class="user" placeholder="请输入您的公司名称" />
+		    </div>
+			<div class="phone_input phone_qq from-group">
+				<input type="text" value="" name="lato_qq" id="lato_qq" class="user" placeholder="请输入您的QQ号码" />
+		    </div>
+			
+			<div class="phone_btn phone_sure">
+			     <input type="submit" value="完   成"/>
+			</div>
+			<div class="phone_reg phone_log">
+			    <p>已有账号，<a href="">立即登录</a></p>
+			</div>
+			</div>
+				
+		
+      <!--<div class="login_content">
+           <div class="row_login regin_list">
+		    <div class="phone_list clearfix form-group">
+				<input type="text" value="" id="lato_companies" name="lato_companies" class="user" placeholder="请输入公司名称" />
+		    </div>
+			 <div class="phone_list clearfix form-group">
+				<input type="text" value="" name="lato_qq" id="lato_qq" class="user" placeholder="请输入QQ号码" />
+		    </div>
+		    <div class="phone_list clearfix form-group">
+			   
+				<input type="text" value="" id="lato_phone"  name="lato_phone" class="user" placeholder="请输入手机号码" />
+		    </div>
+		    <div class="phone_list clearfix form-group">
+				<input type="password" value="" id="lato_pwd" name="lato_pwd" class="password" placeholder="请输入密码" />
+			</div>
+				<input type="text" value="" id="lato_codePhoneText" name="lato_codePhoneText" placeholder="验证码" class="identifying" />
+			
+			
+		<a  href="javascript:sendSms()" class="btn-2" id="regin" name="regin">获取验证码</a>
+		
+        <div class="clearfix"></div>
+        <input type="submit" value="注  册" class="btn-3"/>  
+      </div>-->
+	  
+     </form>
+	 
+	 
+  </div>
+  
+  
+	<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog sever_dialog" >
+		<div class="modal-content" style="width:500px; height:270px;">
+				
+				 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							
+						 </div>
+				
+			<div class="modal-body">
+                 <div class="modal_list">
+                    <div class="modal_error">
+                    </div>
+                    <p class="error_title" id="errorTypeSpan">提交失败</p>
+                    <span id="errorSpan"></span>
+                 </div>
+            
+                    
+			</div>
+		
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+				
+</body>
+</html>
+
+ <script type="text/javascript">
+ 
+
+	$('#errorModel').on('show.bs.modal', centerModals);
+ 
+ 
+ 
+function sendSms(){
+	if(!$('#regForm').data('bootstrapValidator').isValid()){
+				
+				return;
+			}
+			
+	showtime(60);
+}
+
+var count ;
+
+function update_p() {
+	var i1 =document.getElementById('regin');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#regin").attr("href","javascript:showtime(60);");
+		$("#regin").removeAttr("style");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+ 
+function showtime(t){
+				count = t;
+				
+				
+				var phone = $("#lato_phone").val();
+				
+				var params=$("form").serialize();
+				
+				
+				$("#regin").removeAttr("href");
+				
+				$("#regin").attr("style","cursor:not-allowed");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				var showUserAction = #{jsAction @LatoWebDelegate.postPhoneVerifiApplication(':checkPhone',':type') /}
+				var  v2 =showUserAction({checkPhone:phone,type:'register'}) 
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params,
+						success:function(data){	
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{
+									
+							 showErrorModel("发送短信出现错误",erroMsg);
+							}else{
+								location.href = url;
+							}
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+									   
+							}
+						}
+					);
+}
+ 
+ 
+ 
+ 
+$(document).ready(function() {
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			lato_pwd:{
+				validators: {
+                    notEmpty: { message: '请输入手机验证码' }
+                }
+			},
+			lato_phone: {
+                validators: {
+                    notEmpty: { message: '手机号码不允许为空' },
+                    digits: {message:'请输入正确的手机格式' },
+                   stringLength: {
+                            min: 11,
+                            max: 11,
+                            message: '请输入正确的手机号码位数'
+                        }
+                }
+            }
+			
+        }
+		})
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putPhoneUserRegister}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							var script = data.synLoginHtml;
+							var url = data.openUrl;
+							if(null != errCode && errCode.length > 0)
+							{
+									
+                                showErrorModel("用户注册出现错误",erroMsg);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = url;
+							}
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="用户注册出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+
+
+		
+    </script>
+	
+

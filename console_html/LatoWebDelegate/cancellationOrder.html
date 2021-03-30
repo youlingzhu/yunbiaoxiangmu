@@ -1,0 +1,111 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'订单作废' /}
+
+<div class="main" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('cancellationOrder')}" >
+				<input type="hidden" name="lato_order_code"  id="lato_order_code" value="${orderCode}" /> 
+				<div class="main_title">
+            <h3>订单作废</h3>
+  </div>
+  <div class="main_body">
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">订单编号D</label>
+                     <label class="detail_text">${orderCode}</label>
+                 </div>
+               
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">作废原因</label>
+                     <textarea class="detail_text detail_textare" name="lato_cancellation_desc"  id="lato_cancellation_desc" placeholder="请输入作废原因" ></textarea>
+                 </div>
+                 
+                  <div class="body_name body_menu1 clearfix">
+                   <button type="submit" class="pay_btn">确认作废</button>
+                 </div>
+               
+                 
+    </div>
+
+			
+        <!-- :form -->
+    </div>
+	</form>
+	
+</div>
+
+<script type="text/javascript">
+	
+  
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+	
+ $(document).ready(function() {	
+									
+ 
+	$('#sub-item-4').addClass('in');	
+    });
+
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('cancellationOrder')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("订单作废出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="订单作废出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                            
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+
+</script>

@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html>
+#{set title:'云表会员信息完善' /}
+
+#{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+#{script src:'1.0/jquery.placeholder.js', id:'jquery' , charset:'utf-8' /}		
+#{script src:'1.0/bootstrap.min.js', id:'jquery' , charset:'utf-8' /}   
+#{script '1.0/bootstrapValidator.min.js' /}    
+#{script '1.0/modelJs.js' /}
+#{stylesheet '1.0/goble.css' /}
+#{stylesheet '1.0/account.css' /}
+ #{script src:'1.0/ajax.js', id:'jquery' , charset:'utf-8' /}  
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+<body style="background:#f5f5f5;">
+	<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putUserResettingPwd()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name = "redirect" id="redirect" value="${redirectUri}" />
+		<input type="hidden" name="lato_temp_token" value="${tempToken}" id="lato_temp_token"/>
+		<input type="hidden" name = "lato_name" id="lato_name" value="${nickname}" />
+		<div class="huiyuan_bg">
+		    <div class="huiyuan_wrap">
+				<div class="huiyuan_main">
+				
+					<div class="main_head">
+					</div>
+					<div class="text_main">
+						   <p>为账户安全，请用户进行信息验证：</p>
+						   
+						   		<div class="label_list">
+								<div class="clearfix form-group">
+								<label class="huiyuan_phone" onmouseover="this.style.borderColor='#4ea638'"    onmouseout="this.style.borderColor=''" >
+								  <input class="lab_input" name="lato_phone" id="lato_phone" placeholder="请输入手机号码" ></input>
+								</label>
+								</div>
+								
+							  <div class="clearfix form-group">
+								 <label class="huiyuan_for_img" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''">
+									<input  class="huiyuan_infor number" name="lato_yzm" id="lato_yzm" placeholder="请输入图形验证码"  />
+								 </label>
+								 <img borde="2" class="infor_img" id="txm" name="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+							  </div>
+							  
+							   <div class="clearfix form-group">
+								 <label class="huiyuan_for_phone" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''">
+									<input  class="huiyuan_infor phonenumber" name="lato_codePhoneText" id="lato_codePhoneText" placeholder="请输入验证码" />
+								 </label>
+								 <a href="javascript:sendSms();"  id="restSend" name="restSend" class="huiyuan_yanzheng">获取验证码</a>
+							   </div>
+							   
+								  <div class="btn_list">
+								 <button class="btn_login" id="reset_sure">提   交</button>
+								   </div>
+						   </div>
+					   
+					  
+					</div>
+					
+					
+				</div>
+			</div>
+			
+				
+			
+		</div>
+			
+			
+		<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog sever_dialog" >
+					<div class="modal-content" style="width:500px; height:270px;">
+							
+							 <div class="modal-header">
+										<button type="button" class="close" 
+										   data-dismiss="modal" aria-hidden="true">
+											  &times;
+										</button>
+										
+							 </div>
+							
+						<div class="modal-body">
+							 <div class="modal_list">
+								<div class="modal_error">
+								</div>
+								<p class="error_title" id="errorTypeSpan">提交失败</p>
+								<span id="errorSpan"></span>
+							 </div>
+						
+								
+						</div>
+					
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+
+		</div>	
+
+	</form>
+
+ <script type="text/javascript">
+ 
+var count ;
+
+function update_p() {
+	var i1 =document.getElementById('restSend');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#restSend").attr("href","javascript:showtime(60);");
+		$("#restSend").removeAttr("style");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+ 
+function showtime(t){
+				count = t;
+				var txyz = $("#lato_yzm").val();
+				
+				
+				var phone = $("#lato_phone").val();
+				
+				var params=$("form").serialize();
+				
+				
+				$("#restSend").removeAttr("href");
+				
+				$("#restSend").attr("style","cursor:not-allowed");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var  v2 =showUserAction({checkPhone:phone,txyz :txyz,key :$("#randomID").val(),type:'register'}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params,
+						success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{	
+									window.clearInterval(id);
+									 showErrorModel("发送短信出现错误",erroMsg);
+							}
+							
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+}
+
+ function sendSms(){
+		
+			if(!$('#regForm').data('bootstrapValidator').isValid()){
+				return;
+			}
+			
+			
+			showtime(60);
+			
+	}
+
+function buildCode(){
+
+var yzm =	$("#lato_yzm").val();
+
+}
+
+function refresh(){
+
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+
+
+
+ function GetQueryString(name) {  
+
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");  
+
+    var r = window.location.search.substr(1).match(reg);  
+
+     
+
+    if (r != null) {   
+
+        return unescape(r[2]);  
+
+    }  
+
+    return null;  
+
+}     
+
+
+$(document).ready(function() {
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			  
+			  lato_yzm:{
+						validators: {
+							notEmpty: {
+								message: '图形验证不允许为空'
+							},
+							remote: {
+							message: '图形验证码错误',
+							type: 'GET',
+							url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+						}
+					}
+				},
+				lato_phone: {
+					validators: {
+						notEmpty: { message: '手机号码不允许为空' },
+						digits: {message:'请输入正确的手机格式' },
+					   stringLength: {
+								min: 11,
+								max: 11,
+								message: '请输入正确的手机号码位数'
+							}
+					}
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+					
+				var rediter =  GetQueryString("redirect");  
+				$("#redirect").val(rediter);
+				
+				
+				 var params=$("form").serialize();
+				  $.ajax({
+						url:"@{LatoWebDelegate.putWpsSupplementUserRegister}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							var script = data.synLoginHtml;
+							var url = data.openUrl;
+							if(null != errCode && errCode.length > 0)
+							{
+								showErrorModel("完善信息出现错误",erroMsg);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								//location.href = url;
+                                $(".main_head").css("background","none");
+                                $(".text_main").empty();
+                                $(".text_main").append('<div class="qrcodeBackground"></div> <div style="width:350px;text-align:center;margin-top:20px;margin-bottom:20px;">微信扫码加入云表学习群</div> <div class="button_list"><a href="'+url+'">完成</a></div>')
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="完善信息出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                $("#regForm").data('bootstrapValidator').resetForm();
+									
+									
+							}
+						}
+					);
+				 
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+ 
+		
+    </script>
+
+</body>
+</html>

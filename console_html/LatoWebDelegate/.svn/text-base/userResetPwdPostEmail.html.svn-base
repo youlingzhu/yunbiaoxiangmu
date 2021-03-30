@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>邮箱找回密码</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+ <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+	#{stylesheet 'vendor/bootstrap/css/bootstrap.css' /}
+	#{stylesheet 'jquery-ui.min.css' /}
+	#{stylesheet '1.0/bootstrapValidator.min.css' /}
+	 <script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	  <script src="//libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	  
+	  
+	  #{script '1.0/bootstrapValidator.min.js' /}    
+	  
+	
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+#{stylesheet 'Admin/css/core.css' /}
+
+#{stylesheet '/login/global.css' /}
+#{stylesheet '/login/nav.css' /}
+#{stylesheet '/login/register.css' /}
+
+</head>
+
+<body class="service">
+
+<div class="navigation">
+	<div class="container">
+		<a href="/" class="logo left" id="J_logo"></a>
+		<ul class="list left nav-list" id="J_navList">
+			<li class="left">
+				<a href="/" class="j-arrow">首页</a>
+			</li>
+			<li class="left">
+				<a href="/plus/list.php?tid=22" class="j-arrow">云表平台</a>
+			</li>
+			<li class="left">
+				<a href="/plus/list.php?tid=1" class="j-arrow">品牌</a>
+				<span class="arrow j-arrow"></span>
+				<ul class="sub doc-sub">
+					<span class="sub-bg"></span>
+					<li><a href="/plus/list.php?tid=2" target="_blank">行业经验</a></li>
+					<li><a href="/plus/list.php?tid=3" target="_blank">管理智库</a></li>
+					<li><a href="/plus/list.php?tid=4" target="_blank">客户故事</a></li>
+					<li><a href="/plus/list.php?tid=5" target="_blank">新闻动态</a></li>
+				</ul>
+			</li>
+			<li class="left">
+				<a href="/bbs/plugin.php?id=app:index&mod=default" class="j-arrow">应用商城</a>
+				<!--<span class="arrow j-arrow"></span>
+				<ul class="sub">
+					<span class="sub-bg"></span>
+					<li><a href="/bbs/plugin.php?id=app:index&mod=default">快速开始</a></li>
+					<li><a href="/bbs/plugin.php?id=app:index&mod=default">使用指南</a></li>
+					<li><a href="/bbs/plugin.php?id=app:index&mod=default">常见问题</a></li>
+					<li><a href="/bbs/plugin.php?id=app:index&mod=default">用户协议</a></li>
+				</ul>-->
+			</li>
+			<li class="left">
+				<a href="/bbs/portal.php" class="j-arrow">云粉社区</a>
+				<span class="arrow j-arrow"></span>
+				<ul class="sub">
+					<span class="sub-bg"></span>
+					<li><a href="/bbs/forum.php">社区首页</a></li>
+					<li><a href="/bbs/portal.php">新手指南</a></li>
+					<li><a href="/bbs/portal.php">视频教程</a></li>
+					<li><a href="/bbs/portal.php"></a></li>
+				</ul>
+			</li>			
+			<li class="left">
+				<a href="/wiki" class="j-arrow">开发文档</a>
+			</li>			
+			<li class="left a">
+				<a href="/console" class="j-arrow" target="_blank">控制台</a>
+			</li>	
+		</ul>
+		<ul class="list links right logininfo" id="J_loginInfo">
+			<li class="not-login-link"><a href="https://www.iyunbiao.com/signup" class="button hollow join-button j-to-join-dayu">免费注册</a></li>
+			<li class="line">|</li>
+			<li class="not-login-link"><a href="https://www.iyunbiao.com/console/login" class="button hollow join-button login-button">登录</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<div id="banner" class="account-box-wrapper">
+	<canvas id="animate-net" class="banner-back"></canvas>
+    <div class="account-box">
+        <div class="register-form">
+		<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putUserResettingPwdByEmail()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${account}" id="lato_useraccount"/>
+            <div class="account-form-title">
+                <label>找回密码</label>
+            </div>
+			
+            <div class="account-input-area">
+			<div class="form-group">
+				<label class="col-md-3 control-label">会员账号:</label>
+               <label class="col-md-4 control-label">${account}</label>
+            </div>
+			</div>
+			
+			<div class="account-input-area">
+			<div class="form-group">
+				<label class="col-md-3 control-label">注册邮箱:</label>
+                <label class="col-md-4 control-label">${email}</label>
+            </div>
+			</div>
+		
+			
+			<div class="account-input-area account-captcha cl">
+				<div class="form-group">
+				<input name="lato_yzm" id="lato_yzm" type="text" placeholder="输入图形验证码" class="short">
+                <img class="captcha" id="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+            </div>
+			</div>
+            
+             <div class="account-input-area c1">
+				<div class="form-group">
+					<input name="lato_pwd" id="lato_pwd" type="password" placeholder="密码">
+					
+				</div>
+			</div>	
+			
+			<div class="account-input-area c1">
+				<div class="form-group">
+					<input name="lato_pwd_red" id="lato_pwd_red" type="password"  placeholder="确认密码">
+				</div>
+			</div>	
+			
+            <button class="account-button" type="submit"><span>重置密码</span></button>
+            
+            <div class="account-bottom-tip to-login">
+                <label>已注册过帐号？<a href="@{LatoWebDelegate.login()}">点击登录！</a></label>
+            </div>
+		</form>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+				<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" 
+				   aria-labelledby="myModalLabel" aria-hidden="true">
+				   <div class="modal-dialog">
+					  <div class="modal-content">
+						 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								<span id="errorTypeSpan"></span>
+							</h4>
+						 </div>
+						 <div class="modal-body">
+							<span id="errorSpan"></span>
+						 </div>
+						 <div class="modal-footer">
+							<button type="button" class="btn btn-default" 
+							   data-dismiss="modal">关闭
+							</button>
+						 </div>
+					  </div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+				</div>
+
+
+
+
+<div class="pub-r-b-fun-content" id="pubRightFunctionContent">
+	<ul class="pub-fun-list">
+		<li class="item online">
+			<a href="javascript:void(0);" class="js-qq-link" id="">
+				在线咨询
+				<div class="pub-fun-tip">
+					<span class="arrow"></span>
+					<div>商务QQ</div><div >新浪微博</div><img src="@{'/public/images/weixin_on.png'}" style="width: 90px;"><div>微信公众号</div>
+				</div>
+			</a>
+		</li>
+		<li class="item tel">
+			<a href="javascript:void(0);"  id="pubTelAskFor">
+				商务合作
+				<div class="pub-fun-tip">
+					<span class="arrow"></span>
+					<div>电话：0756-3335860</div> <div>商务QQ：623271829</div><div>官方Q群：216209529</div>
+				</div>
+			</a>
+		</li>
+		<li class="item to-top-new js-to-top"  id="pubGoToTop">
+			<a href="javascript:void(0);">
+				回到顶部
+				<div class="pub-fun-tip" style="margin-top: -24px;">
+					<span class="arrow" style="top: 14px;"></span>
+					返回顶部
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+
+
+
+ <script type="text/javascript">
+ 
+
+function refresh(){
+		$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+
+ 
+ 
+$(document).ready(function() {
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+				lato_phone:{
+				validators: {
+                        notEmpty: {
+                            message: '手机号码不允许为空'
+                        } 
+				}
+				},
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}},
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				},
+                lato_codePhoneText: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 6,
+                            message: '请输入正确验证码'
+                        }
+                    }
+                }
+            }
+        })
+		.on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putUserResettingPwd}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{
+									document.getElementById("errorTypeSpan").innerText = errCode;
+									document.getElementById("errorSpan").innerText = erroMsg;
+									$('#errorModel').modal({
+										  keyboard: true
+									   })
+								$("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = "@{LatoWebDelegate.getIndexForm()}";
+							}
+							
+							
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="出现异常";
+									
+									var dataObj=eval("("+va11+")");
+									
+									document.getElementById("errorTypeSpan").innerText = val2;
+									document.getElementById("errorSpan").innerText = dataObj.message;
+									$('#errorModel').modal({
+										  keyboard: true
+									   })
+									   
+								$("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 
+				 
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+		
+function showtime(t){	
+		
+		var txyz = $("#lato_yzm").val();
+				
+				var account = $("#lato_useraccount").val();
+				if(txyz.length <1){
+					alert("请填写图形验证码信息");
+					return;
+				}
+				
+				var templateName = $('#lato_templateName').val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+			var params=$("regForm").serialize();
+		
+				var  v2 =showUserAction({checkPhone:account,txyz :txyz,key :$("#randomID").val(),type:'reset'}) 
+				
+				
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{
+									document.getElementById("errorTypeSpan").innerText = errCode;
+									document.getElementById("errorSpan").innerText = erroMsg;
+									$('#errorModel').modal({
+										  keyboard: true
+									   })
+								
+							}else{
+								var i1 =document.getElementById('phone');
+								i1.disabled=true;
+								
+								for(i=1;i<=t;i++) {
+									window.setTimeout("update_p(" + i + ","+t+")", i * 1000);
+								}
+							}
+						
+							
+						
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+								
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+								
+									var va11 =	decodeURI(text);
+									var val2="发送短信错误提示";
+									var dataObj=eval("("+va11+")");
+									document.getElementById("errorTypeSpan").innerText = val2;
+									document.getElementById("errorSpan").innerText = dataObj.message;
+									$('#myModal').modal({
+										  keyboard: true
+									   })
+							}
+						}
+					);
+	
+	
+	
+	
+}
+
+
+
+
+function update_p(num,t) {
+	
+	var i1 =document.getElementById('phone');
+	if(num == t) {
+
+	
+	i1.innerHTML = "重新发送";
+	i1.disabled=false;
+	}
+	else {
+		printnr = t-num;
+		i1.innerHTML = "(" + printnr +")秒后重新发送";
+	}
+}
+
+
+    </script>
+
+
+
+
+#{script src:'login/base.js', id:'jquery' , charset:'utf-8' /}   
+#{script src:'login/pack.js', id:'jquery' , charset:'utf-8' /}   
+
+
+</body>
+
+
+</html>

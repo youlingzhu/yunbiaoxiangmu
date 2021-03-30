@@ -1,0 +1,200 @@
+﻿
+#{extends 'LatoWebDelegate/buymain.html' /}
+#{set title:'支付' /}
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 form_div main" >
+
+        <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('paymentForm')}" >
+		<input type="hidden" name="lato_order_code"  id="lato_order_code" value="${flash.订单编号}" /> 
+		<input type="hidden" name="redirectUrl"  id="redirectUrl" value="${redirectUrl}" /> 
+		
+		<input type="hidden" name="lato_order_code_text"  id="lato_order_code_text" value="${flash.订单编号}" /> 
+		<input type="hidden" name="lato_payment_amount"  id="lato_payment_amount" value="${flash.支付金额}" /> 
+		<input type="hidden" name="lato_current_remaining_sum"  id="lato_current_remaining_sum" value="${flash.当前余额}" /> 
+		<input type="hidden" name="lato_surplus_remaining_sum"  id="lato_surplus_remaining_sum" value="${flash.剩余金额}" /> 
+		
+		<input type="hidden" name="lato_order_type"  id="lato_order_type" value="${flash.订单类型}" /> 
+		<input type="hidden" name="lato_product"  id="lato_product" value="${flash.产品}" /> 
+								
+  <div class="main_title">
+            <h3>订单支付详情</h3>
+  </div>
+  <div class="main_body">
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">订单类型</label>
+                      <label class="detail_text">${flash.订单类型}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">产品</label>
+                     <label class="detail_text">${flash.产品}</label>
+                 </div>
+                   <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">订单内容</label>
+                     <textarea id="lato_order_desc" name="lato_order_desc" class="detail_text detail_textare">${flash.订单内容}</textarea>
+                 </div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">订单编号</label>
+                     <label class="detail_text">${flash.订单编号}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">支付金额</label>
+                      <label class="detail_text">${flash.支付金额}</label>
+                 </div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">当前金额</label>
+                      <label class="detail_text">${flash.当前余额}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">剩余金额</label>
+                      <label class="detail_text">${flash.剩余金额}</label>
+                 </div>
+				 
+				 
+				 
+             
+    </div>
+
+</div>
+		
+        <!-- :form 
+    </div>-->
+	
+	
+	
+			
+
+</div>
+
+
+				<!-- 模态框（Modal） -->
+				<div class="modal fade" id="loadingModel" tabindex="-1" 
+				   aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static" >
+				   <div class="modal-dialog">
+					  <div class="modal-content">
+							
+						 <div class="modal-body">
+							支付完成正在安装产品,请耐心等待............
+							
+						 </div>
+					  </div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+				</div>
+			
+<script type="text/javascript">
+
+	function unicode(str){
+            var value='';
+            for (var i = 0; i < str.length; i++) {
+                value += '\\u' + left_zero_4(parseInt(str.charCodeAt(i)).toString(16));
+            }
+            return value;
+        }
+        function left_zero_4(str) {
+            if (str != null && str != '' && str != 'undefined') {
+                if (str.length == 2) {
+                    return '00' + str;
+                }
+            }
+            return str;
+        }
+		
+	function wpsPaymentClick(){
+	alert('onClick');
+			debugger;
+			var code = $("#lato_order_code").val();
+			var product=$("#lato_product").val();
+			var desc=$("#lato_order_desc").val();
+			desc = desc.replace(/[\r\n]/g,"");
+			var showUserAction = #{jsAction @LatoWpsWebDelegate.wpsPayRecharge(':lato_total_fee',':redirect',':orderCode',':orderDesc',':subject') /}
+		
+			var v1= $("#lato_payment_amount").val();
+			
+			var desc1 = unicode(desc);
+			alert(desc1);
+			var subject1 = unicode(product);
+			alert(subject1);
+			var  url = showUserAction({lato_total_fee:0.01,redirect :$("#redirectUrl").val(),orderCode:code,orderDesc:desc1,subject:subject1}) 
+		
+		
+			//window.open(url,"_self","" );
+            location.href = url;
+		
+	
+	}
+	
+	
+$('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('paymentForm')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								 showErrorModel("wps支付出现错误",erroMsg);
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="wps支付出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+				
+				
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+			
+ $(document).ready(function() {	
+	 
+	var remainingSum = $("#lato_current_remaining_sum").val();
+	var paymentAmount = $("#lato_payment_amount").val();
+	var reInt =	parseInt(remainingSum);
+	var payIint = parseInt(paymentAmount);
+	if(reInt >= payIint){
+		$("#payment").removeAttr("disabled");
+	}else{
+	
+		$("#error").show();	
+		$("#payment").hide();
+	}
+	
+	
+	$('#sub-item-4').addClass('in');	
+    });
+	
+
+</script>

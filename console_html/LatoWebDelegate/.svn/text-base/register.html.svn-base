@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>云表-注册</title>
+<link type="text/css" href="css/phone.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class=" wrap login_bg">
+      <div class="logo_top">
+           <div class="logo_img"></div>
+      </div>
+      <div class="login_content">
+           <div class="row_login">
+           <input type="text" value="请输入手机号码" class="user" onFocus="this.value=''" onBlur="if(this.value==''){this.value='用户名'}" />
+        <input type="text" value="请输入密码" class="password" onFocus="this.value=''" onBlur="if(this.value==''){this.value='密码'}" />
+         <input type="text" value="验证码" class="identifying" onFocus="this.value=''" onBlur="if(this.value==''){this.value='验证码'}" />
+         <input type="button" value="获取验证码" class="btn-2"/>  
+		
+        <div class="clearfix"></div>
+        <input type="button" value="注  册" class="btn-3"/>  
+      </div>
+     
+  </div>
+</body>
+</html>

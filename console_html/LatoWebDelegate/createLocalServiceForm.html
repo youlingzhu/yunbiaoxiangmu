@@ -1,0 +1,295 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'本地服务器申请单' /}
+
+<link href="@{'/public/stylesheets/fileinput.css'}" rel="stylesheet">
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput_locale_zh.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-fileinput/4.2.8/js/fileinput_locale_zh.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/default.css">
+        <!-- jquery ui -->
+        <link rel="stylesheet" href="css/jqueryui.min.css" />
+
+        <!-- slider -->
+        <link rel="stylesheet" href="css/jquery-ui-slider-pips.min.css" />
+        
+        <!-- app -->
+        <link rel="stylesheet" href="css/app.min.css" />
+
+
+		#{stylesheet 'slider/jqueryui.min.css' /}
+		#{stylesheet 'slider/jquery-ui-slider-pips.min.css' /}
+		
+ #{script src:'jquery-plus-ui.min.js', id:'jquery' , charset:'utf-8' /}
+ #{script src:'bower-libs.min.js', id:'jquery' , charset:'utf-8' /}
+ #{script src:'jquery-ui-slider-pips.js', id:'jquery' , charset:'utf-8' /}
+ #{script src:'helpers.js', id:'jquery' , charset:'utf-8' /}
+ 
+  #{script src:'examples.js', id:'jquery' , charset:'utf-8' /}
+  #{script src:'styling.js', id:'jquery' , charset:'utf-8' /}
+  #{script src:'app.js', id:'jquery' , charset:'utf-8' /}
+  
+  
+
+ #{script src:'ajaxfileupload.js', id:'jquery' , charset:'utf-8' /}
+
+<script src="@{'/public/javascripts/ZeroClipboard.js'}"></script>
+
+<div class=" main" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('applyLocalService')}" >
+				<!-- UUID   -->			
+		<div class="row">
+           <div class="col-lg-12">
+                <div class="page-header" style="margin-right: 35%;">
+                   <h1 class="text-center text-info ">本地服务器申请单</h1>
+                </div>
+				
+							<input type="hidden" name="lato_objectId"  id="lato_objectId" value="${flash.lato_objectId}" /> 
+							
+							<input type="hidden" name="lato_apply_code"  id="lato_apply_code" value="${flash.申请单号}" /> 
+							<div class ="panel-body" >
+								
+									<div class="col-md-9">
+										
+										
+										
+										 <div class="form-group">
+														<label class="col-md-3 control-label">服务器名称</label>
+													<div class="col-md-8">
+														<input class="form-control " type="text" name="lato_service_name" id="lato_service_name" placeholder="服务器名称" value="${flash.服务器名称}" />
+													</div>
+										 </div>
+										
+										<div class="form-group">
+														<label class="col-md-3 control-label">服务器类型</label>
+													<div class="col-md-8">
+														<input class="form-control " type="text" name="lato_service_type" id="lato_service_type" placeholder="服务器类型"  value="${flash.服务器类型}" />
+													</div>
+										 </div>
+										
+										<div class="form-group">
+														<label class="col-md-3 control-label">服务器描述</label>
+													<div class="col-md-8">
+														<input class="form-control " type="text" name="lato_service_desc" id="lato_service_desc" placeholder="服务器描述"  value="${flash.服务器描述}" />
+													</div>
+										 </div> 
+										
+										
+										 <div class="form-group">
+										 
+										 	<label class="col-md-3 control-label" for="amount">选择并发数</label>
+										 	<div class="col-md-8">
+												 <div id="slider-range-max"></div>
+											</div> 
+											<div class="col-md-1">
+											  <input type="text" id="lato_service_current_limit" name="lato_service_current_limit"  style="border:0; color:#f6931f; font-weight:bold;background:rgba(0, 0, 0, 0);" readonly="readonly">
+											</div>
+										</div>
+										
+										
+										
+										 <div class="form-group">
+										 
+										 	<label class="col-md-3 control-label" for="amount">选择用户数</label>
+										 	<div class="col-md-8">
+												 <div id="slider-range-max1"></div>
+											</div> 
+											<div class="col-md-1">
+											  <input type="text" id="lato_service_user_limit" name="lato_service_user_limit"  style="border:0; color:#f6931f; font-weight:bold;background:rgba(0, 0, 0, 0);" readonly="readonly">
+											</div>
+										</div>
+										
+										 <div class="form-group">
+										 
+										 	<label class="col-md-3 control-label">选择模板数</label>
+										 	<div class="col-md-8">
+											
+											
+											
+												 <div id="slider-range-max2"></div>
+													
+											</div>
+											<div class="col-md-1">
+												<input type="text" id="lato_service_template_limit"  name="lato_service_template_limit" style="border:0; color:#f6931f; font-weight:bold;background:rgba(0, 0, 0, 0);" readonly="readonly">
+											</div>
+										</div>
+										
+									<div class="form-group">
+										 
+										 	<label class="col-md-3 control-label">选择应用数</label>
+										 	<div class="col-md-8">
+											
+											
+											
+												 <div id="slider-range-max3"></div>
+													
+											</div>
+											<div class="col-md-1">
+												<input type="text" id="lato_service_app_limit"  name="lato_service_app_limit" style="border:0; color:#f6931f; font-weight:bold;background:rgba(0, 0, 0, 0);" readonly="readonly">
+											</div>
+										</div>
+
+										
+										<div class="form-group">
+										 
+										 	<label class="col-md-3 control-label">购买时长</label>
+											
+										 <div class="col-md-8">
+												
+												 <div id="slider-range-max4"></div>
+												
+											</div>
+											<div class="col-md-1">
+													<input type="text" id="lato_buy_month" name="lato_buy_month" style="border:0; color:#f6931f;font-weight:bold;background:rgba(0, 0, 0, 0);width:20px" readonly="readonly">(月)
+												</div>
+											
+										</div>
+										
+										
+										<div class="form-group">
+										 
+											<div class="col-lg-offset-5 col-md-3">
+													<button type="submit" class="btn btn-primary btn-lg w-lg waves-effect waves-content" id="tj" >申请服务器</button>
+													<button type="submit" class="btn btn-primary btn-lg w-lg waves-effect waves-content" id="zf" disabled="disabled" >支付账单</button>
+											</div>
+											
+											
+										</div>
+										
+										
+										<div  class="col-lg-offset-10 col-lg-2">
+											</br>
+											</br>
+											
+											
+												
+													
+									</div>
+										
+									</div>
+							
+									
+							</div>
+					
+            </div>
+        <!-- :form -->
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+function change(){ 
+	var num=document.getElementById("range"); 
+	var location=document.getElementById("并发数"); 
+	location.value=num.value; 
+	} 
+function cz(){
+	var v1 = $('#应用ID').val();
+	window.open('@{LatoWebDelegate.getResetAppPwd(flash.应用ID)}' ); 
+
+}
+	// 定义一个新的复制对象
+	var clip = new ZeroClipboard( document.getElementById("d_clip_button"), {
+	  moviePath: "@{'/public/javascripts/ZeroClipboard.swf'}"
+	} );
+
+	// 复制内容到剪贴板成功后的操作
+	clip.on( 'complete', function(client, args) {
+	   alert("复制成功");
+	} );
+	
+	
+	
+	$(function() {
+    $( "#slider-range-max" ).slider({
+      range: "max",
+      min: 0,
+      max: 10,
+      value: 1,
+      slide: function( event, ui ) {
+        $( "#lato_service_current_limit" ).val( ui.value );
+      }
+    });
+    $( "#lato_service_current_limit" ).val( $( "#slider-range-max" ).slider( "value" ) );
+  });
+  
+	$(function() {
+    $( "#slider-range-max1" ).slider({
+      range: "max",
+      min: 0,
+      max: 50,
+      value: 1,
+      slide: function( event, ui ) {
+        $( "#lato_service_user_limit" ).val( ui.value );
+      }
+    });
+    $( "#lato_service_user_limit" ).val( $( "#slider-range-max1" ).slider( "value" ) );
+  });
+  
+  
+  $(function() {
+    $( "#slider-range-max2" ).slider({
+      range: "max",
+      min: 0,
+      max: 999,
+      value: 20,
+      slide: function( event, ui ) {
+        $( "#lato_service_template_limit" ).val( ui.value );
+      }
+    });
+    $( "#lato_service_template_limit" ).val( $( "#slider-range-max2" ).slider( "value" ) );
+  });
+  
+  
+  
+  
+  $(function() {
+    $( "#slider-range-max3" ).slider({
+      range: "max",
+      min: 0,
+      max: 3,
+      value: 1,
+      slide: function( event, ui ) {
+        $( "#lato_service_app_limit" ).val( ui.value );
+      }
+    });
+    $( "#lato_service_app_limit" ).val( $( "#slider-range-max3" ).slider( "value" ) );
+  });
+  
+ $(function() {
+    $( "#slider-range-max4" ).slider({
+      range: "max",
+      min: 0,
+      max: 36,
+      value: 1,
+      slide: function( event, ui ) {
+        $( "#lato_buy_month" ).val( ui.value );
+      }
+    });
+    $( "#lato_buy_month" ).val( $( "#slider-range-max4" ).slider( "value" ) );
+  });
+  
+  
+ $(document).ready(function() {	
+	
+	var code = $("#lato_apply_code").val();
+	if(code.length < 1)
+		document.getElementById("tj").innerText="申请服务器";
+	else{
+		document.getElementById("tj").innerText="更新申请单";
+		$("#zf").removeAttr("disabled");
+	}
+	
+	
+	$('#sub-item-2').addClass('in');	
+    });
+
+
+
+</script>

@@ -1,0 +1,150 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'设置应用信息' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/set}
+#{set 'latoMainSide'}
+
+<div class="lato-main-side" >
+		
+       <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('updateAppForm')}" >
+		<input type="hidden" name="lato_objectId"  id="lato_objectId" value="${flash.lato_objectId}" /> 
+		<input type="hidden" name="lato_global_app_id"  id="lato_global_app_id" value="${flash.globalAppId}" /> 
+		
+		<!-- <div class="main_title main_title_w">
+            <h3>设置应用信息</h3>
+			<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+	    </div> -->
+	   
+	  
+	  
+	  <div class="main_body">
+	  
+					 <div class="body_name body_menu1 clearfix form-group">
+					 <div class="clearfix">
+						 <label class="modal_name">应用名称</label>
+						 
+						<input type="text" value="${flash.空间名称}" id="lato_app_name" name="lato_app_name" placeholder="请输入应用名称"  class="appname value_color1"/>
+						
+					 </div>
+					 </div>
+					 
+					  <div class="body_name body_menu1 clearfix">
+						  <label class="modal_name">APP横幅图片链接</label>
+						  
+						   
+						   
+						    <input type="text" value="${flash.横幅图片链接}" id="lato_app_banner_url"  name="lato_app_banner_url" placeholder="请输入APP横幅图片链接,需要输入完整地址,http://" class="appname value_color1"/>
+					 </div>
+					 
+					  <div class="body_name body_menu1 clearfix">
+					   <label class="modal_name">APP图标图片链接</label>
+					    <input type="text" value="${flash.图标图片链接}" id="lato_app_icon_url"  name="lato_app_icon_url" placeholder="请输入APP图标图片链接,需要输入完整地址,http://" class="appname value_color1"/>
+					 </div>
+					 
+					  <div class=" body_name body_menu1 clearfix up_btn">
+						  <button type="submit" class="btn btn-gengxin" data-dismiss="modal">确认更新</button>
+					  </div>
+		</div>
+		
+        <!-- :form -->
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+	
+	
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+	
+	
+ $(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+    });
+
+
+
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    'lato_app_name': {
+                        validators: {
+                            notEmpty: {
+                                message: '空间名称不能为空...'
+                            }
+                        }
+                    },'lato_app_desc': {
+                        validators: {
+                            notEmpty: {
+                                message: '空间描述不能为空...'
+                            }
+                        }
+                    }
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('updateAppForm')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("修改应用信息出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="修改应用信息出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+</script>
+
+#{/set}

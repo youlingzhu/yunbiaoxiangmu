@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>手机号验证</title>
+    #{stylesheet '1.0/bindPhoneNumber.css' /}
+    <script>
+        var postBindPhoneNumberRegister = "@{LatoThirdAuthDelegate.postBindPhoneNumberRegister}";
+        var postVerifiAction = #{jsAction @LatoWebDelegate.postPhoneVerifiApplication(':checkPhone',':type') /};
+    </script>
+    #{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}
+    #{script src:'1.0/bindPhoneNumber.js', charset:'utf-8' /}    
+	#{script src:'1.0/ajax.js', charset:'utf-8' /}  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c50f28e6b8bcf3f7177d43fe013e1f91";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body>
+    <input type="hidden" name="authType" value="${authType}" id="authType"/>
+    <input type="hidden" name="lato_temp_token" value="${bindToken}" id="lato_temp_token"/>
+    <input type="hidden" name="redirectUrl" value="${redirectUrl}" id="redirectUrl"/>
+    <div id="mobileRegister" hidden>
+        <div class="mobileBackground">
+        </div>
+        <div >
+            <div class="mobileloginBox">
+                <div class="mobileInputAndIconBox">
+                    <div class="mobileIcon"><img src="@{'/public/images/1.0/phonenum.png'}"></div>
+                    <div class="mobileInput"><input id="phoneNumber" type="text" placeholder="请输入手机号码"></div>
+                </div>
+                <div id="inputPhoneNumberTip" class="mobileTip" style="color:red;margin-top: -5px;display: none;"></div>
+            </div>
+            <div class="mobileButton" id="nextMessage">获取验证码</div>
+
+            <div class="mobileMessageInputBox FillInTheMessage"  style="display: none;width:80%">
+                <div class="mobileInputAndIconBox" style="100%">
+                    <div class="mobileIcon" style="width:15%;"><img src="@{'/public/images/1.0/phonema.png'}"></div>
+                    <div class="mobileInput"><input id="shortMessage" type="text" placeholder="请输入验证码"></div>
+                </div>
+                <div class="messageTimer">
+                    <div id="remainingTime">获取验证码</div>
+                </div> 
+            </div>
+            #{if session.isRegister}
+            <div class="mobileloginBox FillInTheMessage" style="display: none;">
+                <div class="mobileInputAndIconBox">
+                    <div class="mobileIcon"><img src="@{'/public/images/1.0/usercom_16.png'}"/></div>
+                    <div class="mobileInput"><input id="lato_companies" name="lato_companies" placeholder="请填写公司名称"></input></div>
+                </div>
+            </div>
+            #{/if}
+            <div id="inputMessageTip" class="mobileTip" style="color:red;margin-top:20px;display: none;"></div>
+            <div class="mobileButton" id="confirm" style="display:none;">提 交</div>
+        </div>
+    </div>
+    <div id="pcRegister" hidden>
+        <header>
+            <div class="headerBox">
+                <img src="@{'/public/images/1.0/h_logo.png'}">
+            </div>
+        </header>
+    
+        <div class="content">
+             <div class="contentBox">
+                <div class="backgroundImage"></div>
+                <div class="loginBox">
+                    <div class="login" >
+                        <div class="loginTitle">手机号验证</div>
+                        <div class="loginInputBox">
+                            <div class="icon"><img src="@{'/public/images/1.0/userphone_16.png'}"/></div>
+                            <div class="inputBox"><input type="text" id="phoneNumber" placeholder="请输入手机号码"></div>
+                        </div>
+                        <div id="inputPhoneNumberTip" style="color:red;margin-top: -18px;display: none;">请输入手机号码</div>
+                        <div style="display: flex;flex-direction: row;margin-top: 30px;">
+                  <!-- <div style="text-align:left;"><span>我同意遵守</span><a href="#" style="color:#4ea638;;">《用户服务协议》</a></div> -->
+                        </div>
+                       
+                        <div>
+                            <button id="nextMessage">获取验证码</button>
+                        </div>
+                        <div class="FillInTheMessage" style="display: none;">
+                            <div class="massageBox">
+                                <div class="registerInputBox">
+                                    <div class="icon"><img src="@{'/public/images/1.0/usercode_16.png'}"/></div>
+                                    <div class="inputBox"><input type="text" id="shortMessage" placeholder="请输入验证码"></div>
+                                </div>
+                                
+                                <div class="massageTimeBox">
+                                    <div class="inputBox" id="remainingTime">获取验证码</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex;flex-direction: row;margin-top: 30px;"></div>
+                            <div class="massageBox">
+                                <div class="loginInputBox">
+                                    <div class="icon"><img src="@{'/public/images/1.0/usercom_16.png'}"/></div>
+                                    <div class="inputBox"><input class="lab_input" id="lato_companies" name="lato_companies" placeholder="请填写公司名称"></input></div>
+                                </div>
+                            </div>
+                            <div id="inputMessageTip" style="color:red;margin-top:5px;display: none;"></div>
+                            <div>
+                                <button id="confirm" style="display:none;">提 交</button>
+                            </div>
+                        </div>
+                    </div>
+    
+    
+    
+                    <div class="login" id="FillInTheInfo" style="display: none;">
+                        <div class="loginTitle">会员资料完善</div>
+                        <div class="loginInputBox">
+                            <div class="icon"><img src="@{'/public/images/1.0/username_16.png'}"/></div>
+                            <div class="inputBox"><input type="text" id="userName" placeholder="请设置会员名"></div>
+                        </div>
+                        <div id="inputUserNameTip" style="color:red;margin-top: -20px;display: none; margin-bottom: 10px;"></div>
+    
+                        <div class="loginInputBox">
+                            <div class="icon"><img src="@{'/public/images/1.0/password_16.png'}"/></div>
+                            <div class="inputBox"><input type="password" id="inputPassword" placeholder="请输入密码"></div>
+                        </div>
+                        <div id="inputPasswordTip" style="color:red;margin-top: -20px;display: none;margin-bottom: 10px;"></div>
+    
+                        <div class="loginInputBox">
+                            <div class="icon"><img src="@{'/public/images/1.0/password_16.png'}"/></div>
+                            <div class="inputBox"><input type="password" id="inputConfirmPassword" placeholder="请确认密码"></div>
+                        </div>
+                        <div id="inputConfirmPasswordTip" style="color:red;margin-top: -20px;display: none;margin-bottom: 10px;"></div>
+                        
+                       
+                        <div>
+                            <button id="confirm">确 认</button>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

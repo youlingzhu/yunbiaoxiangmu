@@ -1,0 +1,285 @@
+﻿
+        
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'应用产品安装' /}
+
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/set}
+#{set 'latoMainSide'}
+<div class="lato-main-side">
+  <!-- <div class="main_title">
+            <h3>应用产品安装</h3>
+  </div> -->
+   <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putForm('cloudProductInstall')}">
+   <input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="verifiType" value="${verifiType}" id="verifiType" />
+		
+		<input type="hidden" name="lato_app_id" value="${appId}" id="lato_app_id" />
+		<input type="hidden" name="lato_global_id" value="${globalId}" id="lato_global_id" />
+		<input type="hidden" name="lato_app_name" value="${appName}" id="lato_app_name" />
+		<input type="hidden" name="lato_product_name" value="${productName}" id="lato_product_name" />
+		<input type="hidden" name="lato_vip_account" value="${account}" id="lato_vip_account"/>
+  <div class="main_body">
+     <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">会员账号</label>
+                     <label class="userinfo_text">${account}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">联系电话</label>
+                     <label class=" userinfo_text">${phoneNumber}</label>
+                 </div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">使用产品</label>
+                     <label class="userinfo_text">${productName}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">验证码</label>
+                     <input name="lato_yzm" id="lato_yzm" class="users_text pass_yanzheng value_color" value="" ></input>
+                    <img  id="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                 </div>
+				 </div>
+				 
+                 <div class="body_pay body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">手机验证码</label>
+                     <input name="lato_verfiCode" id="lato_verfiCode"  class="users_text pass_yanzheng value_color" value="验证码" onfocus="if(value=='验证码'){this.style.color='#5f6468';value=''}" onblur="if(value==''){this.style.color='#d4d4d4';value='验证码'}"></input>
+                     <a href="javascript:showtime(60)"  name="phone" id="phone" class="phone_yanzheng">获取验证码</a>
+                 </div>
+				  </div>
+                  <div class="body_pay body_menu1 clearfix">
+                      <input type="submit" class="btn_cloud" value="确认安装"></input>
+                 </div>
+  </div>
+  </form>
+
+	
+				
+	<!-- 模态框（Modal） -->
+				<div class="modal fade" id="loadingModel" tabindex="-1" 
+				   aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static" >
+				   <div class="modal-dialog">
+					  <div class="modal-content">
+							
+						 <div class="modal-body">
+							正在安装产品,请耐心等待............
+							
+							
+							
+						 </div>
+					  </div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+				</div>
+	
+
+<script type="text/javascript">
+		
+	
+function refresh(){
+		$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+var count ;
+
+function recoverySendSms(){
+
+var i1 =document.getElementById('phone');
+i1.innerHTML = "重新发送";
+$("#phone").attr("href","javascript:showtime(60);");
+$("#phone").attr("class","phone_yanzheng");
+
+}
+
+function update_p() {
+	
+	var i1 =document.getElementById('phone');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#phone").attr("href","javascript:showtime(60);");
+		$("#phone").attr("class","phone_yanzheng");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+
+function showtime(t){	
+		
+		count = t;
+		var txyz = $("#lato_yzm").val();
+				
+				if(txyz.length <1){
+							document.getElementById("errorTypeSpan").innerText = "验证码错误";
+							document.getElementById("errorSpan").innerText = "请输入图形验证码";
+							$('#errorModel').modal({
+							keyboard: true
+					})
+					return;
+				}
+				$("#phone").removeAttr("href");
+				$("#phone").removeAttr("class");
+				 $("#phone").attr("class","phone_yanzheng_disabled");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				
+		
+		var account = $("#lato_vip_account").val();
+				var templateName = $('#lato_templateName').val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var params=$("regForm").serialize();
+		
+				var  v2 =showUserAction({checkPhone:account,txyz :txyz,key :$("#randomID").val(),type:$("#verifiType").val()}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							debugger;
+							if(null != errCode && errCode.length > 0)
+							{	
+									window.clearInterval(id);
+									recoverySendSms();
+									showErrorModel("短信发送失败",erroMsg);
+								
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+									
+									window.clearInterval(id);
+									recoverySendSms();
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="短信发送失败";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message);
+							}
+						}
+					);
+}	
+	
+$(document).ready(function() {
+
+$('#sub-item-2').addClass('in');
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+				lato_phone:{
+				validators: {
+                        notEmpty: {
+                            message: '手机号码不允许为空'
+                        } 
+				}
+				},
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}},
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				},
+                lato_verfiCode: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        } 
+                    }
+                }
+            }
+        })
+		.on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				// e.preventDefault();
+				e.preventDefault();
+				
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('cloudProductInstall')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("安装产品出现错误",data.errorMsg);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="安装产品出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+		
+		
+		
+</script>
+
+#{/set}

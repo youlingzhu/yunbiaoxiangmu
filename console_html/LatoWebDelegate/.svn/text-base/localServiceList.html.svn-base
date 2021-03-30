@@ -1,0 +1,180 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'本地服务器' /}
+	
+ <div  class="main" >
+ 
+  
+     <div class="main_title main_title_w">
+            <h3>本地服务器</h3>
+			<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back">返回控制台</a>
+     </div>
+     <div class="main_body">
+         <ul class=" body_menu1 local_server_list">
+		 
+		 #{list items:localServerList, as:'localServer'}
+				
+			<li class="server_local_list">
+             <a class="server_list" href="@{LatoWebDelegate.getLocalServerAppFormList(localServer.服务器编号,localServer.服务器名称)}" >
+                <i class="icon_close" onclick="closeServer('${localServer.服务器编号}');return false;" >×</i>
+                <p class="server_local_name">${localServer.服务器名称}</p>
+                <p class="server_local_number">(${localServer.服务器编号})</p>
+             </a>
+			 </li>
+			 
+				
+			#{/list}
+			
+             <li><a class="server_new" href="#server_new" data-toggle="modal">
+                <p class="server_new_name">新建服务器</p> 
+             </a> </li>
+         </ul>
+     </div>
+</div>
+		
+			
+			
+<!--新建弹出框-->
+    <div class="modal fade" id="server_new" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:524px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" >新建服务器</h4>
+            </div>
+            <div class="modal-body table_line">
+			 <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('paymentForm')}" >
+                 <div class=" modal_menu1 clearfix form-group">
+                <label class="modal_name server_name">服务器名称</label>
+                <input class="appname server_label" placeholder="请输入服务器名称或者别名" id="lato_server_name" name="lato_server_name"></input>
+                </div>
+                <div class="modal_menu1 clearfix form-group">
+                <label class="modal_name modal_textarea server_name" id="lato_service_desc" name="lato_service_desc">备注</label>
+                <textarea class="appname new_beizhu server_label"></textarea>
+                </div>
+             </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gengxin" data-dismiss="modal" onclick="createLocalServer()">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--新建弹出框-->
+<script type="text/javascript">
+	$(document).ready(function() {
+ 	
+									
+		$('#sub-item-2').addClass('in');	
+	});
+		
+	function centerModals() {
+	 $('.modal').each(
+	   function(i) {
+		var $clone = $(this).clone().css('display', 'block')
+		  .appendTo('body');
+		var top = Math.round(($clone.height() - $clone.find(
+		  '.modal-content').height()) / 2);
+		top = top > 0 ? top : 0;
+		$clone.remove();
+		$(this).find('.modal-content').css("margin-top",
+		  top - 50);
+	   });
+	}
+	$('.modal').on('show.bs.modal', centerModals);
+	$(window).on('resize', centerModals);
+	
+	
+	function createLocalServer(){
+		
+	var serverName =	$("#lato_server_name").val();
+	
+	if(serverName.length <= 0)
+		{
+		 showErrorModel("创建服务器出现错误","请填写服务器名称");
+		}else{
+			var params=$("form").serialize();
+			$.ajax({
+					url:"@{LatoWebDelegate.putForm('applyLocalService')}",
+					type:'POST',
+					dataType:'json',
+					data:params
+					 ,success:function(data){
+						
+						if(null != data.errorCode && data.errorCode.length > 0)
+						{	
+							if(data.errorCode == "10004"){
+								location.href = data.url;
+							}else{
+							
+							 showErrorModel("创建服务器出现错误",data.errorMsg);
+							}
+						
+							
+						}else{
+							location.href = data.url;
+						}
+					},
+					beforeSend: function(xhr) {
+						//checkIsEversheetWeb(xhr);
+					}
+					,error:function(XMLHttpRequest, textStatus, errorThrown){
+								
+								var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+								var text1 =	text.replace(/\r\n|\n|\r/g,'');
+								var va11 =	decodeURI(text1);
+								var val2="创建服务器出现错误";
+								var dataObj=eval("("+va11+")");
+								
+								showErrorModel(val2,dataObj.message); 
+						}
+					}
+				);
+		}
+	}
+	
+	function closeServer(lato_server_code) {
+		if (!confirm("是否确定删除服务器?"))
+			return false;
+		
+		var params = {"lato_server_code":lato_server_code};
+		$.ajax({
+			url:"@{LatoWebDelegate.putForm('本地服务器删除')}",
+			type:'POST',
+			dataType:'json',
+			data:params,
+			success:function(data){
+				if(null != data.errorCode && data.errorCode.length > 0)
+				{	
+					showErrorModel("删除服务器出现错误",data.errorMsg);
+				}else{
+					location = location.href;
+				}
+			},
+			beforeSend: function(xhr) {
+				//checkIsEversheetWeb(xhr);
+			}
+			,error:function(XMLHttpRequest, textStatus, errorThrown){
+						
+						var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+						var text1 =	text.replace(/\r\n|\n|\r/g,'');
+						var va11 =	decodeURI(text1);
+						var val2="删除服务器出现错误";
+						var dataObj=eval("("+va11+")");
+						
+						showErrorModel(val2,dataObj.message); 
+				}
+			}
+		);
+	}
+	
+	
+	
+</script>
+        
+			
+    </div>
+</div>
+

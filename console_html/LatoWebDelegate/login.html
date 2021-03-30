@@ -1,0 +1,578 @@
+﻿
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'云表会员登录' /}
+#{script src:'1.0/md5-min.js', charset:'utf-8' /}  
+#{script src:'1.0/qrcode.min.js', charset:'utf-8' /}  
+<!--#{script src:'1.0/login.js', charset:'utf-8' /}  -->
+<script>document.write("<script type='text/javascript' src='@{'/public/javascripts/1.0/login.js'}?v=1.1'><\/script>");</script>
+
+    <div class="login_banner">
+         <div class="login_wrap">
+         <div class="bg_title">
+            <h2 style="font-size:25px;color:#fff;">用云表 , 绽放我们的管理才华<h2>
+         </div>
+		 <div class="login_bg">
+		  </div>
+		  <div class="login_yinying"></div>
+            <div class="select_tab">
+				<div class="select_tab_item" id="scan_code_login">扫码登录</div>
+				<div class="select_tab_item" id="account_login">账号密码登录</div>
+			</div>
+           <div id="scan_code_login_box" class="scan_code_login_box">
+				<div id="scan_code_time_out" class="scan_code_time_out" hidden>
+					<div class="qrcode_invalid">二维码已失效,请重新生成</div>
+					<div class="qrcode_invalid_button" id="qrcode_invalid_button">重新生成</div>
+				</div>
+				<div id="scan_code_box">
+					<div class="login_qrcode_title">&nbsp;</div><!-- 扫码后点击“关注公众号”，即可完成登录 -->
+					<div id="login_qrcode" class="login_qrcode"></div>
+					<div class="register_link" id="select_option">
+                        <div class="select_option_icon selected">
+                            <img class="select_option_weChart_icon" src="@{'/public/images/1.0/selectWeChart.png'}"/>
+                            <div>微信扫码</div>
+                        </div>
+                        
+                        <div class="select_option_icon ">
+                            <img class="select_option_phone_icon" src="@{'/public/images/1.0/phone.png'}"/>
+                            <div>App扫码</div>
+                        </div>
+                        
+                    </div>
+                    <div id="select_option_text">扫码关注公众号登录注册</div>
+				</div>
+
+			</div>
+            <div id="account_login_box" hidden class="login_main">
+                 <div class="account_login_title">
+					<h2 id="logiMethodName">云表会员登录</h2>
+					<div class="account_login_title_button" id="account_login_title_button">
+						&nbsp;<div style="display:none">扫码登录</div>
+						<img style="display:none" src="@{'/public/images/1.0/login_code.png'}">
+					</div>
+				</div>
+                
+                <div id="passWord_login_box">
+                <form id="defaultLoginForm" method="post" class="form-horizontal" action="" >
+					<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+					<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+					 
+					 <div class="label_list">
+					       <div class="form-group">
+						  <label class="user_login user_name  " onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入用户名/手机号码" class="lab_input" id ="account" name="account" autocomplete="off" />
+						  </label>
+						  </div>
+						<div class="form-group">
+						  <label class="user_login user_password" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入密码" class="lab_input" type="password" id="password" name="password" autocomplete="off" />
+						  </label>
+						  </div>
+					 </div>
+					 <div class="label_text">
+						 <div class="checkbox">
+							<label style="display:none" for="checkbox1">记住密码</label>
+						</div>
+						<div class="login_list">
+							<p>
+                                <span href="#" id="messageLogin" style="cursor:pointer;"  class="forget_psaaword">短信登录</span> | 
+                                <a href="@{LatoWebDelegate.getUserResetPwd()}" class="forget_psaaword">忘记密码</a> | 
+                                <a href="@{LatoWebDelegate.getUserRegister('',redirect)}" class="liji_regin">立即注册</a> 
+                                
+                            </p>
+						</div>
+					 </div>
+					 <div class="btn_list">
+					<input type="submit" class="btn_login"  value="登  录" />
+					 </div>
+					  <div class="btn_list pc_third_auth_list">
+                       <div>其他登录方式:</div>
+					   <a  href="@{LatoWpsWebDelegate.getWpsLoginAutoorize()}" class="liji_regin" > <img src="@{'/public/images/1.0/logo_intl.24d37b2d.png'}" class="btn_list_img"/> 金山登录</a>
+					 </div>					 
+				</form>
+                
+                
+                <form id="messageLoginForm" method="post" class="form-horizontal" action="" style="display:none;">
+					<input type="hidden" name="redirect" value="${redirect}" />
+					<input type="hidden" name="randomID" value="${randomID}" />
+					<input type="hidden" name="type" value="sms" />
+					 
+					 <div class="label_list">
+					       <div class="form-group">
+						  <label class="user_login user_name  " onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入手机号码" class="lab_input" id="phoneNumber" name="account" autocomplete="off" />
+						  </label>
+						  </div>
+						<div class="form-group">
+						  <label class="user_login user_password" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入短信验证码" class="lab_input" id="shortMessage" name="password" style="width:159px;"  autocomplete="off" />
+                          <span style="background:#6EAF32;color:#fff;padding:5px 10px 5px 10px;border-radius:5px;float: right;margin-top: 10px; margin-right: 5px;" id="sendMessage">发送验证码</span>
+						  </label>
+						  </div>
+					 </div>
+					 <div class="label_text">
+						 <div class="checkbox">
+						</div>
+						<div class="login_list">
+							<p>
+                                <a href="@{LatoWebDelegate.getUserResetPwd()}" class="forget_psaaword">忘记密码</a> | 
+                                <a href="@{LatoWebDelegate.getUserRegister('',redirect)}" class="liji_regin">立即注册</a> 
+                                
+                            </p>
+						</div>
+					 </div>
+					 <div class="btn_list">
+					<input type="submit" class="btn_login"  value="登  录" />
+					 </div>
+					  <div class="btn_list pc_third_auth_list" id="returnLogin" style="display: flex;justify-content: center;cursor:pointer;">
+                        &lt;&lt;返回账号密码登录
+					 </div>					 
+				</form>
+                </div>
+				<div id="scan_qrcode_login_box" hidden>
+					<div id="scan_qrcode_login_box_time_out" class="app_scan_code_time_out" hidden>
+						<div class="app_qrcode_invalid">二维码已失效,请重新生成</div>
+						<div class="qrcode_invalid_button" id="app_qrcode_invalid_button">重新生成</div>
+					</div>
+					<div id="scan_qrcode_box">
+						<div class="login_qrcode_title">云表APP扫码后点击“确认登录”，即可完成登录</div>
+						<div id="app_login_qrcode" class="app_login_qrcode"></div>
+						<div class="register_link"><a href="@{LatoWebDelegate.getUserRegister('',redirect)}">立即注册</a></div>
+					</div>
+				</div>
+            </div>
+              
+         </div>
+    </div>
+    <div class="modal fade" id="myModal">
+	  <div class="modal-dialog modal-sm" style="margin: 300px auto;">
+		  <img alt="" src="@{'/public/images/1.0/waiting.gif'}" />
+	  </div>
+	</div>
+
+	
+	
+
+
+
+
+<script type="text/javascript">
+//发送短信
+var postVerifiAction = #{jsAction @LatoWebDelegate.postPhoneVerifiApplication(':checkPhone',':type') /};
+var setTimer = null;
+// 获取URL地址参数
+function getUrlParam(name, url) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    if (!url || url == ""){
+	    url = window.location.search;
+    }else{	
+    	url = url.substring(url.indexOf("?"));
+    }
+    r = url.substr(1).match(reg)
+    if (r != null) return decodeURIComponent(r[2]); return "";
+}
+	
+ 
+	
+	
+	$('#errorModel').on('show.bs.modal', centerModals);
+    var timeOut = null;
+    var appTimeOut = null;
+    var intervalObj = null;
+
+    //二维码对象
+    var qrcode = new QRCode(document.getElementById("login_qrcode"), {
+        width: 200,
+        height: 200,
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    //app二维码对象
+    var appQrcode = new QRCode(document.getElementById("app_login_qrcode"), {
+        width: 200,
+        height: 200,
+        correctLevel : QRCode.CorrectLevel.H
+    })
+    
+    //二维码失效
+    function invalidQRCode() {
+        if(timeOut){
+          window.clearTimeout(timeOut);
+          timeOut = null;
+        }
+        if (intervalObj) {
+            window.clearInterval(intervalObj);
+            intervalObj = null;
+        }
+        
+        qrcode.clear();
+        $("#scan_code_time_out").show();
+        $("#scan_code_box #login_qrcode").hide();
+    }
+
+    //修改或生成二维码函数
+    function makeQRCode(type) {
+        invalidQRCode();
+        
+        $.ajax({
+            url:"@{LatoQrcodeAuthDelegate.createLoginQrcode}",
+            type:'POST',
+            dataType:'json',
+            data:{"type":type,"expireSeconds":300}
+            ,success:function(data){
+                var errCode = data.errorCode;
+                var erroMsg = data.errorMsg;
+                if(null != errCode && errCode != 0)
+                {
+                    showErrorModel("无法获取二维码,请稍后再试或者使用账号密码登录",erroMsg);
+                }else{
+                    makeCodeSecond(data);
+                }
+            }
+            ,error:function(XMLHttpRequest, textStatus, errorThrown){
+                var data = XMLHttpRequest.responseJSON;
+                if (data === undefined && XMLHttpRequest.responseText && XMLHttpRequest.responseText[0] == "{") {
+                    data = eval('0?0:'+decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20').replace(/\r\n|\n|\r/g,'')));
+                }
+                //showErrorModel(textStatus,(data&&data.message?data.message:'无法获取二维码,请稍后再试或者使用账号密码登录')); 
+                showErrorModel("无法获取二维码,请稍后再试或者使用账号密码登录",(data&&data.message?data.message:textStatus)); 
+            }
+        });
+    }
+    function makeCodeSecond(data) {
+        var type=data.type;
+        var sceneid=data.sceneid;
+        var qrCodeUrl=data.url;
+        var expireSeconds=data.expireSeconds;
+        
+        if(timeOut){
+          window.clearTimeout(timeOut);
+          timeOut = null;
+        }
+        timeOut = setTimeout(function () {
+            invalidQRCode();
+        }, 1000*expireSeconds);
+        //定时检查是否已经扫码
+        
+        if (intervalObj) {
+            window.clearInterval(intervalObj);
+            intervalObj = null;
+        }
+        intervalObj = setInterval(function(){
+            if(timeOut){
+                var redirectUrl = '${redirect!=null?redirect.raw():""}';//getUrlParam("redirect");
+                if(!redirectUrl)redirectUrl = location.href;
+                $.ajax({
+                    url:"@{LatoQrcodeAuthDelegate.checkScanQrcodeLogin}",
+                    type:'POST',
+                    dataType:'json',
+                    async:false,
+                    data:{"type":type,"sceneid":sceneid,"redirectUrl":redirectUrl}
+                    ,success:function(data){
+                        var errCode = data.errorCode;
+                        var erroMsg = data.errorMsg;
+                        if(null != errCode && errCode != 0)
+                        {
+                            //console.log("扫码状态检查失败:"+erroMsg);
+                            //二维码失效
+                            if (errCode == 3000003) {
+                                invalidQRCode();
+                            }
+                        }else{
+                            if (intervalObj) {
+                                window.clearInterval(intervalObj);
+                                intervalObj = null;
+                            }
+                            if(timeOut){
+                                window.clearTimeout(timeOut);
+                                timeOut = null;
+                            }
+                            location.href = data.url;
+                        }
+                    }
+                    ,error:function(XMLHttpRequest, textStatus, errorThrown){
+                        var data = XMLHttpRequest.responseJSON;
+                        if (data === undefined && XMLHttpRequest.responseText && XMLHttpRequest.responseText[0] == "{") {
+                            data = eval('0?0:'+decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20').replace(/\r\n|\n|\r/g,'')));
+                        }
+                        console.log("扫码状态检查失败:"+textStatus+data.message);
+                    }
+                });
+            }
+        },1600);
+        
+        $("#account_login_box").hide();
+        $("#scan_code_time_out").hide();
+        $("#scan_code_login_box").show();
+        $("#scan_code_box #login_qrcode").show();
+        qrcode.makeCode(qrCodeUrl);
+        $("#login_qrcode").attr("title","");
+    }
+
+    //修改或生成APP二维码函数
+    function appMakeCode() {
+        var url,expireSeconds;
+        appQrcode.innerHTML = "";
+        if(appTimeOut){
+          window.clearTimeout(appTimeOut);
+          appTimeOut = null;
+        }
+        appTimeOut = setTimeout(function () {
+            $("#scan_qrcode_login_box_time_out").show();
+            $("#scan_qrcode_box").hide();
+
+        }, 1000*expireSeconds);
+        appQrcode.makeCode(url);
+    }
+	
+    
+    
+    function restBindSeedMessageBtnClick(){
+       if(setTimer){
+        clearInterval(setTimer);
+       }
+       $("#logiMethodName").text("云表会员登录")
+       $("#sendMessage").unbind();
+       $("#sendMessage").text("发送验证码");
+       $("#sendMessage").click(function(){
+            seedMessage(this);
+        
+        }) 
+    }
+    
+    $(document).ready(function() {
+        //切换扫码方式
+        $(".select_option_icon").click(function () {
+            if(intervalObj && $(this).hasClass("selected"))return;//重新点击创建了的就别重新创建了
+            $(".select_option_icon").find("div").css("color","rgba(55, 63, 74, 0.8)");
+            $(".select_option_icon").removeClass("selected");
+            $(this).toggleClass("selected");
+            if($(this).find("div").text() == "微信扫码"){
+                $(".select_option_weChart_icon").attr("src","@{'/public/images/1.0/selectWeChart.png'}")
+                $(".select_option_phone_icon").attr("src","@{'/public/images/1.0/phone.png'}")
+                $(this).find("div").css("color","#4EA638");
+                $("#select_option_text").text("扫码关注公众号登录注册");
+                makeQRCode("wx_offiaccount");
+            }
+            else{
+                $(".select_option_weChart_icon").attr("src","@{'/public/images/1.0/weChat.png'}")
+                $(".select_option_phone_icon").attr("src","@{'/public/images/1.0/selectPhone.png'}");
+                $(this).find("div").css("color","#4EA638");
+                $("#select_option_text").text("使用云表APP扫码登录")
+                makeQRCode("lato_app");
+            }
+        });
+        
+        
+        $("#scan_code_login").css("border-bottom", "2px solid #4EA638")
+        $(".select_tab_item").click(function () {
+            $(".select_tab_item").css("border-bottom", "2px solid #f1f1f1")
+            $(this).css("border-bottom", "2px solid #4EA638")
+            if ($(this).text() == "扫码登录") {
+                if (!intervalObj) {
+                    $("#account_login_box").hide();
+                    $("#scan_code_time_out").hide();
+                    $("#scan_code_login_box").show();
+                    $("#scan_code_box #login_qrcode").show();
+                    //makeQRCode("wx_offiaccount");
+                    $(".select_option_icon.selected").click();
+                }
+            } else {
+                if (intervalObj) {
+                    window.clearInterval(intervalObj);
+                    intervalObj = null;
+                }
+                if(timeOut){
+                    window.clearTimeout(timeOut);
+                    timeOut = null;
+                }
+                $("#scan_code_time_out").hide();
+                $("#scan_code_login_box").hide();
+                $("#account_login_box").show();
+                $("#scan_qrcode_login_box").hide();
+                $("#passWord_login_box").show();
+                $("#messageLoginForm").css("display","none");
+                $("#defaultLoginForm").css("display","block");            
+                restBindSeedMessageBtnClick();
+                //$("#account_login_title_button").find("div").text("扫码登录")
+                //$("#account_login_title_button").find("img").attr("src", "/console/public/images/1.0/login_code.png")
+
+            }
+        });
+        
+
+        $("#qrcode_invalid_button").click(function () {
+            $("#scan_code_time_out").hide();
+            $("#scan_code_box #login_qrcode").show();
+            $(".select_option_icon.selected").click();
+        })
+
+        $("#app_qrcode_invalid_button").click(function(){
+            $("#scan_qrcode_login_box_time_out").hide();
+            $("#scan_qrcode_box").show();
+            appMakeCode();
+        })
+        
+        
+        //发送验证码
+        $("#sendMessage").click(function(){
+            seedMessage(this);
+        
+        })
+        
+        
+        
+        $("#messageLogin").click(function(){
+            $("#defaultLoginForm").css("display","none");
+            $("#messageLoginForm").css("display","block");
+            restBindSeedMessageBtnClick();
+            $("#logiMethodName").text("手机验证码登录")
+        })
+        
+        $("#returnLogin").click(function(){
+            $("#messageLoginForm").css("display","none");
+            $("#defaultLoginForm").css("display","block");            
+            restBindSeedMessageBtnClick();
+        })
+        
+        
+        //默认使用扫码登录,可以在login.js修改这个默认值
+        var loginSelected=${play.Play.configuration.getProperty("lato.loginSelected", "0")};
+        if (window.defaultLoginSelected != undefined)loginSelected=window.defaultLoginSelected;
+        $(".select_tab_item").eq(loginSelected).click();
+
+        //$("#account_login_title_button").click(function () {
+        //	if ($(this).find("div").text() == "扫码登录") {
+        //		$("#scan_qrcode_login_box").show();
+        //		$("#passWord_login_box").hide();
+        //		$(this).find("div").text("密码登录")
+        //		$(this).find("img").attr("src", "/console/public/images/1.0/password_login.png");
+        //		$("#scan_qrcode_login_box_time_out").hide();
+        //		$("#scan_qrcode_box").show();
+        //		appMakeCode();
+        //	} else {
+        //		$("#scan_qrcode_login_box").hide();
+        //		$("#passWord_login_box").show();
+        //		$(this).find("div").text("扫码登录")
+        //		$(this).find("img").attr("src", "/console/public/images/1.0/login_code.png")
+        //	}
+        //})
+    $('#defaultLoginForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                account: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入账号或手机号'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: { message: '请输入密码'}
+                    }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+			//console.log('error.field.bv -->', data.element);
+		})
+		.on('success.field.bv', function(e, data) {
+			//console.log('success.field.bv -->', data.element);
+		}).on('success.form.bv', function(e) {
+			e.preventDefault();
+			postLogin("@{LatoWebDelegate.login}", e.currentTarget);
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('added.field.bv', function(e, data) {
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('removed.field.bv', function(e, data) {
+			//console.log('Removed element -->', data.field, data.element);
+		});
+    $('#messageLoginForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                account: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入手机号'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: { message: '请输入验证码'}
+                    }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+			//console.log('error.field.bv -->', data.element);
+		})
+		.on('success.field.bv', function(e, data) {
+			//console.log('success.field.bv -->', data.element);
+		}).on('success.form.bv', function(e) {
+			e.preventDefault();
+			postLogin("@{LatoWebDelegate.login}", e.currentTarget);
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('added.field.bv', function(e, data) {
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('removed.field.bv', function(e, data) {
+			//console.log('Removed element -->', data.field, data.element);
+		});
+        
+        
+        //[{"authtype":"wx","caption":"微信授权登录","hasmoreinfo":false,"inappbrowser":false,"url":""}]
+        //加上授权登录列表在.third_auth_list里面
+        var strSupportThirdAuthUrls = getUrlParam("supportThirdAuthUrls");
+        var linkTpl = '<span style="margin-left: 15px;"><a class="" href=""></a></span>';
+        if (strSupportThirdAuthUrls) {
+            var supportThirdAuthUrls = eval("0?0:"+strSupportThirdAuthUrls);
+            if (supportThirdAuthUrls && supportThirdAuthUrls.length) {
+                for (i in supportThirdAuthUrls) {
+                    if (supportThirdAuthUrls[i].url ) { // && supportThirdAuthUrls[i].inappbrowser
+                        var linkNode = $(linkTpl);
+                        linkNode.find("a").attr("class",supportThirdAuthUrls[i].authtype).attr("href",supportThirdAuthUrls[i].url).text(supportThirdAuthUrls[i].caption);
+                        $(".third_auth_list").append(linkNode);
+                    }
+                }
+            }
+        }
+    });
+	
+
+	$(function () {
+        // Invoke the plugin
+        try{$('input, textarea').placeholder();}catch(e){}
+    });
+		
+    </script>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4b947d39c8a60250644cfa205a71300b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+
+ 
+

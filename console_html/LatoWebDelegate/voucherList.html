@@ -1,0 +1,44 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'代金券查询' /}
+	
+	
+	 <div class=" main">
+     <div class="main_title main_title_w">
+            <a href="@{LatoWebDelegate.getIndexForm()}" class="list_back list_back_a">
+				<img class="imgs" src="@{'/public/images/vector_header.png'}" >
+			</a>
+            <h3>代金券查询</h3>
+     </div>
+     <div class="main_body" style="margin-top: -5px;">
+          <div class="table clearfix">
+          <table data-toggle="table"  data-url="${flash.dataUrl}"  id="events-id2" name="events-id2"   data-pagination="true"      data-side-pagination="server"     data-search="true"   data-row-style="rowStyle" >
+              <thead>
+                <tr class="line-bg">
+                   	#{list items:fieldList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+           </table>
+          </div>
+         
+     </div> 
+ </div>
+	
+	
+
+<script type="text/javascript">
+		
+	
+	
+	 $(document).ready(function() {
+	 
+	 $('#sub-item-4').addClass('in');
+	
+	 });
+</script>

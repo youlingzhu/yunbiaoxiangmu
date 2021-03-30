@@ -1,0 +1,516 @@
+﻿<!DOCTYPE html>
+<html >
+    <head>
+        <title>#{get 'title' /}</title>
+       <!-- <meta charset="${_response_encoding}">-->
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />-->
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=9" />-->
+		
+	 <!--<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	  
+		<!--<meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no"> -->
+		
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+		
+		
+		 #{script src:'1.0/ajax.js', id:'jquery' , charset:'utf-8' /}  
+		#{stylesheet 'Admin/css/bootstrap.min.css' /}
+		#{stylesheet 'Admin/css/datepicker3.css' /}
+		#{stylesheet '1.0/styles.css', media:'screen' /}
+		#{stylesheet '1.0/bootstrapValidator.min.css' /}
+		#{stylesheet '1.0/bootstrap-table.min.css' /}
+		 #{script src:'uuid.js', id:'jquery' , charset:'utf-8' /}   
+		<!-- #{stylesheet '1.0/bootstrap-table.css' /} -->  
+		#{stylesheet '1.0/jqueryui.min.css' /}
+			
+		 #{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+		 #{script src:'1.0/bootstrap.min.js', id:'jquery' , charset:'utf-8' /}   
+		 #{script src:'1.0/bootstrapValidator.min.js', id:'jquery' , charset:'utf-8' /}   
+		 #{script src:'1.0/chart.min.js', id:'jquery' , charset:'utf-8' /}   
+		<!-- #{script src:'1.0/chart-data.js', id:'jquery' , charset:'utf-8' /} --> 
+		 #{script src:'1.0/easypiechart.js', id:'jquery' , charset:'utf-8' /}   
+		<!-- #{script src:'1.0/easypiechart-data.js', id:'jquery' , charset:'utf-8' /} -->  
+		 #{script src:'1.0/bootstrap-datepicker.js', id:'jquery' , charset:'utf-8' /}   
+		 #{script src:'1.0/bootstrap-table.js', id:'jquery' , charset:'utf-8' /}
+		 #{script src:'1.0/bootstrap-table-zh-CN.js', id:'jquery' , charset:'utf-8' /}
+		 #{script src:'1.0/invoker.js', id:'jquery' , charset:'utf-8' /}
+		 <!-- #{script src:'1.0/bootstrap-table-zh-CN.js', id:'jquery' , charset:'utf-8' /}	 -->  	
+
+		
+		#{script src:'1.0/jquery.placeholder.min.js', id:'jquery' , charset:'utf-8' /}		
+		 #{script '1.0/modelJs.js' /}
+		<!--   <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+		<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+		
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script> 
+		<script src="//cdn.bootcss.com/bootstrap-table/1.9.1/locale/bootstrap-table-zh-CN.js"></script>
+	   <script src="//cdn.bootcss.com/bootstrap-table/1.9.1/locale/bootstrap-table-zh-CN.min.js"></script> -->
+		
+        <!--[if lt IE 9]>
+		#{script src:'1.0/html5shiv.min.js', id:'jquery' , charset:'utf-8' /}
+		#{script src:'1.0/respond.min.js', id:'jquery' , charset:'utf-8' /}
+        <![endif]-->
+        #{get 'moreStyles' /}
+       
+    </head>
+    <style>
+
+
+    </style>
+	
+    <body class="main_body_class">
+        <input type='hidden' value="#{is_wps/}" />
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+                <div class="container-fluid">
+                    <div class="navbar-header " >
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                            <span class="sr-only">云表后台管理</h1></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+						#{include 'LatoWebDelegate/topNav.html'/}
+						
+						 
+                        <ul class="user-menu">
+                            <li class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span> 
+                                ${flash.loginAccount} <!-- {user_menu_caret /}-->#{if flash.is_wps!='true'}<span class="caret"></span>#{/if}
+                                </a>
+							    <!-- {user_menu_manager/}-->
+                                #{if flash.is_wps!='true'}
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@{LatoWebDelegate.getUserInfo()}"><span class="glyphicon glyphicon-user"></span> 账号管理</a></li>
+                                    <li><a href="@{LatoWebDelegate.getUserResetPwd()}"><span class="glyphicon glyphicon-record"></span> 密码重置</a></li>
+                                    <li><a href="@{LatoWebDelegate.logout()}"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
+                                </ul>
+							    #{/if}
+                            </li>
+							
+							<!-- { help_qq /}-->
+                            #{if flash.is_wps!='true'}
+                            <li class="pull-right help_right">
+                                <!-- <a class="help_erweima_h" href="https://www.iyunbiao.com/wpa/jq" alt="点击加入云表会员学习群" title="点击加入云表会员学习群" target="_blank"><span class=" help_icon"></span>帮助 </a> -->
+                                <!-- <a class="qq_erweima" href="https://www.iyunbiao.com/wpa/jq" alt="点击加入云表会员学习群" title="点击加入云表会员学习群" target="_blank"></a> -->
+                                <a class="help_erweima_h" href="javascript:;" alt="点击加入云表会员学习群" title="点击加入云表会员学习群"><span class=" help_icon"></span>帮助 </a>
+                                <a class="qq_erweima" href="javascript:;" alt="点击加入云表会员学习群" title="点击加入云表会员学习群"></a>
+                            </li>
+                            #{/if}
+							
+                        </ul>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </nav>
+			
+		
+			
+		
+		<div class="list links right logininfo">
+			亲，请&nbsp;<a href="//www.iyunbiao.com/console/login" class="login">登录</a><span>|</span><a href="//www.iyunbiao.com/signup" class="signup">免费注册</a><span>|</span><a href="//www.iyunbiao.com/console" class="console" target="_blank">管理控制台</a>
+		</div>
+	</div>
+</div>
+			
+            <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"  style=" background-color:rgba(194, 191, 191, 0.02);">
+              
+                <ul class="nav menu">
+                    
+					
+					 
+					
+					
+					  <li class="parent ">
+						<a href="#sub-item-2" class="nav-header menu-first collapsed" data-toggle="collapse"><i class="icon-user-md icon-large"></i> <span class="glyphicon glyphicon-cloud"></span>我的资产 </a>
+                        
+						
+						<ul class="children collapse" id="sub-item-2">
+							<!--  <li>
+                                <a class="" href="@{LatoWebDelegate.newApp()}">
+                                    <span class="glyphicon  glyphicon-plus"></span> 创建应用
+                                </a>
+                            </li>-->
+							 <li>
+                                <a class="" href="@{LatoWebDelegate.getAppInfoFormList()}">
+                                    <span class="glyphicon glyphicon-cloud"></span> 云端应用
+                                </a>
+                            </li>
+								
+							<!--{left_local_app /}-->
+                            #{if  flash.is_wps!='true'}
+                            <li id="localserver">
+                                <a class="" href="@{LatoWebDelegate.getLocalServiceFormList()}">
+                                    <span class="glyphicon glyphicon-home"></span> 本地应用<font  color="red">(含免费版)</font>
+                                </a>
+                            </li>
+                            #{/if}
+                        </ul>
+						
+                    </li>
+					
+					
+					
+					<li class="parent ">
+						<a href="#sub-item-4" class="nav-header menu-first collapsed" data-toggle="collapse"><i class="icon-user-md icon-large"></i> <span class="glyphicon glyphicon-usd"></span>费用中心 </a>
+							<ul class="children collapse" id="sub-item-4">
+						
+							<li>
+                                <a class="" href="@{LatoWebDelegate.getUserMember()}">
+                                    <span class="glyphicon glyphicon-usd"></span> 账户余额
+                                </a>
+                            </li>
+							
+							<li>
+                                <a class="" href="@{LatoWebDelegate.rechargeRecord()}">
+                                    <span class="glyphicon glyphicon-heart"></span> 充值记录
+                                </a>
+                            </li>
+							
+						
+						<li>
+                                <a class="" href="@{LatoWebDelegate.expendRecord()}">
+                                    <span class="glyphicon glyphicon-tags"></span> 消费记录
+                                </a>
+                            </li>
+							
+							
+						<li>
+                                <a class="" href="@{LatoWebDelegate.orderList()}">
+                                    <span class="glyphicon glyphicon-list-alt"></span> 订单管理
+                                </a>
+                            </li>
+							
+                            
+						<li>
+                                <a class="" href="@{LatoWebDelegate.voucherList()}">
+                                    <span class="glyphicon glyphicon-usd"></span> 代金券
+                                </a>
+                            </li>
+							
+						</ul>
+							
+							
+							
+					</li>
+					
+					  <li class="parent ">
+					
+						<a href="#sub-item-1" class="nav-header menu-first collapsed" data-toggle="collapse"><i class="icon-user-md icon-large"></i> <span class="glyphicon glyphicon-user" ></span>用户中心   </a>
+							
+					
+                        <ul class="children collapse" id="sub-item-1">
+						   <li>
+						   
+                                <a class="" href="@{LatoWebDelegate.getUserInfo()}">
+                                    <span class="glyphicon glyphicon-user"></span> 账号管理
+                                </a>
+                            </li>
+							<li>
+                                <a class="" href="@{LatoWebDelegate.getPromotionResults()}">
+                                    <span class="glyphicon glyphicon-signal"></span> 推广成果
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+					
+					<!--{left_product_manager /}-->
+                    #{if   flash.is_wps!='true'}
+                     <li class="parent ">
+						<a href="#sub-item-5" class="nav-header menu-first collapsed" data-toggle="collapse">
+                        <i class="icon-user-md icon-large"></i> <span class="glyphicon glyphicon-gift"></span>我的模板库 </a>
+                        
+						<ul class="children collapse" id="sub-item-5">
+                            <li>
+                                <a class="" href="@{LatoWebDelegate.getServiceSmsTemplateLibrary()}">
+                                    <span class="glyphicon glyphicon-envelope"></span> 常用短信模板库
+                                </a>
+                            </li>
+							 <li>
+                                <a class="" href="@{LatoWebDelegate.appBackupFormList()}">
+                                    <span class="glyphicon  glyphicon-saved"></span> 模板库备份
+                                </a>
+                            </li>
+							
+							 <li>
+                                <a class="" href="@{LatoWebDelegate.publishProduct()}">
+                                    <span class="glyphicon  glyphicon-plus"></span> 发布产品
+                                </a>
+                            </li>
+							
+							 <li>
+                                <a class="" href="@{LatoWebDelegate.getProdctFormList()}">
+                                    <span class="glyphicon glyphicon-list"></span> 产品列表
+                                </a>
+                            </li>
+							 
+                        </ul>
+                    </li> 
+                    #{/if}
+					
+                   
+                </ul>
+           
+           
+                
+           
+           
+            </div><!--/.sidebar-->
+        
+			#{doLayout /}
+			
+			
+        <div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog sever_dialog" >
+                <div class="modal-content main_body_content">
+                        
+                         <div class="modal-header">
+                                    <button type="button" class="close" 
+                                       data-dismiss="modal" aria-hidden="true">
+                                          &times;
+                                    </button>
+                                    
+                                 </div>
+                        
+                    <div class="modal-body">
+                         <div class="modal_list">
+                            <div class="modal_error">
+                            </div>
+                            <p class="error_title" id="errorTypeSpan">提交失败</p>
+                            <span id="errorSpan"></span>
+                         </div>
+                    
+                            
+                    </div>
+                
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+      
+        
+      
+      
+        <!-- <div class="modal fade" id="tipsModal" tabindex="-1" role="dialog" aria-labelledby="tipsModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="tipsModalLabel">微信扫二维码进技术交流群</h4>
+              </div>
+              <div class="modal-body">
+                <div class="in_qq">
+                   <p class="qq_img" style="background-size:auto auto; height:500px"></p>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div> -->
+        
+        <!-- <div class="in_qq" id="qrcodePictrue">
+            <div id="boxBottom">
+              <img src="https://www.iyunbiao.com/wpa/qrcode" />
+            </div>
+        </div> -->
+
+        <div class="help-list" id="main_help_list">
+            <ul id="ulList">
+                <li class="qq_m">
+                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2106868713&amp;site=qq&amp;menu=yes" class="qq_btn"></a>
+                <div class="list_txt dis_qq">
+                    <i class="txt_right"></i>
+                   <span class="txt"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3073701146&amp;site=qq&amp;menu=yes" target="_blank">在线安装指导</a></span>
+                </div>
+                </li>
+                <li class="new_m">
+                   <a href="http://www.iyunbiao.com/bbs/t-1142-1.html" class="qq_btn"></a>
+                <div class="list_txt dis_new">
+                    <i class="txt_right"></i>
+                   <span class="txt"><a href="http://www.iyunbiao.com/bbs/t-1142-1.html" target="_blank">新手入门教程</a></span>
+                </div>
+                </li>
+                <li class="help_m">
+                   <a href="http://www.iyunbiao.com/bbs/t-1115-1.html" class="qq_btn" ></a>
+                <div class="list_txt dis_help">
+                    <i class="txt_right"></i>
+                   <span class="txt"><a href="http://www.iyunbiao.com/bbs/t-1115-1.html" target="_blank">安装激活教程</a></span>
+                </div>
+                </li>
+                <li class="help_m qrcode_m qq_m_bg">
+                    <a href="javascript:;" class="qq_btn" ></a>
+                 <div class="list_txt dis_help dis_show">
+                    <i class="txt_right"></i>
+                    <!-- <span class="txt"> -->
+                         <img src="https://www.iyunbiao.com/wpa/qrcode" /><br />
+                         <span class="weixin_sao">微信扫码</span> <br />
+                         <span class="weixin_jiang">进群有惊喜</span>
+                    <!-- </span> -->
+                 </div>
+                 </li>
+            </ul>
+        </div>
+    
+    
+    </body>
+</html>
+
+<script>
+
+	
+	
+	
+    //$(document).ready(function() {
+    //    if ((location.search+"&").indexOf("showtips=1&") >= 0) {
+    //        $('#tipsModal').modal({
+    //          keyboard: true
+    //        });
+    //    }
+    //});
+
+    $(function () {
+        // Invoke the plugin
+        $('input, textarea').placeholder();
+    });
+	$('#errorModel').on('show.bs.modal', centerModals);
+	
+
+    $('#calendar').datepicker({
+    });
+	
+    !function ($) {
+        $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
+            $(this).find('em:first').toggleClass("glyphicon-minus");      
+        }); 
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+	
+	
+	var loginCallback = function(data){
+	   var reg = new RegExp("(^|&)" + 'logined'+"=([^&]*)(&|$)");
+	   var r = data.substr(1).match(reg);
+	   var lock = unescape(r[2]);
+	   console.log(reg);
+	   console.log(r);
+	   console.log(lock);
+	   if(lock != 'true'){
+			logout();
+			//window.location.reload();
+	   }
+	}
+	
+	
+	function logout(){
+		location.href="@{LatoWebDelegate.logout('wps')}";
+	}
+	
+	$(function(){
+	
+		if(window.cefQuery != 'undefined'){
+			//invoker.invoke('common.util.getBrowserInfo',{},function(data){
+			//	if(data.canCallAPI){
+			//		invoker.invoke('common.event.addEventListener',{eventName:'onloginchanged',callbackName:'loginCallback'});
+			//	}
+			//});
+
+		invoker.invoke('common.util.getBrowserInfo',{},function(data){
+				if(data.canCallAPI){
+					invoker.invoke('common.event.addEventListener',{eventName:'onloginchanged',callbackName:'loginCallback'});
+				}
+			
+			});
+
+
+		}
+	})
+	
+$(window).on('resize', function () {
+	if ($(window).width() > 768){
+		$('#sidebar-collapse').collapse('show');
+		$("#top-nav").collapse('show');
+	} 
+
+
+    })
+    $(window).on('resize', function () {
+	
+      if ($(window).width() <= 767){
+	  
+	  $('#sidebar-collapse').collapse('hide')
+	  $("#top-nav").collapse('hide');
+	} 
+	  
+ })
+
+
+
+$(function(){
+    
+    $('#ulList li').eq(3).addClass('qq_m_bg');
+    $('#ulList li').on('mouseover',function(){
+        $('#ulList li').removeClass('qq_m_bg');
+       
+        $(this).addClass('qq_m_bg');
+        $('#ulList li .list_txt').hide();
+        $(this).find('.list_txt').show();
+    })
+
+    $('#ulList').mouseout(function(){
+        $('#ulList li .list_txt').hide();
+    })
+
+
+
+})
+
+
+
+
+
+</script>   
+
+<style>
+   /* .dis_show{
+       display: block;
+       right: 48px;
+       bottom: 6px; 
+       width: 150px;
+       height: 215px;
+       box-shadow: 0px 2px 4px rgba(55, 63, 74, 0.1);
+       border-radius: 4px;
+   }
+   
+   .dis_show .weixin_sao{
+       display: inline-block;
+       font-size: 15px;
+       margin-top: 3px;
+   }
+   .dis_show .weixin_jiang{
+       font-size: 20px;
+       color: #FB5040;
+       font-weight: 700;
+   }
+
+   .dis_show img{
+       width:150px;
+       margin-top: -15px;
+       border-top-left-radius: 4px;
+       border-top-right-radius: 4px;
+   }
+
+   #main_help_list {
+    position: fixed;
+    right: 20px;
+    bottom: 25px;
+    box-shadow: -1px 0px 3px 0px rgba(0, 0, 0, .18);
+}
+
+#ulList li{
+    border-radius: 4px;
+}
+
+
+#ulList .new_m,#ulList .help_m{
+   margin-top: 20px;
+} */
+
+</style>

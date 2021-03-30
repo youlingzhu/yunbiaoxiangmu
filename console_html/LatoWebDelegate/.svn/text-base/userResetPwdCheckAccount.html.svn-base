@@ -1,0 +1,317 @@
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'云表会员找回密码' /}
+
+
+<div id="pc" hidden>
+  <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.resetPwdCheckAccount()}">
+      <input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+      <input type="hidden" name="lato_phone_area" value="" id="lato_phone_area"/>
+      <div class="login_banner back_banner">
+         <div class="login_wrap">
+		  <div class="login_bg">
+		  </div>
+		  <div class="login_yinying"></div>
+            <div class="login_main back_main">
+                 <h2>云表会员找回密码</h2>
+                 <p class="forget_tishi">请输入注册的用户名或手机号码：</p>
+                 <div class="label_list">
+				     
+						  <div class=" form-group clearfix">
+						   <div class="phone_left" >
+						      <p class="phone_area">+86<i class="icon_arrow"></i></p>
+							</div>
+							<div class="phone_right">
+						        <label class="user_login user_phone"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						        <input placeholder="请输入手机号码" id="lato_useraccount"  name="lato_useraccount" class="lab_input phone_lab_input"/>
+						        </label>
+							</div>
+							
+						   </div>
+						 
+				      <div class="form-group">
+                           <label class="user_login user_img" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                           <input  name="lato_yzm" id="lato_yzm" placeholder="请输入图形验证码" class="lab_input"/>
+                           </label>
+					
+                          <img borde="2" class="captcha" id="txm" name="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                       </div>
+                  </div>
+				 <div class="label_text resetPwd_acct">
+					  <p class="service_right">已有账号<a href="@{LatoWebDelegate.getLoginForm()}">立即登录</a></p>
+                 </div>
+				  <div class="phone_select reset_select" style="display:none">
+				      <div class="country-container">
+					       <div class="search-code">
+						       <i class="icon_search"></i>
+							   <input type="text" class="search-code-input phone-search">
+						   </div>
+						   <div class="country-code">
+							   <div id="phone-search-area" class="countrycode-container countrycode-container-usual" style="display:none;">
+									<ul class="p_list">
+										
+									</ul>
+							   </div>
+						       <div class="countrycode-container countrycode-container-usual">
+							        <div class="coun_header">常用</div>
+									<ul class="p_list">
+									       <li class="record clearfix record-phone">
+										    <span class="record-country">中国</span>
+										    <span class="record-code">+86</span>
+										 </li>
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">中国台湾</span>
+										    <span class="record-code">+886</span>
+										 </li>
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">中国香港</span>
+										    <span class="record-code">+852</span>
+										 </li>
+										</ul>
+									</div>
+							 
+							   <div class="countrycode-container countrycode-container-usual">
+							   <div class="coun_header">其他</div>
+							   <ul class="p_list">
+							   #{list items:countryCodeModelList, as:'countryCode'}
+				
+										
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">${countryCode.caption}</span>
+										    <span class="record-code">${countryCode.code}</span>
+										 </li>
+											
+										#{/list}
+							   </ul>
+							   
+							   </div>
+						   </div>
+					  </div>
+				 </div>
+				 
+				 
+                 <div class="btn_list">
+                     <input type="submit" class="btn_login" value="下一步"></input>
+                 </div>
+				  
+               
+            </div>
+              
+         </div>
+    </div>
+  </form>
+</div>
+
+
+<div id="mobile" hidden>
+  #{stylesheet '1.0/userResetPwd-mobile.css' /}
+  <div class="mobileBackground">
+      <img src="@{'/public/images/1.0/logo_bg.jpg'}" />
+  </div>
+
+  <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.resetPwdCheckAccount()}">
+      <input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+      <input type="hidden" name="lato_phone_area" value="" id="lato_phone_area"/>
+      
+        <div class="login_wrap">
+            <div class="rest_pwd"></div>
+            <div class="login_yinying reset_yinying"></div>
+            <div class="login_main">
+                <div class="label_list">
+
+                    <div class="form-group">
+                        <div class="inputBox">
+                            <label class="user_resetword reset_name" onmouseover="this.style.borderColor='#4ea638'"
+                                onmouseout="this.style.borderColor=''">
+                                <img src="@{'/public/images/1.0/peson.png'}">
+                                <input id="lato_useraccount"  name="lato_useraccount" class="lab_input" value="" placeholder="请输入手机号码" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="imageCode">
+                            <label class="user_login user_img" onmouseover="this.style.borderColor='#4ea638'"
+                                onmouseout="this.style.borderColor=''">
+                                <img src="@{'/public/images/1.0/phonema.png'}" style="width: 8%;">
+                                <input placeholder="请输入图形验证码" name="lato_yzm" id="lato_yzm" class="lab_input" />
+                            </label>
+                            <img borde="2" class="captcha" id="txm" name="txm" alt="验证码"
+                                src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                        </div>
+
+                    </div>
+                    <div class=" clearfix">
+                        <span class="userreset_account">已有账号,<a href="@{LatoWebDelegate.getLoginForm()}">立即登录</a></span>
+                    </div>
+				 
+                </div>
+				 
+                 <div class="btn_list">
+                     <input type="submit" class="btn_login" value="下一步"></input>
+                 </div>
+				  
+               
+            </div>
+              
+        </div>
+  </form>
+</div>
+  
+ <script type="text/javascript">
+ 
+ 
+function refresh(){
+		$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+ 
+ 
+$(document).ready(function() {
+
+    if (!IsPC()) {
+        $('link[href$="/account.css"]').prop('disabled', true);
+        $("meta").first().after('<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">');
+        $(".login_footer").hide();
+        $("#mobile").show();
+        $("#pc").empty().hide();
+        
+    } else {
+        $("#pc").show();
+        $("#mobile").empty().hide();
+        
+    }
+    
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+							remote: {
+							message: '图形验证码错误',
+							type: 'GET',
+							url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+						}
+				}},
+                lato_useraccount: {
+                    validators: {
+                        notEmpty: {
+                            message: '用户账号不允许为空'
+                        } 
+                    }
+                }
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+        })
+        .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+        }).on('success.form.bv', function(e) {
+             e.preventDefault();
+             var params=$("form").serialize();
+             $.ajax({
+                    url:"@{LatoWebDelegate.resetPwdCheckAccount}",
+                    type:'POST',
+                    dataType:'json',
+                    data:params
+                    ,success:function(data){
+                        
+                        var errCode = data.errorCode;
+                        var erroMsg = data.errorMsg;
+                        if(null != errCode && errCode.length > 0)
+                        {
+                            showErrorModel("找回密码出现错误",erroMsg);
+                            $('#regForm :submit').removeAttr("disabled");
+                        }else{
+                            location.href = data.redirectUrl;
+                        }
+                    },
+                    beforeSend: function(xhr) {
+                        //checkIsEversheetWeb(xhr);
+                    }
+                    ,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                
+                            var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                            var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                            var va11 =	decodeURI(text1);
+                            var val2="找回密码出现错误";
+                            var dataObj=eval("("+va11+")");
+                            
+                            showErrorModel(val2,dataObj.message); 
+                               
+                            $('#regForm :submit').removeAttr("disabled");
+                        }
+                    }
+                );
+             
+             
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('added.field.bv', function(e, data) {
+            //console.log('Added element -->', data.field, data.element);
+        })
+        .on('removed.field.bv', function(e, data) {
+            //console.log('Removed element -->', data.field, data.element);
+        });
+    	
+    $(".phone_area").click(function(){
+         if($(".phone_select").is(":hidden")){
+            $(".phone_select").show();}
+            else{
+            $(".phone_select").hide();
+            }
+      
+        
+    })
+
+
+    var record_phone={
+        record_country:[],
+        record_code:[]
+    };
+    for(var i= 0; i<$(".record-phone").length; i++){
+        record_phone.record_country.push($($(".record-phone")[i]).children(".record-country")[0].innerHTML);
+        record_phone.record_code.push($($(".record-phone")[i]).children(".record-code")[0].innerHTML);
+    }
+
+    $(".phone-search").keyup(function(){
+        $(".countrycode-container-usual").hide();
+        $("#phone-search-area").show();
+        var c =  $(".phone-search").val();
+        var lis = "";
+        for(var i = 0; i< record_phone.record_country.length;i++){
+            if(record_phone.record_country[i].indexOf(c,0)!=-1){
+                var li = '<li class="record clearfix record-phone" onClick="selectPhone(this);"><span class="record-country">'+record_phone.record_country[i]+'</span><span class="record-code">'+record_phone.record_code[i]+'</span></li>'
+                lis = lis + li;
+            }
+        }
+        $("#phone-search-area>.p_list").html(lis);
+        
+    });
+
+    function selectPhone(e){
+        $(".phone_area").html($(e).children(".record-code")[0].innerHTML + '<i class="icon_arrow"></i>');
+        var code = $(e).children(".record-code")[0].innerHTML;
+        $("#lato_phone_area").val(code);
+        
+        $(".phone_select").hide();
+        $(".countrycode-container-usual").show();
+        $("#phone-search-area").hide();
+    }
+    $(".record-phone").click(function(){
+        selectPhone(this);
+    });
+
+})
+		
+
+</script>
+

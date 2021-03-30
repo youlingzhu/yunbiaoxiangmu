@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>会员账户充值</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+ <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+
+	
+#{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+#{stylesheet '/login/nav.css' /}
+#{stylesheet '/login/register.css' /}
+
+</head>
+
+<body class="service">
+
+<div class="navigation">
+	<div class="container">
+		<a href="/" class="logo left" id="J_logo"></a>
+		
+	</div>
+</div>
+
+
+<div id="banner" class="account-box-wrapper">
+    <div class="account-box account_pay">
+        <div class="register-form">
+		<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.alipayRecharge()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${account}" id="lato_useraccount"/>
+            <div class="account-form-title">
+                <label>会员账户充值</label>
+            </div>
+			
+			<input type="hidden" name="redirect"  id="redirect" value="${redirect}" /> 
+			
+            <div class="account-input-area clear">
+			<div class="form-group">
+				<label class="col-md-3 control-label">会员账号</label>
+               <label class="col-md-4 control-label">${account}</label>
+            </div>
+			</div>
+			
+            
+			<div class="account-input-area c1">
+				<div class="form-group money_pay">
+				    <label class="col-md-3 control-label">充值金额</label>
+					<input name="lato_total_fee" id="lato_total_fee" type="text" onkeypress="return check(event)" onblur="check1()"   placeholder="充值金额">
+				</div>
+			</div>	
+			
+			<div style="text-align:center">
+			    <button class="btn btn-success btn-lg w-lg " float_="$float_" type="button" onclick="alipay();"><span>使用支付宝充值</span></button>
+				<button class="btn btn-success btn-lg w-lg "  type="button" onclick="wxpay();"><span>使用微信充值</span></button>
+            </div>
+			
+		</form>
+        </div>
+    </div>
+</div>
+
+
+
+ <script type="text/javascript">
+		
+		
+		function check1(){
+		
+			var v = $("#lato_total_fee").val();
+			
+			if (parseFloat(v).toString() != "NaN") {
+				v = Math.floor(v * 100) / 100;
+				$("#lato_total_fee").val(v);
+			}else{
+				
+				$("#lato_total_fee").val('');
+			}
+		}
+		
+		
+		function check(event) {
+
+			if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 46) {
+				return false;
+			}
+
+			var v1 = $("#lato_total_fee").val();
+
+			if (  v1 > 100000)
+				return false;
+		}
+	
+	
+		function alipay(){
+				
+			var v1 = $("#lato_total_fee").val().trim();
+
+			if (parseFloat(v1).toString() == "NaN") {
+				　　　　 //alert("请输入数字……");注掉，放到调用时，由调用者弹出提示。
+				alert("请输入数字……");
+				return;
+				　　
+			}
+
+			if (v1 <= 0 || v1 > 1000000 || v1.indexOf(".") == 0 ) {
+				　 alert("输入的金额有误,请检查.");
+				return;
+			}
+
+			check1();
+		var v1= $("#lato_total_fee").val();
+			
+			var showUserAction = #{jsAction @LatoWebDelegate.alipayRecharge(':lato_total_fee',':redirect') /}
+		
+		
+			var  url = showUserAction({lato_total_fee:v1,redirect :$("#redirect").val()}) 
+		
+		
+			//window.open(url,"_self","" );
+            location.href = url;
+		
+		}
+		
+		function wxpay(){
+			
+			var v1 = $("#lato_total_fee").val().trim();
+
+			if (parseFloat(v1).toString() == "NaN") {
+				　　　　 //alert("请输入数字……");注掉，放到调用时，由调用者弹出提示。
+				　　　 alert("请输入数字……");
+				return;
+				　　
+			}
+
+			if (v1 <= 0 || v1 > 1000000 || v1.indexOf(".") == 0 ) {
+				　 alert("输入的金额有误,请检查.");
+				return;
+			}
+		
+			
+			check1();
+			var v1= $("#lato_total_fee").val();
+		
+		//	window.open('@{LatoWebDelegate.wxPayRecharge('$("#lato_total_fee")','$("#redirect")')}',"_self","" ); 
+			var showUserAction = #{jsAction @LatoWebDelegate.wxPayRecharge(':lato_total_fee',':redirect') /}
+		
+		
+			var  url =showUserAction({lato_total_fee:v1,redirect :$("#redirect").val()}) 
+		
+			//window.open(url,"_self","" );
+            location.href = url;
+			
+		
+		}
+		
+
+    </script>
+
+
+
+</body>
+
+
+</html>

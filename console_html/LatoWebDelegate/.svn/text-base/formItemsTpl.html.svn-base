@@ -1,0 +1,349 @@
+
+<style>
+.spans_0{ background:#22cb64;}
+.spans_1{ background:#07bde4;}
+.spans_2{ background:#fb8090;}
+.spans_3{ background:#a289ce;}
+</style>
+
+<!-- {
+      'type': 'label',                     //只显示文本
+     ,'label': '单行文本框'                //label标签文字
+     } 
+-->
+<script type="text/html" id="formItemTpl_label">
+  <div class="layui-form-item">
+    <p class="text_explain" id="text_free">{{ d.label }}</p>
+  </div>
+</script>
+
+<!-- {
+      'type': 'text',                      //单行文本框
+     ,'label': '单行文本框'                //label标签文字
+     ,'placeholder': '请输入'              //空值时在文本框里面的提示文字
+     ,'name': 'title'                      //该字段的name和id值,会直接以该字段提交给服务端
+     ,'defaultValue': ''                   //默认值
+     ,'verify': ''                         //验证类型
+     ,'minValue': '10'                     //最小值
+     ,'maxValue': '99999999'               //最大值
+     ,'spans': '3;5;10;30'                 //跨度按钮值列表,分号分隔多个数字
+     ,'spansName': ''                      //跨度按钮名称
+     } 
+-->
+<script type="text/html" id="formItemTpl_text">
+  <div class="layui-form-item">
+    <label class="menu_name">{{ d.label }}</label>
+    <div class="layui-input-block">
+      <input type="text" id="{{ d.name }}" name="{{ d.name }}" value="{{ d.defaultValue?d.defaultValue:'' }}" lay-verify="{{ d.verify?d.verify:'' }}" autocomplete="off" placeholder="{{ d.placeholder }}" class="users_text">
+	  {{#  if(d.text_explain){ }}
+      <div class="clearfix price_details" >
+        <p class="text_explain" id="text_free" style="margin-left: 15px;">{{ d.text_explain }}</p> 
+      </div>
+	  {{#  } }}
+	  {{#  if(d.spans){ }}
+		  {{#  layui.each(d.spans.split(';'), function(index, item){ }}
+		  <span class=" butt butt_template spans_{{ index%4 }}" onclick="$('#'+'{{ d.name }}').val({{ item }});$('#'+'{{ d.name }}').blur()" >{{ item }}{{ d.spansName }}</span>
+		  {{#  }); }}
+	  {{#  } }}
+    </div>
+  </div>
+  {{#  if(d.verify && d.verify.indexOf('number')>=0){ }}
+  <script_self style="display:none" type="text/javascript">
+    /*验证类型是number开头的,才会进来*/
+    $(function(){
+      var minValue = {{ d.minValue?d.minValue:'0' }};
+      var maxValue = {{ d.maxValue?d.maxValue:'9999999999' }};
+      var fixed = '{{ d.verify.substr(6) }}';
+      $('#'+'{{ d.name }}').on('blur' ,function() {
+        if (isNaN($('#'+'{{ d.name }}').val())) {
+          layui.layer.msg('请输入数字', {icon: 5,shift: 6});
+          $('#'+'{{ d.name }}').focus();
+          return false;
+        }
+      	var curValue = Number($('#'+'{{ d.name }}').val());
+      	curValue = curValue>=minValue?curValue:minValue;
+      	curValue = curValue<maxValue?curValue:maxValue;
+        curValue = fixed!=''?Number(curValue).toFixed(fixed):curValue;
+        $('#'+'{{ d.name }}').val(curValue);
+        queryMoney();
+      });
+    });
+  </script_self>
+  {{#  } }}
+</script>
+
+
+<!-- {
+      'type': 'password',                  //密码文本框
+     ,'label': '管理员密码'                //label标签文字
+     ,'placeholder': '请输入密码'          //空值时在文本框里面的提示文字
+     ,'name': 'passwd'                     //该字段的name和id值,会直接以该字段提交给服务端
+     ,'defaultValue': ''                   //默认值
+     ,'verify': ''                         //验证类型
+     } 
+-->
+<script type="text/html" id="formItemTpl_password">
+  <div class="layui-form-item">
+    <label class="menu_name">{{ d.label }}</label>
+    <div class="layui-input-block">
+      <input type="password" name="{{ d.name }}" value="{{ d.defaultValue?d.defaultValue:'' }}" lay-verify="{{ d.verify?d.verify:'' }}" lay-verType="tips" autocomplete="off" placeholder="{{ d.placeholder }}" class="users_text">
+    </div>
+  </div>
+</script>
+
+
+<!-- {
+      'type': 'quantity'                   //用于整数填写,带上下微调按钮
+     ,'label': '数字'                      //label标签文字
+     ,'placeholder': '请输入'              //空值时在文本框里面的提示文字
+     ,'name': '数量'                       //该字段的name和id值,会直接以该字段提交给服务端
+     ,'defaultValue': '100'                //默认值
+     ,'verify': 'number'                   //验证类型
+     ,'minValue': '10'                     //最小值
+     ,'maxValue': '99999999'               //最大值
+     ,'stepValue': '5'                     //每次步进值
+     ,'text_explain': '注意事项'           //在后面附带的备注文字
+     } 
+-->
+<script type="text/html" id="formItemTpl_quantity">
+  <div class="layui-form-item">
+    <label class="menu_name">{{ d.label }}</label>
+    <div class="layui-input-block">
+      <div id="{{ d.name }}_spinner" class="input-group spinner" style="float:left;">
+        <input type="text" class="value_color" lay-verify="{{ d.verify?d.verify:'' }}" value="{{ d.defaultValue?d.defaultValue:'' }}" data-rule="quantity" id="{{ d.name }}" name="{{ d.name }}">
+        <div class="input-group-btn-vertical">
+          <button class="btn btn-default" type="button"><i class="spinner-up"></i></button>
+          <button class="btn btn-default" type="button"><i class="spinner-down"></i></button>
+        </div>
+      </div>
+	  {{#  if(d.text_explain){ }}
+      <div class="clearfix price_details" >
+        <p class="text_explain" id="text_free" style="margin-left: 15px;">{{ d.text_explain }}</p> 
+      </div>
+	  {{#  } }}
+    </div>
+  </div>
+  <script_self style="display:none" type="text/javascript">
+    $(function(){
+      var minValue = {{ d.minValue?d.minValue:'0' }};
+      var maxValue = {{ d.maxValue?d.maxValue:'9999999999' }};
+      var stepValue = {{ d.stepValue?d.stepValue:'1' }};
+      $('#'+'{{ d.name }}_spinner.spinner .btn:first-of-type').on('click', function() {
+      	var curValue = Math.ceil($('#'+'{{ d.name }}').val()) + stepValue;
+      	curValue = Math.ceil(curValue/stepValue)*stepValue;
+      	curValue = curValue>=minValue?curValue:minValue;
+        $('#'+'{{ d.name }}').val(curValue);
+        $('#'+'{{ d.name }}').blur();
+      });
+      $('#'+'{{ d.name }}_spinner.spinner .btn:last-of-type').on('click', function() {
+      	var curValue = Math.ceil($('#'+'{{ d.name }}').val()) - stepValue;
+      	curValue = Math.ceil(curValue/stepValue)*stepValue;
+      	curValue = curValue>=minValue?curValue:minValue;
+        $('#'+'{{ d.name }}').val(curValue);
+        $('#'+'{{ d.name }}').blur();
+      });
+      $('#'+'{{ d.name }}').on('blur' ,function() {
+      	var curValue = Math.ceil($('#'+'{{ d.name }}').val());
+      	curValue = Math.ceil(curValue/stepValue)*stepValue;
+      	curValue = curValue>=minValue?curValue:minValue;
+      	curValue = curValue<maxValue?curValue:maxValue;
+        $('#'+'{{ d.name }}').val(curValue);
+        queryMoney();
+      });
+    });
+  </script_self>
+</script>
+
+
+<!-- {
+      'type': 'duration',                  //时长,固定用法
+     ,'label': '购买时长'                  //label标签文字
+     ,'name': 'passwd'                     //该字段的name和id值,会直接以该字段提交给服务端
+     ,'defaultValue': '2'                  //默认值,这里用的是spans数组边界,而不是实际的值
+     ,'verify': ''                         //验证类型
+     ,'minValue': 2                        //最小值,这里用的是spans数组边界,而不是实际的值
+     ,'maxValue': 11                       //最大值,这里用的是spans数组边界,而不是实际的值
+     ,'spans': '1,1,1个月;12,1年,1年;'     //跨度按钮值列表,分号分隔多个列表,每列表用逗号分隔,格式:数字,未选择时显示,选择时显示;
+     } 
+-->
+<script type="text/html" id="formItemTpl_duration">
+  <div class="layui-form-item">
+    <label class="menu_name">{{ d.label }}</label>
+    <div class="layui-input-block">
+        <input type="hidden" id="{{ d.name }}" name="{{ d.name }}" value="{{ d.defaultValue?d.defaultValue:'' }}" lay-verify="{{ d.verify?d.verify:'' }}" >
+		<div class="slider-date" id="{{ d.name }}_slider">
+			  <!--底层-->
+			  <ul class="slider-bg clearfix">
+				{{#  layui.each(d.spans.split(';'), function(index, item){ }}
+				  <li>{{ item.split(',')[1] }}</li>
+				{{#  }); }}
+			  </ul>
+		  
+			  <!--互动层-->
+			 <div class="slider-bar">
+				  <ul class="slider-bg clearfix">
+					{{#  layui.each(d.spans.split(';'), function(index, item){ }}
+					  <li>{{ item.split(',')[item.split(',').length-1] }}</li>
+					{{#  }); }}
+				  </ul>
+				  <!--滑块按钮-->
+				 <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+			 </div>
+		</div>
+    </div>
+  </div>
+
+  <script_self style="display:none" type="text/javascript">
+	$(function(){
+		var minValue = {{ d.minValue?d.minValue:0 }};
+		var maxValue = {{ d.maxValue?d.maxValue:-1 }};
+		var defaultValue = {{ d.defaultValue?d.defaultValue:0 }};
+		var spans = '{{ d.spans }}'.split(';');
+		if(maxValue==-1)maxValue=spans.length-1;
+		
+		var setBuyMonth = function(index){
+			var month = index +1;
+			month = spans[index].split(',')[0];
+			$('#'+'{{ d.name }}').val(month);
+			queryMoney();
+		};
+		/*插件实现代码 */
+		var $sliderDate = $('#'+'{{ d.name }}_slider');
+		var $sliderBar = $sliderDate.find(".slider-bar");
+		var $sliderBtn = $sliderDate.find(".slider-bar-btn");
+		var liWid = 50; /*单个li的宽度*/
+		/*滚动指定的位置*/
+		var sliderToDes = function(index){
+			/*最大不能超过*/
+			if(index > maxValue){
+				index = maxValue;
+			}
+			/*最小不能小于 0 */
+			if(index < minValue){
+				index = minValue;
+			}
+			/* 背景动画 */
+			$sliderBar.animate({
+				"width" : liWid*(index+1)+8
+			},500);
+			/*执行回调*/
+			setBuyMonth(index);
+		};
+		/*默认值*/
+		sliderToDes(defaultValue);
+		/*点击 - 滚动到指定位置*/
+		$sliderDate.on('click', "li", function(e) {
+			/*执行滚动方法*/
+			sliderToDes($(this).index());
+		});
+		/*拖动 - 滚动到指定位置*/
+		$sliderBtn.on('mousedown', function(e) {
+			var $this = $(this);
+			var pointX = e.pageX - $this.parent().width();
+			var wid = null;
+			/*拖动事件*/
+			$(document).on('mousemove',function(ev){
+				wid = ev.pageX - pointX;
+				if(wid > 20 && wid < 620){
+					$sliderBar.css("width", wid);
+				}
+			}).on('mouseup',function(e){
+				$(this).off('mousemove mouseup');
+				var index = Math.ceil(wid/liWid) - 1;
+				sliderToDes(index);
+			});
+		});
+	});
+  </script_self>
+</script>
+
+
+<!-- {
+      'type': 'submit_pay'                     //提交按钮
+     } 
+-->
+<script type="text/html" id="formItemTpl_submit_pay">
+	<div class=" body_name body_menu1 clearfix re_btn">
+		<p class="cost_prompt">
+			原价
+			<s class="cost_price" id="cost_price"></s>
+			<span class="save_price" >立省￥<span id="save_price"></span></span>
+		</p>
+		<label class="pay">总费用：<b><span id="productPrice" name="productPrice"> </span> </b></label>
+		<button id="sub_1"  name="sub_1" class="btn btn-spacepay" data-dismiss="modal" lay-submit="" lay-filter="submit1">确认支付</button>
+	</div>
+	<div class="pay_prompt">
+		<p class="pay_tishi"><span id="errorMsg" name="errorMsg"></span></p>
+	</div>
+</script>
+
+<!--
+#{if false }
+function queryMoney(){}
+
+layui.use(['form', 'laydate', 'laytpl'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,laydate = layui.laydate
+  ,laytpl = layui.laytpl;
+
+  var formItems = formatFormItems();
+  //加载模板
+  $.each(formItems.concat({'type':'submit'}), function(i, n){
+  	laytpl($('#formItemTpl_'+n.type).html()).render(n, function(html){
+  		$("#lato_main").append(html.replace(/script_self/gi,"script"));
+  	});
+  });
+
+  //
+  $("#defaultForm").attr("action", postUrl);
+
+  //日期
+  laydate.render({
+    elem: '#date'
+  });
+  //用于表单提交的全局开关,在password验证中使用
+  var bFormSubmit = true;
+  //自定义验证规则
+  form.verify({
+     number0: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,number1: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,number2: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,password: function(value){//[/(.+){6,18}$/, '密码必须6到18位']
+      var passwdGroup = {};
+      $("input[lay-verify='password']").each(function(){
+        bFormSubmit = true;//重置为true
+        if (passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] === undefined) {
+          if ($(this).val().length < 6) {
+            layer.msg('密码至少6位以上', {icon: 5,shift: 6});
+            bFormSubmit = false;
+            $(this).focus();
+            return false;
+          }
+          passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] = $(this).val();
+        } else {
+          //重新定义第二个密码框name属性用lato-name代替,避免提交给服务器
+          $(this).attr('lato-name', $(this).attr('name')||$(this).attr('lato-name')).removeAttr('name');
+          if (passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] != $(this).val()) {
+            layer.msg('密码确认输入不一致', {icon: 5,shift: 6});
+            bFormSubmit = false;
+            $(this).focus();
+            return false;
+          }
+        }
+      });
+    }
+  });
+  
+  //监听提交
+  form.on('submit(submit1)', function(data){
+    if (!bFormSubmit)return false;
+    layer.alert(JSON.stringify(data.field), {
+      title: '最终的提交信息'
+    })
+    //return false;
+  });
+  
+});
+#{/if}
+-->

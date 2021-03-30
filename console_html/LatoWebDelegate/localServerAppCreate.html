@@ -1,0 +1,625 @@
+﻿
+	
+#{extends 'LatoWebDelegate/buymain.html' /}
+#{set title:'新购本地应用' /}
+<div class="main_title_w">
+	<a href="javascript:window.history.back();" class="list_back">
+		<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+	</a>
+	<h3>创建本地应用</h3>
+			
+</div>
+<div class="main_width" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('applyLocalServerApp')}" >
+				<input type="hidden" name="lato_buy_month" id="lato_buy_month" value="3"/>
+				<input type="hidden" name="lato_server_code"  id="lato_server_code" value="${serverCode}" /> 
+				<input type="hidden"  name="lato_version_type" id="lato_version_type" value="standard" />
+				<input type="hidden" name="lato_server_current_limit" id="lato_server_current_limit" value="3" />
+				<input type="hidden" name="lato_template_number" id="lato_template_number" value="60" />
+				<input type="hidden" name="lato_server_name" id="lato_server_name" value="${serverName}" />
+		
+       <div class="main_body clearfix">
+		 <h3 class="titlehH3">创建本地应用</h3>
+		 <div class="col-md-9">
+            <div class=" body_menu1 body_application_type clearfix form-group">
+			<div class="clearfix">
+                       <label class="menu_name">应用类型</label>
+                        <ul class="radio_type">
+                         <li  class="select_radio radio_edition" id="eversheet_free" style="padding-left:5px;"><i></i>云表免费版</li>
+                         <li id="eversheet_365" class="radio_edition"><i></i>云表365版</li>
+                     </ul>
+              </div>
+            </div>
+			
+				<div class="body_name body_menu1 clearfix form-group" style="margin-top: 29px;">
+				<div class="clearfix">
+                     <label class="menu_name">应用名称</label>
+				   
+					 
+
+					 <input type="text" value="" id="lato_server_app_name" name="lato_server_app_name" placeholder="请输入应用名称"  class="value_color"/>
+                 </div>
+				  </div>
+				  
+				  <div class="body_name body_menu1 clearfix form-group" style="margin-top: 22px;">
+					<div class="clearfix">
+						<div class="openSource" style="width: 100%;">
+							<span style="display: block;float: left;text-indent:0px;font-weight:400;color:rgba(55, 63, 74, 0.6);">预装产品</span>
+							<div class="formSource" id="formSource"
+								style="padding-left: 25px;float: left;position: relative;margin-left: -8px;">
+								<label style="margin-right:20px;align-items: center;position: relative;">
+									<input type="hidden" name="lato_product_code" id="lato_product_code" />
+									<input type="hidden" name="lato_product_name" id="lato_product_name" />
+									<input onchange="isCheckedtrue()" checked="checked"
+										style="margin-right: 5px;float: left;position: absolute;left:0px;top:-2px;opacity: 0;" type="radio" name="radio" />
+									<span style="margin-top:1px;float: left;display:block;"></span>
+									<b style="font-weight:400;margin-left:10px;float: left;display:block;margin-top: -2px;">预装免费版进销存</b>
+								</label>
+								<label style="margin-right:44px;align-items: center;position: relative;">
+									<input onchange="isCheckedfalse()" style="margin-right: 5px;float: left;position: absolute;left:0px;top:-2px;opacity: 0;" 
+										type="radio" name="radio" />
+									<span style="margin-top:1px;float: left;display:block;"></span>
+									<b
+										style="font-weight:400;margin-left:10px;float: left;display:block;margin-top: -2px;">创建空白应用空间</b>
+								</label>
+							
+							</div>
+						</div>
+					</div>
+					<p class="text_explain" id="text_free_p" style="position: absolute;left: -4px;top:16px">空白应用可用于安装其它已购系统</p>
+				</div>
+
+
+
+                 <div class="body_server_name body_menu1 clearfix form-group" id="server_name" style="margin-top: 40px;">
+				 <div class="clearfix">
+                       <label class="menu_name">服务器名称</label>
+					   
+					 <input type="text"  value="${serverName}" id="server_name" name="server_name" placeholder="请输入新服务器名称" class="value_color valueNum" disabled="disabled"/>
+					 
+                 </div>
+                 </div>
+				 
+                   <div class=" body_menu1 body_users  clearfix form-group"  style="margin-top: 20px;"  id="numberClearfix1" style="position: relative;">
+				   <div class="clearfix">
+                   <label class="menu_name">并发数</label>
+				   
+				    <input type="text" value="" id="concurrent_number" name="concurrent_number" placeholder="请输入并发数" class="value_color valueNum" style="padding-bottom: 4px;" onchange="alertProduct('concurrent_number',this.value)"/>
+				   
+                   <div id="concurrent_button" style="display:none;">
+                   <span class=" butt butt_user user_3" onclick="alertProduct('concurrent_number',3)">3并发</span>
+                   <span class=" butt butt_user user_5" onclick="alertProduct('concurrent_number',5)">5并发</span>
+                   <span class=" butt butt_user user_10" onclick="alertProduct('concurrent_number',10)">10并发</span>
+				   <span class=" butt butt_user user_10" onclick="alertProduct('concurrent_number',50)">50并发</span>
+                   </div>
+                  </div>
+				   </div>
+				  
+                   <div class="body_menu1 body_template clearfix form-group" style="margin-top: 20px;" id="numberClearfix2" style="position: relative;">
+				   <div class="clearfix">
+                   <label class="menu_name">模板数</label>
+				   
+				     <input type="text" value="" id="template_number" name="template_number" placeholder="请输入模板数" class="value_color valueNum" onchange="alertProduct('template_number',this.value)"/>
+				   
+                   <div id="concurrent_button1" style="display:none;">
+                   <span class=" butt butt_template user_3" onclick="alertProduct('template_number',60)">60模板</span>
+                   <span class=" butt butt_template user_5" onclick="alertProduct('template_number',100)">100模板</span>
+                   <span class=" butt butt_template user_10" onclick="alertProduct('template_number',150)">150模板</span>
+                   <span class=" butt butt_template template_10" onclick="alertProduct('template_number',200)">200模板</span>
+                   </div>
+                   </div>
+				    </div>
+					
+					
+					
+                    <div class=" body_menu2 body_time clearfix" style="margin-top: 20px;">
+                       <label class="menu_name">选择时长</label>
+                   <div class="slider-date" id="slider-date-1">
+                          <!--底层-->
+                          <ul class="slider-bg clearfix">
+                              <li>1</li>
+                              <li>2</li>
+                              <li>3</li>
+                              <li>4</li>
+                              <li>5</li>
+                              <li>6</li>
+                              <li>7</li>
+                              <li>8</li>
+                              <li>9</li>
+                              <li>1年</li>
+                              <li>2年</li>
+                              <li>3年</li>
+                              <li>10年</li>
+                          </ul>
+                      
+                          <!--互动层-->
+                         <div class="slider-bar">
+                              <ul class="slider-bg clearfix">
+                                  <li>1<span>1个月</span></li>
+                                  <li>2<span>2个月</span></li>
+                                  <li>3<span>3个月</span></li>
+                                  <li>4<span>4个月</span></li>
+                                  <li>5<span>5个月</span></li>
+                                  <li>6<span>6个月</span></li>
+                                  <li>7<span>7个月</span></li>
+                                  <li>8<span>8个月</span></li>
+                                  <li>9<span>9个月</span></li>
+                                  <li>1年<span>1年</span></li>
+                                  <li>2年<span>2年</span></li>
+                                  <li>3年<span>3年</span></li>
+                                  <li>10年<span>10年</span></li>
+                              </ul>-->
+                              <!--滑块按钮-->
+                             <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+                         </div>
+                         </div>
+                 </div>
+				 <div class="clearfix">
+					<p class="text_explain" id="text_free" style="margin-left:95px;">*免费版到期后可免费续费</p>
+				 </div>
+                  <div class="clearfix price_details">
+					 <p class="text_explain" id="text_standard">购买一年以上立享9折</p> 
+				 </div>
+                  <div class=" body_name body_menu1 clearfix re_btn" style="position: relative;height: 90px;width: 100%;">
+				       <p class="cost_prompt">原价<s class="cost_price" id="cost_price"></s><span class="save_price" >立省￥<span id="save_price"></span></sapn></p>
+					<!-- <div class="paysBtn" style="height: 100px;text-align: right;"> 
+					   <label class="pays">总费用：<b><span id="productPrice" name="productPrice">10000000000000000000000 </span> </b></label>
+                     <button type="submit"  class="btn btn-spacepay" data-dismiss="modal">确认支付</button>
+				    </div> -->
+					
+					<div class="pagBox" style="text-align: right;">
+						<label class="pays">总费用：<b><span id="productPrice" name="productPrice">40830</span> </b></label>
+						<button type="submit" name="sub_1" class="btn btn-spacepay" data-dismiss="modal">确认支付</button>
+					</div>
+				
+				
+				</div>
+                   <div class="pay_prompt">
+                     <p class="pay_tishi" id="errorMsg" name="errorMsg"></p>
+                     </div>
+					 
+				
+					 
+
+		
+       </div>  
+		</div>	
+        <!-- :form -->
+    </div>
+	
+	
+</div>
+
+<script type="text/javascript">
+
+    // pointer-events: none;
+
+	function updateButtonState(){
+	
+		$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+
+	$(".install_server").click(function(){
+		$(".install_server").removeClass("select_radio");
+		$(this).addClass("select_radio");
+		
+		if(this.id=="new_server"){
+			$("#server_name").show();
+		} else {
+			$("#loca_server_model").show();
+		   
+		}
+	});
+
+
+	
+	//免费版本处理
+	function executeFreeVersion(){
+		$("#concurrent_button").hide();
+		 $("#text_standard").hide(); 
+		 $("#concurrent_button1").hide();
+		$("#text_free").show();
+		$('small').css({display:'none'})
+        $("#concurrent_number").attr("disabled",true);$("#template_number").attr("disabled",true); 
+        $("#lato_server_current_limit").val("5");
+        $("#lato_template_number").val("60");
+        $("#template_number").val("60");
+        $("#concurrent_number").val("5");
+        $("#lato_space_size").val("10");
+        $("#space_size").val("10");
+        $("#lato_version_type").val("free");
+        
+        $('#concurrent_number').css({border:'none'});
+		$('#template_number').css({border:'none'})
+        maxSize = 12;
+        minSize = 12;
+        window.sliderToDes(12);//免费版默认10年
+	}
+	
+	//标准版本处理
+	function executeStandardVersion(){
+		
+        $("#concurrent_button").show(); $("#concurrent_button1").show();$("#text_standard").show();
+        $("#text_free").hide();
+        $("#concurrent_number").attr("disabled",false); $("#template_number").attr("disabled",false);
+        $("#space_size").attr("disabled",false);
+        $("#lato_version_type").val("standard");
+		$('#concurrent_number').css({border:'1px solid #dbdbdb'});
+		$('#template_number').css({border:'1px solid #dbdbdb'})
+        maxSize = 12;
+        minSize = 2;
+        window.sliderToDes(9);
+	}
+	
+	//应用名称默认免费版不可编辑
+	$("#concurrent_number").attr("disabled",true);
+	
+	$("#template_number").attr("disabled",true);
+	$("#space_size").attr("disabled",true);
+	
+	$(".radio_edition").click(function(){
+		$(".radio_edition").removeClass("select_radio");
+		$(this).addClass("select_radio");
+		if(this.id=="eversheet_free"){
+			executeFreeVersion();
+			
+		} else {
+            executeStandardVersion();
+		}
+		
+
+	});
+	var maxSize = 12;
+	var minSize = 12;
+(function($) {
+    $.fn.sliderDate = function(setting) {
+	
+        var defaults = {
+				
+                callback: false //默认回调函数为false
+            }
+			
+			
+        //如果setting为空，就取default的值
+        var setting = $.extend(defaults, setting);
+        this.each(function() {
+            //插件实现代码 
+            //var $sliderDate = $(".slider-date");
+            var $sliderDate = $(this);
+			var $sliderBar = $sliderDate.find(".slider-bar");
+			var $sliderBtn = $sliderDate.find(".slider-bar-btn");
+			var liWid = 50+1; //单个li的宽度
+	
+			//滚动指定的位置
+			window.sliderToDes = function(index){
+
+				//最大不能超过11
+				if(index > maxSize){
+					index = maxSize;
+				}
+
+				//最小不能小于 0 
+				if(index < minSize){
+					index = minSize;
+				}
+
+				//背景动画
+				$sliderBar.animate({
+					"width" : liWid*(index+1)
+				},500);
+
+				//执行回调
+				if(setting.callback){
+					setting.callback(index);
+				}
+
+			};
+			
+			//默认为免费版10年
+			//sliderToDes(12);
+			
+			//点击 - 滚动到指定位置
+			$sliderDate.on('click', "li", function(e) {
+				//执行滚动方法
+				sliderToDes($(this).index());
+			});
+
+			//拖动 - 滚动到指定位置
+			$sliderBtn.on('mousedown', function(e) {
+				var $this = $(this);
+				var pointX = e.pageX - $this.parent().width();
+				var wid = null;
+
+				//拖动事件
+				$(document).on('mousemove',function(ev){
+					wid = ev.pageX - pointX
+					if(wid > 20 && wid < 620){
+						$sliderBar.css("width", wid);
+					}
+				}).on('mouseup',function(e){
+					$(this).off('mousemove mouseup');
+					var index = Math.ceil(wid/liWid) - 1;
+					sliderToDes(index);
+				});
+			});
+        });
+    }
+})(jQuery);
+
+
+$(function(){
+	function setBuyMonth(index){
+		 var month = index +1;
+		if(month == 10)
+			month = 12;
+		else if(month == 11)
+			month = 24;
+		else if(month == 12)
+			month = 36;
+		else if(month == 13)
+			month = 120;
+		$("#lato_buy_month").val(month);
+		queryMoney();
+	}
+	
+	$("#slider-date-1").sliderDate({callback:setBuyMonth});
+	executeFreeVersion();
+});
+
+
+function alertProduct(idName,limit){
+	
+	$("#"+idName).val(limit);
+	
+	 $('#defaultForm').data('bootstrapValidator')  
+                    .updateStatus(idName, 'NOT_VALIDATED',null)  
+                    .validateField(idName); 
+	
+	if(idName=='concurrent_number')
+		$("#lato_server_current_limit").val(limit);
+		
+	if(idName=='template_number')
+		$("#lato_template_number").val(limit);
+	
+	if(idName=='space_size')
+		$("#lato_space_size").val(limit);
+		
+	queryMoney();
+}
+
+function queryMoney(){
+	var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串
+	$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("applyLocalServiceForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					console.log(data,401)
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('errorMsg').innerText=error;
+					else{
+						document.getElementById('cost_price').innerText="￥"+data.原价;
+						document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+						document.getElementById('productPrice').innerText=data.总费用;
+						document.getElementById('errorMsg').innerText="";
+					}
+				}    
+			});    
+	}
+	
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    'concurrent_number': {
+                        validators: {
+                            notEmpty: {
+                                message: '并发数不允许为空...'
+                            },between: {
+								min: 3,
+								max: 50,
+								message: '并发数最小为3最大为50'
+							}
+                        }
+                    }
+					,'template_number': {
+                        validators: {
+                            notEmpty: {
+                                message: '模板数不允许为空...'
+                            },between: {
+								min: 30,
+								max: 100000,
+								message: '模板数最小为30最大为100000'
+							}
+                        }
+                    },'lato_server_app_name': {
+                        validators: {
+                            notEmpty: {
+                                message: '应用名称不允许为空...'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('applyLocalServerApp')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+                                showErrorModel("创建应用出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="创建应用出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+  
+ $(document).ready(function() {	
+		
+	
+		$('#sub-item-2').addClass('in');	
+    });
+
+         var lato=document.getElementById('lato_is_private');
+		 var productNumber="";
+		 var productName="";
+    	$.get('@{LatoWebDelegate.getJsonData("免费版默认产品","查询免费版默认版本")}', function (data) {
+			var responseJson = JSON.parse(data);
+			console.log(responseJson)
+			productNumber=responseJson[0].产品编号;
+			productName=responseJson[0].产品名称;
+			$('#lato_product_code').val(productNumber);     // 
+			$('#lato_product_name').val(productName);  // lato_product_name
+		})
+       
+        function isCheckedtrue() {
+			$('#lato_product_code').val(productNumber);     // 
+			$('#lato_product_name').val(productName);  // lato_product_name
+    	}
+
+		function isCheckedfalse() {
+			
+			$('#lato_product_code').val('');
+			$('#lato_product_name').val('');
+		}
+
+
+</script>
+
+<style>
+	.main_width {
+	 padding-left: 3px;
+	padding-top: 0px;
+	
+}
+
+.main_body .body_menu1 {
+	margin-top: 19px;
+	position: relative;
+}
+
+
+.help-block{
+	position: absolute;
+	left: 190px;
+	top: 0px;
+}
+
+.titlehH3{
+	font-weight: 700;
+    font-size: 14px;
+    font-family: Microsoft YaHei;
+    color: #373F4A;
+	margin-top: 18px;
+	margin-bottom: 4px;
+	padding-left: 15px;
+}
+
+.valueNum{
+	border:none;
+	background-color: #fff;
+	line-height: 25px;
+	padding-bottom: 6px;
+}
+.text_explain{
+	margin-left:105px!important;
+}
+.main_body .body_menu1{
+	margin-left: 560px;
+}
+
+#numberClearfix1 small{
+   position: absolute;
+   left: -52px;
+    top: 25px;
+}
+#numberClearfix2 small{
+   position: absolute;
+   left: -52px;
+    top: 25px;
+}
+
+/* .pays {
+    min-width: 138px!important;
+    height: 36px;
+    border: 1px solid #22bc64;
+    color: #22cb64;
+    border-radius: 4px;
+    line-height: 36px;
+    padding-left: 10px;
+} */
+
+.pays {
+    min-width: 138px!important;
+    height: 36px;
+    border: 1px solid #22bc64;
+    color: #22cb64;
+    border-radius: 4px;
+    line-height: 36px;
+    padding-left: 10px;
+    text-align: left;
+}
+.cost_prompt {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    color: #22cb64;
+    text-align: right;
+}
+.btn-spacepay {
+    height: 36px;
+    width: 98px;
+    background: #47CD69;
+    color: #fff;
+    margin-top: -5px;
+    margin-left: -7px;
+}
+
+.main_body {
+    padding-right: 73px;
+}
+
+
+
+</style>

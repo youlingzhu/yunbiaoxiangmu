@@ -1,0 +1,45 @@
+
+<input type='hidden' value="#{is_wps/}" />
+#{if   flash.is_wps=='true'}
+<a class="navbar-header-ie navbar-brand " href="https://www.iyunbiao.com" target="_blank">
+	<span style="font-weight:bold; color:#F4F8E8"/>
+</a>
+<div class="top-nav" id="top-nav">
+	<ul>
+		<li>
+			<a href="@{LatoWebDelegate.getIndexForm()}">管理控制台</a>
+		</li>
+	</ul>
+</div> 
+#{/if}
+
+#{else}
+<a class="navbar-header-ie navbar-brand " href="https://www.iyunbiao.com" target="_blank">
+	<span style="font-weight:bold; color:#F4F8E8"/>
+</a>
+<div class="top-nav" id="top-nav">
+	<ul>
+		<li>
+			<a href="@{LatoWebDelegate.getIndexForm()}">管理控制台</a>
+		</li>
+		<li>
+			<a href="https://www.iyunbiao.com/appstore/" target="_blank">应用商城</a>
+		</li>
+		<li>
+			<a href="https://bbs.iyunbiao.com/" target="_blank">云粉社区</a>
+		</li>
+		<li class="wiki_text">
+			<a href="https://wiki.iyunbiao.com/" target="_blank">开发文档</a>
+			<ul class="sub std-sub">
+				<span class="sub-bg"/>
+				<li>
+					<a href="https://www.iyunbiao.com/wiki/%E9%A6%96%E9%A1%B5" target="_blank">帮助文档</a>
+				</li>
+				<li>
+					<a href="https://edu.iyunbiao.com/" target="_blank">云表课堂</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div> 
+#{/else}

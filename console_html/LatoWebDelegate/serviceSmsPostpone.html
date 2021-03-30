@@ -1,0 +1,229 @@
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'短信服务购买' /}
+#{set sms:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+
+<style>
+#lato_main{position: relative;font-size: 14px;padding:0px 20px 0px 20px;float: left;}
+</style>
+
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" action="" >		
+		<input type="hidden" id="lato_priceProductId" name="lato_priceProductId" value="" />
+		<input type="hidden" id="lato_server_code" name="lato_server_code" value="${serviceCode}" />
+		<input type="hidden" id="lato_appId" name="lato_appId" value="${serverAppId}" />
+		<input type="hidden" id="lato_global_app_id" name="lato_global_app_id" value="${serverAppCode}" />
+		<input type="hidden" id="lato_service_id" name="lato_service_id" value="${serviceId}" />
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				短信服务购买<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div> -->
+		<div id="lato_main" class="main_body clearfix">
+		</div>
+	</form>
+</div>
+
+#{include './formItemsTpl.html' /}
+
+<script type="text/javascript">
+//确认支付提交的地址
+var postUrl = "@{LatoWebDelegate.putForm('postSmsPostpone')}";
+//ajax查询价格地址
+var queryMoneyUrl = "@{LatoWebDelegate.querySmsProductPrice()}";
+//服务器返回的表单结构
+var items = #{verbatim}${flash.items!=null?flash.items:'[]'}#{/verbatim};
+
+function formatOneItem(itemObj, prefix) {
+	if (!itemObj || !itemObj[prefix+'type'])return null;
+	var obj = {'type':itemObj[prefix+'type']
+			,'label':itemObj[prefix+'name']
+			,'placeholder':'请输入'+itemObj[prefix+'name']
+			,'name':itemObj[prefix+'code']
+			,'defaultValue':itemObj[prefix+'default']
+			,'minValue':itemObj[prefix+'min']
+			,'maxValue':itemObj[prefix+'max']
+			,'verify':itemObj[prefix+'verify']};
+	obj.type = (obj.type=='只读文本'?'label':obj.type=='文本框'?'text':obj.type=='密码框'?'password':obj.type=='数量框'?'quantity':obj.type=='拖动条'?'duration':obj.type);
+	obj.verify = (obj.verify=='密码'?'password':obj.verify=='小数'?'number':obj.verify=='整数'?'number0':obj.verify)
+	
+	var paramObj = params2Json(itemObj[prefix+'params']);
+	
+	return $.extend({},paramObj,obj);
+}
+//格式化为模板使用的json对象数组
+function formatFormItems() {
+	var fItems = [];
+	for (var i=0; i < items.length; i++) {
+		fItems.push(formatOneItem(items[i], 'attr_'));
+		$('#lato_priceProductId').val(items[i]['code']);
+	}
+	items.length&&fItems.push(formatOneItem(items[0], 'qty_'));
+	
+	
+	return fItems;
+}
+//ajax查询价格
+function queryMoney() {
+	 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+		$.ajax({    
+			type:'post',        
+			url:queryMoneyUrl,    
+			data:formParam,    
+			cache:false,    
+			dataType:'json',    
+			success:function(data){
+				if(data.error)
+					$('#errorMsg').text(data.error);
+				else{
+					$('#productPrice').text(data.totalPrice);
+					$('#cost_price').text("￥"+data.originalTotalPrice);
+					$('#save_price').text(ForDight(data.originalTotalPrice - data.totalPrice,2));
+					$('#errorMsg').text("");
+				}
+			}    
+		});    
+}
+//window.loadModuleName && layui.use(loadModuleName);
+layui.use(['form', 'laydate', 'laytpl'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,laydate = layui.laydate
+  ,laytpl = layui.laytpl;
+
+  var formItems = formatFormItems();
+  //加载模板
+  $.each(formItems.concat({'type':'submit_pay'}), function(i, n){
+  	n&&laytpl($('#formItemTpl_'+n.type).html()).render(n, function(html){
+  		$("#lato_main").append(html.replace(/script_self/gi,"script"));
+  	});
+  });
+
+  //
+  //$("#defaultForm").attr("action", postUrl);
+
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+				 
+				excluded : ':disabled',  
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:postUrl,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("购买短信出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+						
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="购买短信出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+			})
+            .on('error.field.bv', function(e, data) {
+				//alert('error.field.bv'+data.field);
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+			
+				//alert('success.field.bv'+data.field);
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+				//alert('added.field.bv'+data.field);
+                //console.log('Added element -->', data.field, data.element);
+            })
+			
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+  //日期
+  laydate.render({
+    elem: '#date'
+  });
+  //用于表单提交的全局开关,在password验证中使用
+  var bFormSubmit = true;
+  //自定义验证规则
+  form.verify({
+     number0: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,number1: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,number2: function(e){if(!e||isNaN(e)) return "只能填写数字"}
+    ,password: function(value){//[/(.+){6,18}$/, '密码必须6到18位']
+      var passwdGroup = {};
+      $("input[lay-verify='password']").each(function(){
+        bFormSubmit = true;//重置为true
+        if (passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] === undefined) {
+          if ($(this).val().length < 6) {
+            layer.msg('密码至少6位以上', {icon: 5,shift: 6});
+            bFormSubmit = false;
+            $(this).focus();
+            return false;
+          }
+          passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] = $(this).val();
+        } else {
+          //重新定义第二个密码框name属性用lato-name代替,避免提交给服务器
+          $(this).attr('lato-name', $(this).attr('name')||$(this).attr('lato-name')).removeAttr('name');
+          if (passwdGroup[$(this).attr('name')||$(this).attr('lato-name')] != $(this).val()) {
+            layer.msg('密码确认输入不一致', {icon: 5,shift: 6});
+            bFormSubmit = false;
+            $(this).focus();
+            return false;
+          }
+        }
+      });
+    }
+  });
+  
+  //监听提交
+  form.on('submit(submit1)', function(data){
+    if (!bFormSubmit)return false;
+    /*layer.alert(JSON.stringify(data.field), {
+      title: '最终的提交信息'
+    })*/
+    //return false;
+  });
+  
+});
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+</script>
+
+#{/set}

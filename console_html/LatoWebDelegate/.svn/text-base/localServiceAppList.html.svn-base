@@ -1,0 +1,316 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'本地服务器应用空间列表' /}
+#{stylesheet 'Admin/css/kongjian.css' /}
+
+ <div  class="main" >
+				<input type="hidden" name="lato_service_code"  id="lato_service_code" value="${serviceCode}" /> 
+				<input type="hidden" name="lato_server_state"  id="lato_server_state" value="${flash.服务器状态}" /> 
+				<input type="hidden" name="lato_service_name"  id="lato_service_name" value="${serverName}" /> 
+				<input type="hidden" name="app_size"  id="app_size" value="0" /> 
+				
+  <div class="main_title main_title_w">
+            <h3>${serverName}<span>(${serviceCode})</span></h3>
+			<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back">返回服务器列表</a>
+     </div>
+	 
+ <div class="main_body">
+                   <div class="help-list">
+                      <ul>
+                          <li class="qq_m qq_m_bg">
+                          <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2106868713&amp;site=qq&amp;menu=yes" class="qq_btn"></a>
+                          <div class="list_txt dis_qq">
+                              <i class="txt_right"></i>
+                             <span class="txt"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3073701146&amp;site=qq&amp;menu=yes" target="_blank">在线安装指导</a></span>
+                          </div>
+                          </li>
+                          <li class="new_m">
+                             <a href="http://www.iyunbiao.com/bbs/t-1142-1.html" class="qq_btn"></a>
+                          <div class="list_txt dis_new">
+                              <i class="txt_right"></i>
+                             <span class="txt"><a href="http://www.iyunbiao.com/bbs/t-1142-1.html" target="_blank">新手入门教程</a></span>
+                          </div>
+                          </li>
+                          <li class="help_m">
+                             <a href="http://www.iyunbiao.com/bbs/t-1115-1.html" class="qq_btn" ></a>
+                          <div class="list_txt dis_help">
+                              <i class="txt_right"></i>
+                             <span class="txt"><a href="http://www.iyunbiao.com/bbs/t-1115-1.html" target="_blank">安装激活教程</a></span>
+                          </div>
+                          </li>
+                      </ul>
+                 </div>
+        
+                  <div class="body_menu1 clearfix">
+                    <label class="menu_name local_serve">服务器名称:</label>
+					 <a href="@{LatoWebDelegate.getUpdateServer(serviceCode)}"><span class="menu_local_name1">${serverName}</span></a>
+                   
+                    <!--<div class="top_btn_list">
+                              <li class="huoqu"><a href="javascript:serverBanding()" id="binding" >获取激活码</a></li>
+                              <li class="chakan"><a href="javascript:window.open('@{LatoWebDelegate.getLocalService(serviceCode)}','_self','')" id="queryDevice" >查看授权码</a></li>
+                              <li class="jiebang"><a href="javascript:window.open('@{LatoWebDelegate.getUnbundlingServer(serviceCode)}','_self','')" id="unbunding" > 服务器解绑</a></li>
+                        </div>-->
+                </div>
+                
+			
+		  <!--  <div class="clearfix">
+               <div class=" body_menu1">
+                  <div class="btn_list">
+                      <a class="down_32" href="javascript:downLoad();"><span class="down_32_img">下载云服务器安装包</b></span></a>
+                       <a class="down_64"href="${serverInstallUrl}"><span class="down_64_img">下载云服务器安装包<b>(64位)</b></span></a> 
+                        
+                  </div>
+               </div>
+          </div>-->
+		  <div class="first_steps">
+		      <p class="first_tit">第一步 创建应用 <span >（请点击下方按钮，创建您的专属应用,注册时默认会添加一个默认应用，）</span></p>
+		  </div>
+          <div class="main_body_btn clearfix" >
+             <div id="createApp"><a class="btu_new_application sever_local" href="@{LatoWebDelegate.localServerAppCreate(serviceCode,serverName)}">创建应用</a> </div>
+             <p class="mima_tishi">应用的默认账号为：<b>admin</b> 密码为：<b>admin</b></p>
+          </div>
+		  
+          <div class="table server_table clearfix">
+
+		  	  <table data-toggle="table"  id="table" data-search="true" data-side-pagination="server"     data-pagination="true"    data-url="${flash.dataUrl}"  >
+		 	 <thead>
+								<tr class="line-bg">
+								#{list items:fieldList, as:'fieldObj' }
+									<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+								#{/list} 
+									<th data-field="operate" data-formatter="operateFormatter"  data-halign="center" data-events="operateEvents">操 &nbsp;&nbsp;&nbsp;  作</th>
+								</tr>
+			</thead>
+	     </table>	
+          </div>
+		  
+		  
+		  
+         <!-- <div class="table_pagelist">
+                   <ul class="pagination" id="pagination2"></ul>
+          </div>-->
+           <div class="first_steps steps ">
+		      <p class="first_tit">第二步下载安装<span>（如果您已完成第一步成功创建应用,请点击下方按钮，下载并执行安装程序）</span></p>
+		  </div>
+		  <div class="clearfix">
+               <div class=" body_menu1">
+                  <div class="btn_list">
+                      <a class="down_32" href="javascript:downLoad();"  title="云表已经经过国家权威机构安全认证,安装过程中部分杀毒软件,如360安全卫士,误报病毒,木马等警告,请选择信任,允许!"><span class="down_32_img">下载云表服务器安装包</b></span></a>
+					 
+                    <!-- <span class="down_reminding_img"></span> -->
+                
+                  </div>
+               </div>
+          </div>
+		  
+		  
+		  <div class="first_steps steps">
+		      <p class="first_tit">其他设置(设置APP访问地址)<span></span></p>
+		  </div>
+			<div class="body_menu1 local_body_end clearfix">
+                    <label class="menu_name local_dress">服务器外网地址：</label>
+                    <a href="@{LatoWebDelegate.getUpdateServer(serviceCode)}"><span class="menu_local_name1">${flash.服务器访问地址}</span></a>
+                     <span class="fuwuqi_tishi"><span></span>该链接供云表APP访问时使用</span>  
+                </div>		
+		  
+		  <div class="first_steps steps">
+		      <p class="first_tit">安装过程特殊情况处理方法<span></span></p>
+		  </div>
+		   <div class="top_btn_list">
+                              <li class="huoqu"><a href="javascript:serverBanding()" id="binding" >获取激活码</a></li>
+                              <li class="chakan"><a href="@{LatoWebDelegate.getLocalService(serviceCode)}" id="queryDevice" >查看授权码</a></li>
+                              <li class="jiebang"><a href="@{LatoWebDelegate.getUnbundlingServer(serviceCode)}" id="unbunding" > 服务器解绑</a></li>
+                        </div>
+			
+		  	
+						
+     </div> 
+</div>
+
+		
+	
+    
+</div>
+<script type="text/javascript">
+	
+
+function downLoad(){
+
+	var state =	lato_server_state.value;
+	
+	var size =parseInt($("#app_size").val());
+	
+		if(state == '已绑定'){
+			alert("当前服务器已绑定，如果需要安装则请先解绑.");
+		}else{
+		
+			if(size < 1){
+					alert("当前服务器未创建应用，请创建应用后进行安装.");
+			}
+			else{
+					window.open("${serverInstallUrl}");
+			}
+			
+		}
+		
+
+}
+	
+function queryMoney(){
+		
+		var showUserAction = #{jsAction @LatoWebDelegate.queryProductPrice(':type') /}
+		var  v2 =showUserAction({type:'postponeLocalServiceForm'}) 
+		$.post(v2, { lato_server_name: ${'lato_service_name'}.value, lato_server_code: ${'lato_service_code'}.value,lato_server_app_code: ${'lato_server_app_code'}.value,	lato_server_app_id:${'lato_server_app_id'}.value,lato_add_month:${'lato_buy_month'}.value},function(data,status,XMLHttpRequest, textStatus, errorThrown){
+		
+		});
+
+		var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+			$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("postponeLocalServiceForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('productPrice').innerText=error;
+					else
+						document.getElementById('productPrice').innerText=+data.总费用;
+				}    
+			});    
+	}
+	
+	
+	
+	
+	function serverBanding(){
+		var state =	lato_server_state.value;
+		if(state == '已绑定'){
+            location.href = "@{LatoWebDelegate.getLocalServiceMigrate(serviceCode,serverName)}";
+			//window.open("@{LatoWebDelegate.getLocalServiceMigrate(serviceCode,serverName)}",'_self','')
+		}else{
+            location.href = "@{LatoWebDelegate.getLocalServiceBinding(serviceCode,serverName)}";
+			//window.open("@{LatoWebDelegate.getLocalServiceBinding(serviceCode,serverName)}",'_self','')
+		}
+	}
+	
+	
+	
+   
+	 $(document).ready(function() {
+		
+		var state =	lato_server_state.value;
+		if(state == '已绑定'){
+		
+			$("#binding").html('迁移服务器');
+			
+			  $(".unbunding").hide();
+		}else{
+		
+			  $(".chakan").hide();
+		  $(".jiebang").hide();
+			
+		}
+	
+		$('#sub-item-2').addClass('in');	
+    });
+	
+	
+		
+		var result="";
+		//查看详情
+	function queryForm(temp){
+			var code = ${'lato_service_code'}.value;
+			var serverAppId = temp.应用ID;
+			var serverAppCode = temp.应用编号;
+			var serverName = ${'lato_service_name'}.value;
+			serverName=	encodeURI(serverName);
+		    var showUserAction = #{jsAction @LatoWebDelegate.getLocalServerApp(':serviceCode',':serverAppId',':serverAppCode',':serverName') /}
+			var  v2 =showUserAction({serviceCode :code,serverAppId:serverAppId,serverAppCode:serverAppCode,serverName:serverName}) 
+
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+		//更新应用信息
+	function update(temp){
+			
+			var globalAppId = temp.globalAppId;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getUpdateAppInfo(':globalAppId') /}
+			var  v2 =showUserAction({globalAppId :globalAppId}) 
+			
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+	function upgrade(temp){
+			var code =	${'lato_service_code'}.value;
+			var serverAppId = temp.应用ID;
+			var serverAppCode = temp.应用编号;
+			var serverName = ${'lato_service_name'}.value;
+			serverName=	encodeURI(serverName);
+		    var showUserAction = #{jsAction @LatoWebDelegate.getLocalServerAppUpgrade(':serviceCode',':serverAppId',':serverAppCode',':serverName') /}
+			var  v2 =showUserAction({serviceCode :code,serverAppId:serverAppId,serverAppCode:serverAppCode,serverName:serverName}) 
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+		
+	
+	function postpone(temp){
+			
+			var code =	${'lato_service_code'}.value;
+			var serverAppId = temp.应用ID;
+			var serverAppCode = temp.应用编号;
+			var serverName = ${'lato_service_name'}.value;
+			serverName=	encodeURI(serverName);
+		    var showUserAction = #{jsAction @LatoWebDelegate.getLocalServerAppPostpone(':serviceCode',':serverAppId',':serverAppCode',':serverName') /}
+			var  v2 =showUserAction({serviceCode :code,serverAppId:serverAppId,serverAppCode:serverAppCode,serverName:serverName}) 
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+	
+    function operateFormatter(value, row, index) {
+		$("#app_size").val(index + 1);
+		
+		return [
+				'<ul class="btu_list">',
+				'<li style="float: none;padding-left: 0px;"><a class="query xiangqing" href="javascript:">应用空间管理</a> </li> ',
+				//'<li><a class="update shezhi" href="javascript:">设置</a></li>',
+				//' <li><a class="postpone xufei" href="javascript:">续费</a></li>',
+				//' <li><a class="upgrade shenji" href="javascript:">升级</a></li>',
+				' </ul>'
+			].join('');
+			
+			
+			
+    }
+$(document).ready(function() {
+ 	//queryMoney();
+										
+	 if('${flash.isInitCreateApp}' == 'true')
+	 {	
+	 
+	 	$("#createApp").attr("style","display:none;");
+	 }
+										
+										
+	$('#sub-item-2').addClass('in');	
+    });
+    window.operateEvents = {
+        'click .query': function (e, value, row, index) {
+           	queryForm(row);
+        },
+        'click .upgrade': function (e, value, row, index) {
+			upgrade(row);
+        },
+        'click .update': function (e, value, row, index) {
+			update(row);
+        },'click .postpone': function (e, value, row, index) {
+			postpone(row);
+        }
+    };
+</script>

@@ -1,0 +1,80 @@
+﻿
+	
+#{extends 'LatoWebDelegate/buymain.html' /}
+#{set title:'订单' /}
+
+
+<div class=" main" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.getPaymentForm()}" >
+				<input type="hidden" name="lato_order_status"  id="lato_order_status" value="${flash.支付状态}" /> 
+ 				<input type="hidden" name="lato_order_code"  id="lato_order_code" value="${flash.订单号}" /> 
+				<input type="hidden" name="lato_order_code_text" id="lato_order_code_text" placeholder="订单编号"  value="${flash.订单号}"/> 
+				
+				<input type="hidden" name="lato_product" id="lato_product" placeholder="产品"    value="${flash.产品}"/> 
+				<input type="hidden" name="lato_order_type" id="lato_order_type" placeholder="订单类型"    value="${flash.订单类型}" /> 
+				<input type="hidden" name="lato_amount" id="lato_amount" placeholder="支付金额" disabled="disabled"   value="${flash.支付金额}" /> 
+				  <div class="main_title">
+            <h3>订单支付</h3>
+				  </div>
+				  <div class="main_body">
+								 <div class="body_name body_menu1 clearfix">
+									 <label class="menu_name">订单编号D</label>
+									 <label class="detail_text">${flash.订单号}</label>
+								 </div>
+								 <div class="body_name body_menu1 clearfix">
+									 <label class="menu_name">产品</label>
+									 <label class="detail_text">${flash.产品}</label>
+								 </div>
+								  <div class="body_name body_menu1 clearfix">
+									 <label class="menu_name">订单类型</label>
+									  <label class="detail_text">${flash.订单类型}</label>
+								 </div>
+								  <div class="body_name body_menu1 clearfix">
+									 <label class="menu_name">订单内容</label>
+									 <textarea class="detail_text detail_textare">${flash.订单内容}</textarea>
+								 </div>
+						  
+						  <div class=" body_name body_menu1 clearfix pay_order_btn" id="pay">
+							<label class="pay">总费用：<b>${flash.支付金额}</b></label>
+							<button type="submit" class="btn btn-spacepay" data-dismiss="modal">确认支付</button>
+						  </div>
+						  
+						   <div class="pay_prompt">
+							 <p class="pay_tishi" id="errorMsg" name="errorMsg"></p>
+							 </div>
+							
+					</div>
+				
+        <!-- :form -->
+		
+		
+	</form>
+	
+
+   </div>
+				
+				
+			
+			
+<script type="text/javascript">
+	
+	
+  
+ $(document).ready(function() {	
+	
+	
+	
+	var code = $("#lato_order_status").val();
+	if(code == '未支付')
+		$("#pay").show();
+	else{
+		$("#pay").hide();
+	}
+									
+ $('#sub-item-4').addClass('in');	
+    });
+
+
+
+</script>

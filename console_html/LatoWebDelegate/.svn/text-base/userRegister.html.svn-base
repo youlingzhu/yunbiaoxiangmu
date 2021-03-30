@@ -1,0 +1,552 @@
+﻿
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'云表会员注册' /}
+
+		<form role="form" id="regForm" method="post" action="checkRegisterPhone" onsubmit="return false;">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_register_type" value="${registerType}" id="lato_register_type"/>
+		<input type="hidden" name="lato_invitation_code" value="${invitationCode}" id="lato_invitation_code"/>
+		<input type="hidden" name="lato_phone_area" value="" id="lato_phone_area"/>
+		
+    <div class="login_banner">
+		 
+         <div class="login_wrap">
+		 <div class="login_bg">
+		  </div>
+		  <div class="login_yinying"></div>
+            <div class="login_main">
+                 <h2>云表会员注册</h2>
+                 <div class="regin_phone" id="phone">
+                 <div class="label_list">
+				       
+				         <div class="phone_left clearfix" >
+						      <p class="phone_area">+86 <i class="icon_arrow"></i></p>
+							</div>
+					    <div class=" form-group clearfix">
+						   
+							<div class="phone_right clearfix">
+						        <label class="user_login user_phone"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						        <input placeholder="请输入手机号码" id="lato_phone"  name="lato_phone" class="lab_input phone_lab_input"/>
+						        </label>
+							</div>
+							
+						</div>
+						   <div class=" form-group">
+						  <label class="user_login user_img" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入图形验证码" class="lab_input" id="lato_yzm" name="lato_yzm"/>
+						  
+						  </label>
+						  <img borde="2" class="captcha" id="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                      </div>
+					  
+                 </div>
+                 <div class="label_text clearfix">
+                     <p class="service">我同意遵守<a href="https://www.iyunbiao.com/terms/">《用户服务协议》</a></p>
+					  <p class="service_right">已有账号<a href="@{LatoWebDelegate.getLoginForm(redirect)}">立即登录</a></p>
+                 </div>
+				 
+				 
+				     <div class="area_select" style="display:none;">
+				      <div class="country-container">
+					       <div class="search-code">
+						       <i class="icon_search"></i>
+							   <input type="text" class="search-code-input area-search">
+						   </div>
+						   <div class="country-code">
+						   
+								<div id="country-search-area" class="countrycode-container countrycode-container-usual" style="display:none;">
+									<ul class="p_list">
+										
+									</ul>
+							   </div>
+							   
+						       <div class="countrycode-container countrycode-container-usual">
+							        <div class="coun_header">常用</div>
+									<ul class="p_list">
+									      <li class="record clearfix record-area">
+										    <span class="record-country">中国</span>
+											 <span class="record-code record-code-display" >+86</span>
+										 </li>
+										 <li class="record clearfix record-area">
+										    <span class="record-country">中国台湾</span>
+											 <span class="record-code record-code-display" >+886</span>
+										 </li>
+										 <li class="record clearfix record-area">
+										    <span class="record-country">中国香港</span>
+										  <span class="record-code record-code-display" >+852</span>
+										 </li>
+										 
+									</ul>
+							   </div>
+							   <div class="countrycode-container countrycode-container-usual">
+							   <div class="coun_header">所有</div>
+							        <ul class="p_list">
+									 #{list items:countryCodeModelList, as:'countryCode'}
+										 <li class="record clearfix record-area">
+										    <span class="record-country">${countryCode.caption}</span>
+										    <span class="record-code record-code-display" >${countryCode.code}</span>
+										 </li>
+										#{/list}
+									</ul>
+							
+							   </div>
+						   </div>
+					  </div>
+				 </div>
+				 
+				 <div class="phone_select" style="display:none">
+				      <div class="country-container">
+					       <div class="search-code">
+						       <i class="icon_search"></i>
+							   <input type="text" class="search-code-input phone-search">
+						   </div>
+						   <div class="country-code">
+							   <div id="phone-search-area" class="countrycode-container countrycode-container-usual" style="display:none;">
+									<ul class="p_list">
+										
+									</ul>
+							   </div>
+						       <div class="countrycode-container countrycode-container-usual">
+							        <div class="coun_header">常用</div>
+									<ul class="p_list">
+									       <li class="record clearfix record-phone">
+										    <span class="record-country">中国</span>
+										    <span class="record-code">+86</span>
+										 </li>
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">中国台湾</span>
+										    <span class="record-code">+886</span>
+										 </li>
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">中国香港</span>
+										    <span class="record-code">+852</span>
+										 </li>
+										</ul>
+									</div>
+							 
+							   <div class="countrycode-container countrycode-container-usual">
+							   <div class="coun_header">其他</div>
+							   <ul class="p_list">
+							   #{list items:countryCodeModelList, as:'countryCode'}
+				
+										
+										 <li class="record clearfix record-phone">
+										    <span class="record-country">${countryCode.caption}</span>
+										    <span class="record-code">${countryCode.code}</span>
+										 </li>
+											
+								#{/list}
+							   </ul>
+							   
+							   </div>
+						   </div>
+					  </div>
+				 </div>
+				 
+
+				 
+                 <div class="btn_list">
+                     <input type="button" class="btn_login" id="regin" onclick="sendSms()" value="立即注册">
+                 </div>
+                </div>
+                <div class="regin_code " id="code">
+                    <div class="imfor_list">
+                        <p class="code_duanxin">我们已经发送一条验证短信至<span id="viewPhone" name="viewPhone"></span></p>
+                         <p class="code_tishi">请输入短信中的验证码</p>
+                    </div>
+                    <div class="phone_list clearfix form-group">
+                        
+						
+					
+						<label class="user_login user_code form-group">
+							<input placeholder="请输入验证码" id="lato_phone_code" name="lato_phone_code" /></label>
+							<a  href="" class="re_send" id="restSend" name="restSend">重新发送</a>
+						
+					</div>		
+                    <div class="regin_btnlist">
+                          <a href="javascript:register()" class="btn_next">下一步</a>
+                          <button class="btn_back" href="#" id="reg_back">返  回</button>
+                    </div>
+                </div>
+            </div>
+              
+         </div>
+	</div>
+		 
+		 </form>
+	
+
+<script type="text/javascript" src="//pv.sohu.com/cityjson?ie=utf-8"></script>
+ <script type="text/javascript">
+ 
+Date.prototype.format = function (format) {
+    var args = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+        "S": this.getMilliseconds()
+    };
+    if (/(y+)/.test(format))
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var i in args) {
+        var n = args[i];
+        if (new RegExp("(" + i + ")").test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" +
+                    n)
+                .length));
+    }
+    return format;
+};
+var ip = window.returnCitySN?window.returnCitySN.cip:"";
+var days = new Date().format("yyyy-MM-dd");
+var getIntoTime = new Date().format("hh:mm:ss");
+
+function uuid() {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
+          s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "";    //"" 引号里面可以加任意字符，代表拼接的意思，如果不加就是 纯32位支付
+
+        var uuid = s.join("");
+        return uuid;
+}
+let registerId = uuid();
+localStorage.setItem("uuid",registerId);  
+var fromData = {
+        "formId": 0,
+        "url": "new",
+        "latoVersion": 0,
+        "classTemplateName": "WPS入口页面数据",
+        "dataTableList": [{
+            "tableCaption": "WPS入口页面数据",
+            "fieldList": ["f1", "f2", "f3", "f4", "f5", "f6","f7","f8","f9"],
+            "deletedRecList": [],
+            "insertRecList": [
+                [3, days, getIntoTime, null, null, ip, "注册页面获取验证码",null,registerId]
+            ],
+            "updatedRecList": []
+        }]
+}
+function register(){
+				var showUserAction = #{jsAction @LatoWebDelegate.checkRegisterPhone() /}
+				var  v2 =showUserAction() 
+				var params=$("form").serialize();
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{	
+									showErrorModel("用户注册出现错误",erroMsg);
+							}else{
+                                monitoring("注册页面验证短信成功")
+								location.href = data.redirectUrl;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="用户注册出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+
+} 
+ 
+var count ;
+
+function update_p() {
+	var i1 =document.getElementById('restSend');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#restSend").attr("href","javascript:showtime(60);");
+		$("#restSend").removeAttr("style");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+ 
+function showtime(t){
+				count = t;
+				var txyz = $("#lato_yzm").val();
+				
+				
+				var phone = $("#lato_phone").val();
+				
+				
+				
+				var params=$("form").serialize();
+				
+				$("#restSend").removeAttr("href");
+				
+				$("#restSend").attr("style","cursor:not-allowed");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var  v2 =showUserAction({checkPhone:phone,txyz :txyz,key :$("#randomID").val(),type:'register'}) 
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params,
+						success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{	
+									window.clearInterval(id);
+									showErrorModel("发送短信出现错误",erroMsg);
+							}
+                            monitoring();
+							
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+								
+									window.clearInterval(id);
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+                    
+                   
+}
+
+function monitoring(message){
+     fromData.dataTableList[0].insertRecList[0][7] = $("#lato_phone").val();
+     if(message){
+        fromData.dataTableList[0].insertRecList[0][6] = message;
+     }
+     $.ajax({
+                        url:"http://www.iyunbiao.cn/13374/WPS%e5%85%a5%e5%8f%a3%e9%a1%b5%e9%9d%a2%e6%95%b0%e6%8d%ae/new",
+                        type:'POST',
+                        data:{
+                           "formJson":JSON.stringify(fromData)
+                        },
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/x-lato",
+                        },
+                        success:function(data){
+                                    
+                                    
+                        },
+                    });
+}
+ function sendSms(){
+            
+			if(!$('#regForm').data('bootstrapValidator').isValid()){
+				return;
+			}
+			var phone = $("#lato_phone").val();
+			 var phoneArea =$("#lato_phone_area").val();
+				
+				phone = phoneArea+phone;
+				
+			$("#viewPhone").html(phone);
+			$("#code").show();
+			$("#phone").hide();
+			
+			showtime(60);
+			
+	}
+$(function(){
+        
+		$("#reg_back").click(function(){
+		$("#code").hide();
+		$("#phone").show();
+		});
+		
+		$('#regForm').keydown(function(event){
+          switch(event.keyCode){
+             case 13:return false; 
+             }
+      });
+	})
+ 
+
+
+function refresh(){
+	
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+
+
+ 
+ 
+$(document).ready(function() {
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			 
+			lato_phone: {
+                validators: {
+                    notEmpty: { message: '手机号码不允许为空' }
+                }
+            },lato_yzm: {
+               validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        },
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}
+            },lato_phone_code:{
+				validators: {
+                    notEmpty: { message: '请输入手机验证码' }
+                }
+			}
+        }})
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				
+				 
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+$(".phone_area").click(function(){
+     if($(".phone_select").is(":hidden")){
+	    $(".phone_select").show();}
+		else{
+		$(".phone_select").hide();
+		}
+  
+    
+})
+$(".user_area").click(function(){
+     if($(".area_select").is(":hidden")){
+	    $(".area_select").show();}
+		else{
+		$(".area_select").hide();
+		}
+  
+    
+})
+
+
+var record_phone={
+	record_country:[],
+	record_code:[]
+};
+for(var i= 0; i<$(".record-phone").length; i++){
+	record_phone.record_country.push($($(".record-phone")[i]).children(".record-country")[0].innerHTML);
+	record_phone.record_code.push($($(".record-phone")[i]).children(".record-code")[0].innerHTML);
+}
+
+$(".phone-search").keyup(function(){
+	$(".countrycode-container-usual").hide();
+	$("#phone-search-area").show();
+	var c =  $(".phone-search").val();
+	var lis = "";
+	for(var i = 0; i< record_phone.record_country.length;i++){
+		if(record_phone.record_country[i].indexOf(c,0)!=-1){
+			var li = '<li class="record clearfix record-phone" onClick="selectPhone(this);"><span class="record-country">'+record_phone.record_country[i]+'</span><span class="record-code">'+record_phone.record_code[i]+'</span></li>'
+			lis = lis + li;
+		}
+	}
+	$("#phone-search-area>.p_list").html(lis);
+	
+});
+
+function selectPhone(e){
+	debugger;
+	$(".phone_area").html($(e).children(".record-code")[0].innerHTML + '<i class="icon_arrow"></i>');
+	var code = $(e).children(".record-code")[0].innerHTML;
+	$("#lato_phone_area").val(code);
+	$(".phone_select").hide();
+	$(".countrycode-container-usual").show();
+	$("#phone-search-area").hide();
+}
+$(".record-phone").click(function(){
+	selectPhone(this);
+});
+
+
+
+function selectArea(e){
+	$(".user_area").html($(e).children(".record-country")[0].innerHTML + '<i class="icon_arrow"></i>');
+	$(".phone_area").html($(e).children(".record-code")[0].innerHTML + '<i class="icon_arrow"></i>');
+	
+	$(".area_select").hide();
+}
+
+$(".record-area").click(function(){
+	selectArea(this);
+});
+
+$(".area-search").keyup(function(){
+	$(".countrycode-container-usual").hide();
+	$("#country-search-area").show();
+	var c =  $(".area-search").val();
+	var lis = "";
+	for(var i = 0; i< record_phone.record_country.length;i++){
+		if(record_phone.record_country[i].indexOf(c,0)!=-1){
+			var li =' <li class="record clearfix record-area" onClick="selectArea(this);"><span class="record-country">'+record_phone.record_country[i]+'</span></li>' ;
+			
+			lis = lis + li;
+		}
+	}
+	$("#country-search-area>.p_list").html(lis);
+	
+});
+
+
+
+		
+    </script>
+
+
+

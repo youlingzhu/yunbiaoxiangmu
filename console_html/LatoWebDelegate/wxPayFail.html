@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>微信支付失败通知</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+ <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+	#{stylesheet 'vendor/bootstrap/css/bootstrap.css' /}
+	#{stylesheet 'jquery-ui.min.css' /}
+	#{stylesheet '1.0/bootstrapValidator.min.css' /}
+
+	  #{script '1.0/bootstrapValidator.min.js' /}    
+	  
+	
+#{stylesheet 'Admin/css/bootstrap.min.css' /}
+#{stylesheet 'Admin/css/core.css' /}
+
+#{stylesheet '/login/global.css' /}
+#{stylesheet '/login/nav.css' /}
+#{stylesheet '/login/register.css' /}
+</head>
+
+<body class="service">
+
+<div class="navigation">
+	<div class="container">
+		<a href="/" class="logo left" id="J_logo"></a>
+		
+	</div>
+</div>
+
+
+<div id="banner" class="account-box-wrapper">
+	<canvas id="animate-net" class="banner-back"></canvas>
+    <div class="account-box">
+        <div class="register-form">
+		<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.alipayRecharge()}">
+		<input type="hidden" name="codeUrl" value="${codeUrl}" id="codeUrl"/>
+		<input type="hidden" name="code" value="${code}" id="code"/>
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		<input type="hidden" name="lato_useraccount" value="${loginAccount}" id="lato_useraccount"/>
+            <div class="account-form-title">
+                <label>微信支付失败通知</label>
+            </div>
+			
+			<input type="hidden" name="redirect"  id="redirect" value="${redirect}" /> 
+			
+            
+			<div class="account-input-area c1 " style="text-align:center">
+				<div class="form-group">
+					 <img  id="img"  src="@{'/public/images/failure.jpg'}" >
+				</div>
+				
+				<div class="status status_browser js_status" id="wx_default_tip">
+			            <p>微信支付失败!</p>
+						<p>错误代码:${err_code}</p>
+						<p>错误代码描述:${err_code_des}</p>
+				</div>
+			</div>	
+			    
+            
+		</form>
+        </div>
+    </div>
+</div>
+
+
+<div class="pub-r-b-fun-content" id="pubRightFunctionContent">
+	<ul class="pub-fun-list">
+		<li class="item online">
+			<a href="javascript:void(0);" class="js-qq-link" id="">
+				在线咨询
+				<div class="pub-fun-tip">
+					<span class="arrow"></span>
+					<div>商务QQ</div><div >新浪微博</div><img src="@{'/public/images/weixin_on.png'}" style="width: 90px;"><div>微信公众号</div>
+				</div>
+			</a>
+		</li>
+		<li class="item tel">
+			<a href="javascript:void(0);"  id="pubTelAskFor">
+				商务合作
+				<div class="pub-fun-tip">
+					<span class="arrow"></span>
+					<div>电话：0756-3335860</div> <div>商务QQ：623271829</div><div>官方Q群：216209529</div>
+				</div>
+			</a>
+		</li>
+		<li class="item to-top-new js-to-top"  id="pubGoToTop">
+			<a href="javascript:void(0);">
+				回到顶部
+				<div class="pub-fun-tip" style="margin-top: -24px;">
+					<span class="arrow" style="top: 14px;"></span>
+					返回顶部
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+ <script type="text/javascript">
+		
+
+  </script>
+
+
+
+
+#{script src:'login/base.js', id:'jquery' , charset:'utf-8' /}   
+#{script src:'login/pack.js', id:'jquery' , charset:'utf-8' /}   
+
+
+</body>
+
+
+</html>

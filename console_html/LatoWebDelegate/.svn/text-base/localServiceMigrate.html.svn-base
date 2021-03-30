@@ -1,0 +1,133 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'本地服务器迁移' /}
+
+
+<script src="@{'/public/javascripts/ZeroClipboard.js'}"></script>
+
+<div class="main" >
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('migrateLocalService')}" >
+				<input type="hidden" name="lato_service_code"  id="lato_service_code" value="${serviceCode}" /> 
+							
+							<input type="hidden" name="lato_service_name"  id="lato_service_name" value="${serviceName}" /> 
+				
+				<div class="main_title" >
+            <h3>本地服务器迁移</h3>
+			
+			  </div>
+			  <div class="main_body">
+				 <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+								 <label class="menu_name move_name">服务器</label>
+								 <label class="users_text move_text">${serviceCode}(${serviceName})</label>
+								 <a href="http://www.iyunbiao.com/bbs/t-1268-1.html" class="help_text">帮助说明</a>
+							 </div>
+						   
+							 <div class="body_pay body_menu1 clearfix">
+								 <label class="menu_name move_name">填写本地服务器机器码</label>
+								 <textarea class="users_text fuwuqi_beizhu" id="lato_migrate_service_code" name="lato_migrate_service_code"></textarea>
+							 </div>
+							 <div class="servercode">
+							   <a href="javascript:migrateServer();" class="servercode_sure move_sure">确认迁移</a>
+							 </div>
+			  </div> </div>
+				
+				</form>
+        <!-- :form -->
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+  
+  
+	function migrateServer(){
+			var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('migrateLocalService')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+									showErrorModel("服务器迁移出现错误",data.errorMsg);
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+						
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="出现异常";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message);
+							}
+						}
+					);
+				 	
+	}
+  
+$('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    'lato_migrate_service_code': {
+                        validators: {
+                            notEmpty: {
+                                message: '迁移服务器机器码必填...'
+                            },stringLength:{
+								
+								min: 100,
+								message: '不符合机器码格式，请输入正确的机器码格式.'
+							}
+                        }
+                    },'lato_service_name': {
+                        validators: {
+                            notEmpty: {
+                                message: '待迁移服务器名称必填...'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				
+			})
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+ $(document).ready(function() {
+									
+	$('#sub-item-2').addClass('in');	
+    });
+
+
+
+</script>

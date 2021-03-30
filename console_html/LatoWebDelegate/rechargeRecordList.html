@@ -1,0 +1,72 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'会员充值记录' /}
+	
+	<div class="main">
+     
+	  <div class="main_title main_title_w">
+		  	<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back list_back_a">
+				<img class="imgs" src="@{'/public/images/vector_header.png'}" >
+			</a>
+            <h3>会员充值记录</h3>
+     </div>
+      <div class="main_body">
+          <div class="main_cloud_btn clearfix">
+               <a class="btu_new_application" href="javascript:recharge()">在线充值</a>
+           </div>
+          <div class="table server_table clearfix">
+          <table data-toggle="table"  data-url="${flash.dataUrl}" data-height="500" id="events-id2" name="events-id2"   data-pagination="true"      data-side-pagination="server"      data-search="true"   >
+              <thead>
+                <tr class="line-bg">
+                 	#{list items:fieldList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+                </tr>
+              </thead>
+              <tbody>
+               
+              </tbody>
+           </table>
+          </div>
+          </div>
+		
+				
+		
+			
+        <!-- :form -->
+
+
+<script type="text/javascript">
+		
+
+	
+	function recharge(){
+		var showUserAction = #{jsAction @LatoWebDelegate.rechargeRecord() /}
+		var  v2 =showUserAction() 
+		
+			var openUrlAction = #{jsAction @LatoWebDelegate.getRecharge(':redirect') /}
+		
+		
+		var  openUrl =openUrlAction({redirect:v2}) 
+		
+		//window.open(openUrl,"_self","" ); 
+        location.href = openUrl;
+
+	}
+
+		
+	 $(document).ready(function() {
+	 
+	 
+	 $('#sub-item-4').addClass('in');
+	 
+	 
+		$("#getFormDiv").hide();
+		
+		}
+		)
+		
+   
+
+</script>

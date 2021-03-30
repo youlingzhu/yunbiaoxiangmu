@@ -1,0 +1,34 @@
+/** License By https://www.iyunbiao.com */
+body,html{height:100%}
+.layui-layout-body{overflow:auto}
+#lato-user-login,.lato-user-display-show{display:block!important}
+.lato-user-login{position:relative;left:0;top:0;padding:110px 0;min-height:100%;box-sizing:border-box}
+.lato-user-login-main{width:375px;margin:0 auto;box-sizing:border-box}
+.lato-user-login-box{padding:20px}
+.lato-user-login-header{text-align:center}
+.lato-user-login-header h2{margin-bottom:10px;font-weight:300;font-size:30px;color:#000}
+.lato-user-login-header p{font-weight:300;color:#999}
+.lato-user-login-body .layui-form-item{position:relative}
+.lato-user-login-icon{position:absolute;left:1px;top:1px;width:38px;line-height:36px;text-align:center;color:#d2d2d2}
+.lato-user-login-body .layui-form-item .layui-input{padding-left:38px}
+.lato-user-login-codeimg{max-height:38px;width:100%;cursor:pointer;box-sizing:border-box}
+.lato-user-login-other{position:relative;font-size:0;line-height:38px;padding-top:20px}
+.lato-user-login-other>*{display:inline-block;vertical-align:middle;margin-right:10px;font-size:14px}
+.lato-user-login-other .layui-icon{position:relative;top:2px;font-size:26px}
+.lato-user-login-other a:hover{opacity:.8}
+.lato-user-jump-change{float:right}
+.lato-user-login-footer{position:absolute;left:0;bottom:0;width:100%;line-height:30px;padding:20px;text-align:center;box-sizing:border-box;color:rgba(0,0,0,.5)}
+.lato-user-login-footer span{padding:0 5px}
+.lato-user-login-footer a{padding:0 5px;color:rgba(0,0,0,.5)}
+.lato-user-login-footer a:hover{color:rgba(0,0,0,1)}
+.lato-user-login-main[bgimg]{background-color:#fff;box-shadow:0 0 5px rgba(0,0,0,.05)}
+.lato-user-login-theme{position:fixed;bottom:0;left:0;width:100%;text-align:center}
+.lato-user-login-theme ul{display:inline-block;padding:5px;background-color:#fff}
+.lato-user-login-theme ul li{display:inline-block;vertical-align:top;width:64px;height:43px;cursor:pointer;transition:all .3s;-webkit-transition:all .3s;background-color:#f2f2f2}
+.lato-user-login-theme ul li:hover{opacity:.9}
+@media screen and (max-width:768px){
+.lato-user-login{padding-top:60px}
+.lato-user-login-main{width:300px}
+.lato-user-login-box{padding:10px}
+}
+body > .lato-user-login-body{position: absolute;width: 280px;height: 180px;margin: auto;top: 0;left: 0;right: 0;bottom: 0;}

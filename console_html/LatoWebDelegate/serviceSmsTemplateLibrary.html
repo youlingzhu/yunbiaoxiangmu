@@ -1,0 +1,189 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'常用短信模板库' /}
+#{set 'moreStyles'}
+#{stylesheet '../javascripts/1.0/layui/css/layui.css' /}
+#{stylesheet '../javascripts/1.0/layui/css/lato-layout.css' /}
+#{script '1.0/layui/layui.js' ,charset:'utf-8' /}
+#{script '1.0/layui/lib/lato-common.js' ,charset:'utf-8' /}
+#{/set}
+	
+<div class="main" >
+	<div class="main_title main_title_w" style="margin-bottom: 23px;width: 99%;">
+		<a href="javascript:;" class="list_back list_back_a" onClick="history.back(-1)">
+			<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+		</a>
+		<h3>常用短信模板库</h3>
+	</div>
+<!-- href="@{LatoWebDelegate.getIndexForm()}" -->
+	<div class="main_body">
+		<div class="main_body_btn clearfix">
+			<a class="btu_new_application"  id="addTemplateButton" href="javascript:void(0)">新建短信模板</a>
+		</div>
+		<div class="table clearfix">
+			<!-- <table data-toggle="table" data-url="${flash.dataUrl}" data-height="500" id="events-id2" name="events-id2"   data-pagination="true" data-side-pagination="server" data-search="true" data-row-style="rowStyle"> -->
+			<table id="table" data-search="true" data-side-pagination="server" data-pagination="true" data-url="" >
+				<thead>
+					<tr class="line-bg">
+						#{list items:fieldList, as:'fieldObj' }
+						<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+
+						<th data-field="operate" data-formatter="operateFormatter"  data-halign="center" data-events="operateEvents">操 &nbsp;&nbsp;&nbsp;  作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<div id="divSmsTemplate" style="display:none;padding: 20px;">
+  <form class="layui-form" lay-filter="formSmsTemplate" onsubmit="return false;">
+  <input type="hidden" name="lato_uuid" value="" />
+    <div class="layui-form-item">
+      <label class="menu_name">名称</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_template_name" value="" autocomplete="off" placeholder="请输入短信模板名称" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">模板</label>
+      <div class="layui-input-block" style="display: flex;">
+        <textarea name="lato_template" autocomplete="off" class="layui-textarea" onkeydown="if(event.keyCode==13)return false;" onblur="this.value=this.value.replace(/[\r\n]/gi,'')" placeholder="例子：{1}通知您可以通过移动端使用{2}系统,请下载APP并注册开通{3}"></textarea>
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">签名</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_sign" value="" autocomplete="off" placeholder="请输入短信签名" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;"></p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">备注</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="text" name="lato_desc" value="" autocomplete="off" placeholder="请输入备注" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;"></p> 
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-5').addClass('in');
+});
+
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	var openSmsTemplate = function(data) {
+		var title = data?'修改短信模板':'新建短信模板';
+		layer.open({
+			type: 1
+			,title: title
+			,content: $("#divSmsTemplate")
+			,btn: ['确认']
+			,area: ['500px', '480px']
+			,yes: function(index, layero){
+				var templateUpdateUrl = "@{LatoWebDelegate.smsServiceSmsTemplateLibraryUpdate()}";
+				
+				$.ajax({    
+					type:'post',        
+					url: templateUpdateUrl,    
+					data: layero.find("form").serialize(),    
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert(title+"成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+				});
+				return false;
+			}
+			,success: function(layero, index){
+				//初始化
+				form.val("formSmsTemplate", {
+				  "lato_template_name": data?data["名称"]:""
+				  ,"lato_template": data?data["模板"]:""
+				  ,"lato_desc": data?data["备注"]:""
+				  ,"lato_sign": data?data["签名"]:""
+				  ,"lato_uuid": data?data["UUID"]:""
+				})
+			}
+		});
+		form.render();
+	};
+	
+	$("#addTemplateButton").click(function(){openSmsTemplate();});
+	
+    window.operateEvents = {
+    	'click .edit': function (e, value, row, index) {
+    		openSmsTemplate(row);
+    	},
+    	'click .delete': function (e, value, row, index) {
+			var templateDeleteUrl = "@{LatoWebDelegate.getServiceSmsTemplateLibraryDelete()}";
+    		layer.confirm('是否确认删除'+(row["名称"]?row["名称"]:'')+'?', {
+    			title: '确认操作'
+    		}, function (index, layero) {
+				$.ajax({
+					type:'post',
+					url: templateDeleteUrl,
+					data: {lato_uuid:row['UUID']},
+					cache:false,
+					async: false,
+					dataType:'json',
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert("删除成功!", {icon: 1}, function(index){
+								location = location.href;
+							});
+						}
+					}
+				});
+				return false;
+    		});
+    	}
+    };
+	//加载模板明细数据
+	$('#table').bootstrapTable({
+		url: '${flash.dataUrl}'
+	});
+	$('.divTableTemplate').show();
+});
+function operateFormatter(value, row, index) {
+	return [
+			//'<ul class="btu_list">',
+			//'<li><a class="xiangqing edit" href="javascript:;">修改</a></li>',
+			//' <li><a class="xufei delete" href="javascript:">删除</a></li>',
+			//' </ul>'
+			'<div class="btu_list">',
+			'<span><a class="xiangqing edit" href="javascript:;">修改</a></span>',
+			'<span><a class="xufei delete" href="javascript:">删除</a></span>',
+			'</div>'
+		].join('');
+}
+</script>

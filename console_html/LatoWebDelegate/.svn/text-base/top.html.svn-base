@@ -1,0 +1,8 @@
+<div class="top-nav" id="top-nav">
+							<ul>
+							    <li><a href="@{LatoWebDelegate.getIndexForm()}">管理控制台</a></li>
+								<li><a href="https://www.iyunbiao.com/appstore/">应用商城</a></li>
+								<li><a href="https://bbs.iyunbiao.com/">云粉社区</a></li>
+								<li class="wiki_text"><a href="https://wiki.iyunbiao.com/">开发文档</a></li>
+							</ul>
+						</div>

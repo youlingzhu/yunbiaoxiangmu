@@ -1,0 +1,420 @@
+﻿
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>重置应用密码</title>
+	
+	#{stylesheet 'font-awesome.min.css' /}
+	#{stylesheet 'vendor/bootstrap/css/bootstrap.css' /}
+	#{stylesheet 'jquery-ui.min.css' /}
+	#{stylesheet '1.0/bootstrapValidator.min.css' /}
+	<!-- 
+    <link rel="stylesheet" href="@{'public/stylesheets/font-awesome.min.css'}">
+    <link rel="stylesheet" href="@{'public/vendor/bootstrap/css/bootstrap.css'}">
+	<link rel="stylesheet" href="@{'public/stylesheets/jquery-ui.min.css'}">
+	 <link rel="stylesheet" href="@{'public/dist/css/bootstrapValidator.css'}"/>
+	-->
+	   <script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	  <script src="//libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	  <!-- <script type="text/javascript" src="@{'public/dist/js/bootstrapValidator.js'}"></script>-->
+	  #{script src:'1.0/bootstrapValidator.min.js', id:'jquery' , charset:'utf-8' /}    
+	  
+	  <!--   <link rel="stylesheet" href="@{'public/dist/css/bootstrapValidator.css'}"/> -->
+	<!--baidu statistics-->
+    
+	<style type="text/css">
+label.error{
+    color: red;
+}
+input{width:212px;height:38px;border-style:none;padding:0 4px;border:1px solid #C8C8C8;margin-right:10px;outline:none;}
+.msgs{display:inline-block;width:120px;color:#fff;font-size:12px;border:1px solid #0697DA;text-align:center;height:46px;line-height:46px;background:#446fa6;cursor:pointer;}
+form .msgs1{background:#E6E6E6;color:#818080;border:1px solid #CCCCCC;}
+
+.checkcode canvas{
+	float: right;
+	width: 85px;
+	height: 36px;
+	padding: 3px;
+}
+
+</style>
+ #{stylesheet 'Admin/css/bootstrap.min.css' /}
+#{stylesheet 'Admin/css/core.css' /} 
+<!--<link href="public/Admin/css/bootstrap.min.css" rel="stylesheet">
+<link href="public/Admin/css/core.css" rel="stylesheet"> -->
+
+
+	
+</head>
+<body class="home-layout ">
+<!-- 通用header -->
+<!-- 通用header end -->
+
+
+<div class="wrapper-page" style="margin-top: 5%;">
+	<div class="panel panel-color panel-primary panel-pages">
+		<div class="panel-heading bg-img">
+			<div class="bg-overlay">
+			</div>
+		</div>
+        <div class="invateQrcode-border">
+			<h2>重置应用密码</h2>
+        </div>		
+		<div class="panel-body">
+			
+		<form role="form" id="regForm"  class="form-horizontal m-t-20" method="post" action="@{LatoWebDelegate.putAppResettingPwd()}">
+		 <input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_useraccount" value="${account}" id="lato_useraccount"/>
+		<input type="hidden" name="lato_app_id" value="${appId}" id="lato_app_id" />
+		
+        <div class="form-group">			
+			<div class="col-xs-12">
+					<label class="col-md-3 control-label">用户账号:</label>
+					<label class="col-md-4 control-label">${account}</label>
+			</div>
+        </div>
+		
+		<div class="form-group">			
+			<div class="col-xs-12">
+					<label class="col-md-3 control-label">修改应用:</label>
+					<label class="col-md-4 control-label">${appId}</label>
+			</div>
+        </div>
+		
+		 <div class="form-group clearfix">
+			<div class="col-xs-12">
+				<label class="col-md-3 control-label">联系号码:</label>
+				<label class="col-md-4 control-label">${phoneNumber}</label>
+			</div>
+        </div>
+		</br>
+		
+	    <div class="form-group clearfix">
+          	<div class="col-xs-7">
+                <input type="text" class="form-control input-lg" id="lato_yzm" name="lato_yzm" placeholder="输入图形验证码" >
+                <i class="icon icon-shield"></i>
+            </div>
+			
+            	<div class="col-xs-5">
+			
+				<img src="@{LatoWebDelegate.getVerifiCode(randomID)}" id="txm" onclick="refresh()"/>
+			
+             
+            </div>
+			
+            <div class="err-popover-out">
+                <div class="err-popover">
+                    <div class="tri-right"></div>
+                    <div class="tri-right-in"></div>
+                    <div class="err-popover-content"></div>
+                </div>
+            </div>
+        </div>
+	   
+        <div class="form-group clearfix ">
+          	<div class="col-xs-7">
+                <input type="text" class="form-control input-lg" id="lato_codePhoneText" name="lato_codePhoneText" placeholder="输入手机验证码">
+                <i class="icon icon-shield"></i>
+            </div>
+			
+         	<div class="col-xs-5">
+                <!-- <button class="code-phone-btn btn-default btn" onclick="sendMessage();" type="button" >
+				</button> -->
+                    <span  class="msgs" id="msgsClick">获取验证码</span>
+                
+            </div>
+			
+            <div class="err-popover-out">
+                <div class="err-popover">
+                    <div class="tri-right"></div>
+                    <div class="tri-right-in"></div>
+                    <div class="err-popover-content"></div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="form-group">
+			<div class="col-xs-12">
+				<input type="password" class="form-control input-lg" id="lato_pwd" name="lato_pwd" placeholder='输入新密码' maxlength="24">
+				<i class="icon icon-shield"></i>
+				<div class="err-popover-out">
+					<div class="err-popover">
+						<div class="tri-right"></div>
+						<div class="tri-right-in"></div>
+						<div class="err-popover-content"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+		
+		<div class="form-group">
+			<div class="col-xs-12">
+				<input type="password" class="form-control input-lg" id="lato_pwd_red" name="lato_pwd_red" placeholder='确认新密码' maxlength="24">
+				<i class="icon icon-shield"></i>
+				<div class="err-popover-out">
+					<div class="err-popover">
+						<div class="tri-right"></div>
+						<div class="tri-right-in"></div>
+						<div class="err-popover-content"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+		
+		
+		
+		
+		<div class="form-group text-center m-t-15">
+					<div class="col-xs-6">
+						<button class="btn btn-primary btn-lg w-lg waves-effect waves-light" type="submit">立即重置</button>
+					</div>
+					
+		</div>
+    </form>
+			
+			
+			
+			<!-- 模态框（Modal） -->
+				<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" 
+				   aria-labelledby="myModalLabel" aria-hidden="true">
+				   <div class="modal-dialog">
+					  <div class="modal-content">
+						 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+								  &times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								<span id="errorTypeSpan"></span>
+							</h4>
+						 </div>
+						 <div class="modal-body">
+							<span id="errorSpan"></span>
+						 </div>
+						 <div class="modal-footer">
+							<button type="button" class="btn btn-lato" 
+							   data-dismiss="modal">关闭
+							</button>
+						 </div>
+					  </div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+				</div>
+			
+		</div>
+	</div>
+</div>
+
+   
+</body>
+
+ <script type="text/javascript">
+ 
+
+
+function refresh(){
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}");
+}
+
+ 
+ 
+$(document).ready(function() {
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        },
+						remote: {
+									message: '图形验证码错误',
+									type: 'GET',
+									url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+								} 
+				}},
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				},
+                lato_codePhoneText: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 6,
+                            message: '请输入正确验证码'
+                        }
+                    }
+                }
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putAppResettingPwd}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{
+                                document.getElementById("errorTypeSpan").innerText = errCode;
+                                document.getElementById("errorSpan").innerText = erroMsg;
+                                $('#errorModel').modal({
+                                      keyboard: true
+                                   })
+                                $("#regForm").data('bootstrapValidator').resetForm();
+								
+							}else{
+								location.href = "@{LatoWebDelegate.getAppInfoFormList()}";
+							}
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="出现异常";
+                                
+                                var dataObj=eval("("+va11+")");
+                                
+                                document.getElementById("errorTypeSpan").innerText = val2;
+                                document.getElementById("errorSpan").innerText = dataObj.message;
+                                $('#errorModel').modal({
+                                      keyboard: true
+                                   })
+									   
+								$("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 
+				 
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+
+
+$(function  () {
+		//获取短信验证码
+			var validCode=true;
+			$(".msgs").click (function  () {
+				
+			var params=$("regForm").serialize();
+				var txyz = $("#lato_yzm").val();
+				
+				var templateName = $('#lato_templateName').val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+		
+		
+				var  v2 =showUserAction({checkPhone: $("#lato_useraccount").val(),txyz :txyz,key :$("#randomID").val(),type:'reset'}) 
+				
+				
+				
+				if(txyz.length <1){
+					alert("请填写图形验证码信息");
+					return;
+				}
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+						isSend = true;
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+								
+								    var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+								
+									var va11 =	decodeURI(text);
+									var val2="发送短信错误提示";
+									var dataObj=eval("("+va11+")");
+									document.getElementById("errorTypeSpan").innerText = val2;
+									document.getElementById("errorSpan").innerText = dataObj.message;
+									$('#myModal').modal({
+										  keyboard: true
+									   })
+							}
+						}
+					);
+				var time=180;
+				var code=$(this);
+				if (validCode) {
+					validCode=false;
+					code.addClass("msgs1");
+				var t=setInterval(function  () {
+					time--;
+					code.html(time+"秒");
+					if (time==0) {
+						clearInterval(t);
+					code.html("重新获取");
+						validCode=true;
+					code.removeClass("msgs1");
+
+					}
+				},1000)
+				}
+			})
+})
+
+
+
+
+function tz(){
+    window.location.href='@{LatoWebDelegate.login()}';
+
+}
+		
+    </script>
+
+<div style="display:none">
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1253236292'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s5.cnzz.com/z_stat.php%3Fid%3D1253236292%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</html>
+
+

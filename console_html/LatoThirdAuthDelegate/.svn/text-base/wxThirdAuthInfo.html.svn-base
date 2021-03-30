@@ -1,0 +1,137 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'微信公众号授权' /}
+#{set wxThirdAuth:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{width: 280px;margin-top: 0px;}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;" >		
+	
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				微信公众号授权<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div>-->
+		#{if opened}
+		<div class="main_body">
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">微信帐号类型</label>
+				<label class="detail_text"  style="#{if isTips}color:red;#{/if}">${flash.微信帐号类型}#{if isTips}(无法授权登录)#{/if}</label>
+				<a class="revokeButton btu_update" href="javascript:void(0)">解除绑定</a>
+			 </div> 
+			 <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">公众微信号</label>
+				<label class="detail_text" style="height: auto;">${flash.公众号的微信号?flash.公众号的微信号:"公众号暂未设置微信号,请在微信公众号中进行设置后,在重新授权"}</label>
+				<a class="openButton btu_update" href="javascript:void(0)">重新授权</a>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">公众号昵称</label>
+				<label class="detail_text">${flash.昵称} </label>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">主体信息</label>
+				<label class="detail_text">${flash.主体名称}</label>
+			 </div>
+			 <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">公众号介绍</label>
+				<label class="detail_text" style="height: auto;">${flash.账号介绍}</label>
+			 </div>
+			<div class="clearfix price_details" >
+			  <p class="text_explain" style="#{if isTips}color:red;#{/if}#{else}color:#000;display:none;#{/else}margin-left: 0px;font-size: 15px;">注意：只有“已认证服务号”才能进行微信账号授权登录，否则授权登录时微信会提示“Scope 参数错误或没有 Scope 权限”</p> 
+			</div>
+		</div>
+		#{/if}
+		#{else}
+		<div class="main_body">
+			<div class="clearfix price_details" >
+			  <p class="text_explain" id="text_free" style="color:#000;margin-left: 0px;font-size: 20px;">
+                你还未进行微信公众号授权，
+              </p> 
+              <a class="btu_update openButton" href="javascript:void(0)" style="margin-top:0px;">去授权</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	$(".openButton").click(function(){
+		var bindingUrl = "@{LatoThirdAuthDelegate.getThirdAuthBindingUrl('wx',serviceCode,serverAppId,serverAppCode,serverName)}";
+		layer.open({
+			type: 1
+			,title: "提示"
+			,closeBtn: 1
+			,area: '400px;'
+			,shade: 0.5
+			,id: 'lay_openButton' //设定一个id，防止重复弹出
+			,btn: ['已成功设置', '授权失败,重试']
+			,btnAlign: 'c'
+			,moveType: 1 //拖拽模式，0或者1
+			,content: '<div style="padding: 10px; line-height: 22px; font-weight: 300;">请在新窗口中完成微信公众号授权 </div><hr/>'
+			,success: function(layero){
+				window.open(bindingUrl,"_blank");
+			}
+			,yes: function(index, layero){
+				location.reload();
+			}
+			,btn2: function(index, layero){
+				window.open(bindingUrl,"_blank");return false;
+			}
+		});
+	});
+	
+	$(".revokeButton").click(function(){
+		layer.confirm('请注意，解除绑定后应用将无法使用微信授权登录？', {icon: 3, title:'是否确认解除绑定'}, function(index){
+			var updatePostUrl = "@{LatoThirdAuthDelegate.thirdAuthRevoke('wx')}";
+			$.ajax({
+				type:'post',
+				url: updatePostUrl,    
+				data: {'lato_params':'{"lato_server_id":"${serviceId}", "lato_grant_id":"${flash.授权ID}", "m_is_revoke":true}','lato_server_id':'${serviceId}', 'lato_global_app_id':"${serverAppCode}"},
+				cache:false,    
+				async: false,
+				dataType:'json',    
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("取消成功!", {icon: 1}, function(index){
+							location = location.href;
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	
+	
+});
+
+</script>
+#{/set}

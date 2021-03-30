@@ -1,0 +1,1268 @@
+﻿#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'模板库备份列表' /}
+#{set appEpkBackupInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+</style>
+
+<div class="lato-main-side appEpk_backupInfo">
+	
+    <div id="lato-main-side_a">
+		
+	</div>
+	<div id="contentBackUp">
+		<div id="listTop">
+
+		
+			<div id="contentTop">
+				<p class="topAp">模板库备份列表</p>
+				<div class="content" id="contentTopAp">
+					<div class="backUpName" id="backUpOne">
+						<span>应用名称</span>
+						<i></i>
+					</div>
+					<div class="backUpName backUpContent" id="backUpTwo">
+						<div class="left" id="backUpTwoLeft">
+							<span>应用ID</span>
+							<i></i>
+						</div>
+						<div class="right" id="backUpTwoRight">
+							<span>服务器编号</span>
+							<i></i>
+						</div>
+					</div>
+					<div class="backUpName" id="backUpThree">
+						<span>产品描述</span>
+						<i class="backUpName_i">
+							
+						</i>
+					</div>
+				</div>
+			</div>
+        </div>
+
+	
+		
+		
+		<!-- 恢复记录模态框，不是弹框 -->
+        <div class="modal-body appEpk_backupInfo_model_one" id="modal-body-normal">
+			<p class="topAp" style="position: relative;">
+				<span id="modal_body_span1">备份列表</span>
+				<span id="modal_body_span2">恢复记录</span>
+				<span id="modal_body_span3"></span>
+			</p>
+			
+			 <div id="table_box1"> 
+				<table style="border:none;" data-toggle="table" id="app_back_table_history1" name="localServer"  data-classes="table-striped"  data-height="500" class="table table-striped"
+					data-click-to-select="true" data-select-item-name="radioName">
+					<thead>
+						<tr>
+							<th data-field="备份名称" data-halign="center"   data-align="center">备份名称</th>
+							<th data-field="备份描述" data-halign="center"  data-align="center">备份描述</th>
+							<th data-field="备份时间" data-halign="center"  data-align="center">备份时间</th>
+							<th data-field="operate" data-formatter="operateFormatter" data-halign="center" 
+								data-events="operateEvents">操 &nbsp;&nbsp;&nbsp; 作</th>
+						</tr>
+					</thead>
+				</table>		
+		     </div> 
+       
+
+			<div id="table_box2" style="position: relative;">
+				<table style="border:none;" data-toggle="table" id="app_back_table_history2" name="localServer"  data-classes="table-striped"  data-height="460" class="table table-striped"
+					data-click-to-select="true" data-select-item-name="radioName">
+					<thead>
+						<tr>
+							<th data-field="备份名称" data-halign="center"   data-align="center">备份名称</th>
+							<th data-field="备份描述" data-halign="center"  data-align="center">备份描述</th>
+							<th data-field="恢复时间" data-halign="center"  data-align="center">恢复时间</th>
+							<!-- <th data-field="operate" data-formatter="operateFormatter" data-halign="center" 
+								data-events="operateEvents">操 &nbsp;&nbsp;&nbsp; 作</th> -->
+						</tr>
+					</thead>
+				</table>		
+		    </div> 
+			
+
+        </div>
+	
+	</div>
+       
+	  
+		 <!-- 更新前后弹框 -->
+        <!-- data-header-style="headerStyle" -->
+<div class="alertBoxWarningThree" id="alertBoxWarningThree">
+	        <div class="upDateTop"></div>
+            <div class="alertBoxWarningTh">
+                <div class="title">
+                    模板库更新
+                </div>
+                <span id="alertBoxWarningThreeSpan">+</span>
+
+                <div class="content">
+
+                    <div class="left">
+
+                        <div class="titleTop">
+                            <i></i>
+                            <span>更新前</span>
+                        </div>
+
+                        <div class="mySystem">
+                            <ul id="ulMySystemLeft">
+                            </ul>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="rigth">
+                        <div class="titleTop">
+                            <i></i>
+                            <span>更新后</span>
+                        </div>
+
+                        <div class="mySystem">
+                            <ul id="ulMySystemRight">
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="agree" id="agreeMb">
+
+                    <!-- <input type="checkbox" name="checkbox" />&nbsp;&nbsp;<span>更新为<i style="color: red;font-style: normal;">不可逆</i>行为，请谨慎操作</span><br /> -->
+                    <input id="fengxianInput" type="checkbox"
+                        name="checkbox" />
+                    <span>我已阅读<b id="updataAgreeModel" class="active">《模板库更新风险须知》</b>,
+						了解并愿意承担本次操作的风险</span>
+                    <div id="wenzi" class="wenzi">
+                        <p class="p1">模板库更新风险须知</p>
+
+                        <p class="p2">
+                            1、模版库更新操作不可逆,被修改的模版，将无法恢复。<br />
+                            2、【确认更新】后,原模版库的同名模版将被覆盖，不同名的模版将保留。<br />
+                            3、更新后的模版数不能超过模版数上限。 <br />
+                            4、更新不影响该模版下的表单数据。<br />
+                            5、云表平台(珠海乐图软件有限公司)不对模版库更新中人为操作导致的后果负责。<br />
+                        </p>
+                        <p class="p3"></p>
+                    </div>
+
+                </div>
+
+                <div id="agreeBtn">
+                    <p>
+						<button id="queRenCalData" class="btn1">取消</button>
+						<button id="queRenUpData" class="btn2">确认更新</button>
+                    </p>
+
+                </div>
+			
+
+
+            </div>
+
+
+ </div>
+       
+     
+        <!--  立即升级模板库 -->
+<div class="alertBoxWarningTwo" id="alertBoxWarningTwo">
+	<div class="upDateTop"></div>
+	<div class="alertBoxWarningT">
+		<span id="alertBoxWarningTwoSpan">+</span>
+
+		<!-- <p 
+				background: url('') no-repeat;"></p> -->
+		<img src="@{'/public/images/Group36.png'}">
+		<p class="upDataP">当前模板数不足，请升级应用空间后再试</p>
+
+		<p class="alertPWarning">
+			<button  class="btn1">取消</button>
+			<button class="btn2">立即升级</button>
+		</p>
+	</div>
+
+</div>
+
+
+<!--  验证码弹框 -->
+<div class="alertBoxWarning" id="alertBoxWarningOne">
+	<div class="upDateTop"></div>
+	<div class="alertBoxOne">
+		<span id="alertBoxWarningOneSpan">+</span>
+
+		<div class="title">
+			<p class="p1" >
+				<!-- <span style="background: url('/public/images/Rectangle350.png') no-repeat;
+						width: 4px;
+						height: 20px;"></span> -->
+				<img src="@{'/public/images/Rectangle350.png'}">
+				<span></span>
+			</p>
+			<p class="p2" >当前操作不可逆,请谨慎执行</p>
+			<p class="p3" >我们将发送短信验证至<i>133****2345</i>以确保是您本人操作</p>
+		</div>
+		<div class="messageCode">
+			<!-- <span background: url('/public/images/163.png') no-repeat"></span> -->
+			<img src="@{'/public/images/163.png'}">
+			<input id="yanzhengmaCode" type="text" />
+			<button id="sendVerifiCationCode">发送验证码</button>
+		</div>
+		<p id="alertBoxWarningOneYanzhengP">请输入验证码</p>
+		<!-- <img src="@{'/public/images/163.png'}" style="width: 90px;"> -->
+		<div class="ConfirmCancel">
+			<button class="btn1">取消</button>
+			<button class="btn2">确认</button>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- 验证码发送成功的弹框 -->
+<div class="contentRight" id="myAlert">
+	<div class="upDateTop"></div>
+	<div class="alertBoxWarningT">
+          <span id="alertSuccessDom">+</span>
+          <div id="succsImg">
+            <!-- <div class="succsImgChild" style="margin:15px auto;width: 4px; height: 27px;border: 1px solid transparent;">
+               <span style="display: block;width: 4px;height: 20px;background-color:white;margin-bottom: 2px;margin-top:13px"></span>
+               <span style="display: block;width: 4px;height: 4px;background-color: white;"></span>
+            </div> -->
+            <img src="@{'/public/images/succsImg.png'}" >
+          </div>
+           <p id="shujuSuccs">数据提交成功</p>
+           <button id="yanzhengmgSucceBtn">确认</button>
+          
+    </div>
+
+</div>
+
+
+<!-- 备份不成功弹框 -->
+<div class="alertBoxWarningTwo no_success_model" id="giveMoneyAlert">
+	<div class="upDateTop"></div>
+	<div class="alertBoxWarningT">
+		<span id="giveMoneyAlertSpan">+</span>
+		 <div id="succsImgMoney"> 
+		<!-- <p   
+			background: url('') no-repeat;"></p> -->
+		<img src="/console/public/images/Group36.png">
+		</div>
+		<p id="shujuSuccsMoney">当前模板库没有备份成功</p>
+		<p class="alertPWarning" style="margin-top: 20px;position: relative;">
+			<!-- <button class="btn1">取消</button> -->
+			<!-- <span class="btn2" style="padding-right: 0px;display: inline-block;line-height: 40px;">立即续费</span> -->
+			<span class="btn2" id="giveMoneySpan">确认</span>
+		</p>
+	</div>
+</div>
+
+
+</div>
+
+<script>
+
+
+        $(document).ready(function() {
+            $('#sub-item-2').addClass('in');	
+        });
+
+
+  
+    
+     
+    var urlData = location.search.slice(1).split('&')[0].split('=')[1];
+   
+    
+
+    function operateFormatter(value, row, index) {
+
+        return [
+            '<ul class="btu_list" style="position: relative;">',
+             '<li style="text-align: center;"><a  id="backUp" class="query xiangqing" style="text-align: center;position: absolute;left:30%;height:20px;color:#65b8ea" href="javascript:">恢复</a> </li> ',
+             '<li style="text-align: center;"><a class="upgrade xufei" style="text-align: center;position: absolute;left:60%;color:#65b8ea;height:20px" href="javascript:">发布</a></li>',
+            ' </ul>'
+        ].join('');
+    }
+
+    
+    function upgradeForm(temp){
+       // console.log(temp)
+        var appId = temp.应用唯一标识;
+        var appCode = temp.编号;
+        var showUserAction =  #{jsAction @LatoWebDelegate.publishproduct() /}
+		var  v2 =showUserAction({}) 
+		console.log(v2,276);
+		  v2 = v2 +"?appId="+appId+"&appCode="+appCode+"&click=1";
+		  
+          window.open(v2,'_self',''); 
+    }
+  
+   
+     
+
+
+      valueFn();
+      function valueFn(){
+        var url = window.location.search.slice(1);
+        var arr=url.split('&');
+		var str = 'serviceCode';
+		var index = url.indexOf(str);   // index=$.inArray(str,arrLeft);
+        var listTop=document.getElementById('listTop');
+        var aP=listTop.getElementsByTagName('p');
+		var aSpan=listTop.getElementsByTagName('span');
+		var contentTop = document.getElementById('contentTop');
+		var backUpOne = document.getElementById('backUpOne');
+		var backUpTwo = document.getElementById('backUpTwo');
+		var backUpTwoLeft = document.getElementById('backUpTwoLeft');
+		var backUpTwoRight = document.getElementById('backUpTwoRight');
+		var backUpThree = document.getElementById('backUpThree');
+		var contentTopAi = contentTop.getElementsByTagName('i');
+        var modal_body=document.getElementById('modal-body');
+        var serverAppCode='${serverAppCode}';
+        var serverAppId='${serverAppId}';
+       // console.log(serverAppCode,serverAppId,301);
+        if (index != -1) {  // 本地
+            var serviceCode='${serviceCode}';
+            var serverName='${serverName}';
+            var dataJson="serverAppCode="+serverAppCode+"&serverAppId="+serverAppId+"&serviceCode="+serviceCode+"&serverName="+serverName;
+            $.get('@{LatoWebApiDelegate.getLocalServerAppInfo}?'+dataJson, function (data) {  
+			var objData = JSON.parse(data);		
+			if(objData.应用名称) {
+				contentTopAi[0].innerHTML = objData.应用名称;
+			}else{
+				backUpOne.style.display='none';
+			}
+			
+			if(objData.空间ID) {
+				contentTopAi[1].innerHTML = objData.空间ID;
+			}else{
+				backUpTwoLeft.style.display='none';
+			}
+			
+			if(objData.本地服务器编号) {
+				contentTopAi[2].innerHTML = objData.本地服务器编号;
+			}else{
+				backUpTwoRight.style.display='none';
+			}
+			
+			if(objData.应用描述) {
+				contentTopAi[3].innerHTML = objData.应用描述;
+			}else{
+				backUpThree.style.display='none';
+			}
+		
+		    if(!objData.应用名称&&!objData.空间ID&&!objData.本地服务器编号&&!objData.应用描述){
+		    	contentTop.style.display='none';
+		        modal_body.style.marginTop="36px"
+		    }
+			  
+
+            })
+		} else {    // 云端
+                var dataJsonY="appCode="+serverAppCode+"&appId="+serverAppId;
+                $.get('@{LatoWebApiDelegate.getCloudAppInfo}?'+dataJsonY, function (data) {  
+                var objData = JSON.parse(data);			
+            if(objData.应用名称) {
+				contentTopAi[0].innerHTML = objData.应用名称;
+			}else{
+				backUpOne.style.display='none';
+			}
+			
+			if(objData.应用ID) {
+				contentTopAi[1].innerHTML = objData.应用ID;
+			}else{
+				backUpTwoLeft.style.display='none';
+			}
+			
+			if(objData.本地服务器编号) {
+				contentTopAi[2].innerHTML = objData.本地服务器编号;
+			}else{
+				backUpTwoRight.style.display='none';
+			}
+			
+			if(objData.应用描述) {
+				contentTopAi[3].innerHTML = objData.应用描述;
+			}else{
+				backUpThree.style.display='none';
+			}
+		
+		    if(!objData.应用名称&&!objData.空间ID&&!objData.本地服务器编号&&!objData.应用描述){
+		    	contentTop.style.display='none';
+		        modal_body.style.marginTop="36px"
+		    }
+
+          })
+		}
+      }
+
+  
+
+
+  
+
+    
+
+
+    serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+        if(indexCode==-1){
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">模板库备份列表</a>'
+        }else{
+        	
+			var urlServerName='${serverName}';
+			if(encodeURIComponent(urlServerName)==encodeURIComponent(nameServer)){
+				nameServer='[应用空间]'+nameServer;
+				urlServerName='[服务器]'+urlServerName;
+			};
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+        	'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServiceFormList()}" class="list_back_a">本地应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back_a">'+urlServerName+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">模板库备份列表</a>'
+        }
+   }
+
+    $('#reloadPages').click(function(){
+		history.go(0) 
+    })
+    
+
+    window.operateEvents = {
+        'click .query': function(e, value, row, index) {
+			var appNum=row.编号;
+			if(!appNum){
+				$("#giveMoneyAlert").show();
+			}else{
+				queryForm(row);
+				$("#giveMoneyAlert").hide();
+			}
+        },
+        'click .upgrade': function(e, value, row, index) {
+            upgradeForm(row);
+        },
+    };
+
+    
+    var alertBoxWarningTwoDom = document.getElementById('alertBoxWarningTwo'); // 模板库升级div
+    var alertBoxWarningTwoDomBtn = alertBoxWarningTwoDom.getElementsByTagName('button'); // 模板库升级取消和立即升级按钮
+    var SelectedTemplateData = null; // 选择更新模板的数组,这个值是最新,被选中的那个值   
+    var urlurl = window.location.href;
+    var succsStr = '恢复备份成功';
+    var objectModelUpdata = null;  // 根据获取指定产品的信息接口获取的objectModelUpdata = JSON.parse(xhr.responseText)的值
+	//	var SelectedTemplateData = null;                                               // 选择更新模板的数组,这个值是最新的值；这个值在发送验证码的时候需要用到，产品编号和版本号
+	var upDataModleData = null; // 选择更新模板的数组, 和上面的SelectedTemplateData一样
+	var alertBoxWarningThreeDom = document.getElementById('alertBoxWarningThree'); //模板库更新前后的div
+	var ulMySystemLeftDom = document.getElementById('ulMySystemLeft'); //模板库更新左边的ul
+	var ulMySystemRightDom = document.getElementById('ulMySystemRight'); //模板库更新右边的ul 
+	var arrLeft = []; // 左边数组里面的值
+	var arrRight = []; // 右边数组里面的值
+
+	var agreeMb = document.getElementById('agreeMb'); // 我已阅读《模板库更新风险须知》的父级
+	var agreeMbInput = agreeMb.getElementsByTagName('input'); // 模板更新的复选框
+	var ob = agreeMb.getElementsByTagName('b')[0]; //《模板库更新风险须知》 按钮
+	var wenzi = document.getElementById('wenzi'); // 显示文字div
+	var onOff = true; // 文字显示和隐藏的div
+	var agreeBtnDom = document.getElementById('agreeBtn'); // 确认更新div  
+	var agreeInputBtn = agreeBtnDom.getElementsByTagName('button'); // 确认更新button
+	var alertBoxWarningThreeSpanDom = document.getElementById('alertBoxWarningThreeSpan'); // 更新模板库div的叉号
+    var objectModelInit = '';
+    var urlData = location.search.slice(1).split('&')[0].split('=')[1];
+    var oldurlData="";
+    var oldLongBianhao="";
+   
+    ajaxUser()
+    function ajaxUser(){
+        $.get('@{LatoWebApiDelegate.getAppProductInfo}?appCode=' + urlData, function (data) {  
+			var responseJson = JSON.parse(data);
+			SelectedTemplateData=[responseJson];	
+            objectModelInit = responseJson;
+           // console.log(objectModelInit,'515初始化数据');
+         })
+    }
+    
+
+
+    function queryForm(temp){      //点击恢复按钮函数
+		 console.log(temp,508)
+         var appNum=temp.编号;
+         var appCodeId=temp.应用唯一标识;
+         oldLongBianhao=temp.编号;
+         oldurlData=temp.应用唯一标识;
+         arrLeft = [];
+		 arrRight = [];
+		 ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		 ulMySystemRightDom.innerHTML = ''; // 右边清空
+         //初始化产品信息
+		 // 获取更新的数据  
+	   // alert(appNum,appCodeId)
+        $.get("@{LatoWebApiDelegate.getTemplateLibInfoByCode}?code="+appNum+"&appCode="+appCodeId,function(data){
+            objectModelUpdata = JSON.parse(data);
+            alertBoxWarningThreeDom.style.display = 'block';
+            $('#queRenUpData').attr('disabled', false);
+            $('#queRenUpData').css({'backgroundColor':'gray','cursor':'not-allowed'});
+			console.log(objectModelUpdata,412);
+		//	console.log(typeof objectModelUpdata['模板列表']=='object')
+		  //  console.log(typeof objectModelUpdata['模板列表'],541);
+			if(typeof objectModelUpdata['模板列表']=='object'){
+				arrRight = objectModelUpdata['模板列表']; 
+			}else{
+				arrRight = objectModelUpdata['模板列表'].replace("[", "").replace("]", "").split(',');
+			}
+			          
+            if (objectModelInit['模板列表']){
+                arrLeft = objectModelInit['模板列表'].replace("[", "").replace("]", "").split(',');
+            }
+            if (arrLeft.length > 0) {
+                for (var i = 0; i < arrLeft.length; i++) {
+                    var li = document.createElement('li');
+                    arrLeft[i]=arrLeft[i].replace(/^\s+|\s+$/g,'');   // str=str.replace(/^\s+|\s+$/g,'')
+                    li.innerHTML = arrLeft[i];
+                    ulMySystemLeftDom.appendChild(li);
+                    li.style.fontSize = '14px';
+                    li.style.width = '228px';
+                    li.style.height = '44px';
+                    li.style.paddingLeft = '26px';
+                    li.style.lineHeight = '44px';
+                    li.style.color = '#373F4A';
+                }
+            }
+           
+            for (var i = 0; i < arrRight.length; i++) {
+                var li = document.createElement('li');
+                arrRight[i]=arrRight[i].replace(/^\s+|\s+$/g,'');
+                li.innerHTML = arrRight[i];
+              //  console.log(arrRight[i])
+                ulMySystemRightDom.appendChild(li);
+                var str = li.innerHTML;
+                var index = -1;
+                if (arrLeft[0]) {
+				//	index = arrLeft.indexOf(str);
+					index=$.inArray(str,arrLeft);
+                }
+                if (index == -1) {
+                    li.style.color = 'red';
+                } else {
+                    li.style.color = '#373F4A';
+                }
+                li.style.fontSize = '14px';
+                li.style.width = '228px';
+                li.style.height = '44px';
+                li.style.paddingLeft = '26px';
+                li.style.lineHeight = '44px';
+            }
+        });
+  
+    }
+   
+	$('#fengxianInput').change(function(){
+		if($(this).prop('checked')){
+			$('#queRenUpData').attr('disabled',false);
+		    $('#queRenUpData').css('backgroundColor','#47CD69');
+			$('#queRenUpData').css('cursor','pointer');
+		} else{
+			$('#queRenUpData').attr('disabled',true);
+		    $('#queRenUpData').css('backgroundColor','gray');
+			$('#queRenUpData').css('cursor','not-allowed');
+		}
+	})
+    
+    var agreeMb = document.getElementById('agreeMb');
+	var agreeMbInput = agreeMb.getElementsByTagName('input'); // 模板更新的复选框
+	var ob = agreeMb.getElementsByTagName('b')[0];
+	var wenzi = document.getElementById('wenzi');
+	var onOff = true;
+	var alertBoxWarningOneDom = document.getElementById('alertBoxWarningOne'); // 验证码整个的div
+	var alertBoxWarningOneOI = alertBoxWarningOneDom.getElementsByTagName('i')[0]; //验证码整个的div里面的
+	var alertBoxWarningOneSpanDom = document.getElementById('alertBoxWarningOneSpan'); // 验证码叉号
+	var alertBoxWarningOneBtn = alertBoxWarningOneDom.getElementsByTagName('button') //验证码整个的div里面的button 
+	var yanzhengmaCodeValue = document.getElementById('yanzhengmaCode'); // 验证码输入框
+	var sendVerifiCationCode = document.getElementById('sendVerifiCationCode'); // 发送验证码 
+
+
+   
+
+	$("#updataAgreeModel").on('click',function(){
+		if(onOff){
+			$('#wenzi').show();
+		}else{
+			$('#wenzi').hide();
+		};
+		onOff = !onOff;
+		return false;
+	})
+
+
+	document.onclick = function () {
+		//console.log(wenzi)
+		wenzi.style.display = 'none'
+	}
+
+	var alertBoxWarningThreeSpanDom = document.getElementById('alertBoxWarningThreeSpan');
+
+	alertBoxWarningThreeSpanDom.onclick = function () { // 模板库叉号
+		agreeTn();
+	}
+
+	agreeInputBtn[0].onclick = function () { // 更新模板 取消按钮
+		agreeTn();
+	}
+
+	function agreeTn() {
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningThreeDom.style.display = 'none'; // 模板库更新div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		//	dataIndexInput=-1;                                // 选择的input下标为-1； 
+	}
+
+	agreeInputBtn[1].onclick = function () { // 更新模板 确认更新按钮，验证码弹框就显示
+		if (agreeMbInput[0].checked) {
+			phoneNumber();
+		}
+	}
+
+
+    function phoneNumber() {
+		alertBoxWarningOneDom.style.display = 'block';
+		agreeTn();
+		$.get('@{LatoWebApiDelegate.getCurrentUserInfo}', function (data) {
+			var str = JSON.parse(data);
+			alertBoxWarningOneOI.innerHTML = str['电话'];
+			window.localStorage.setItem('phone', JSON.stringify(str['电话']));
+		})
+    }
+   
+	Date.prototype.toJSON = function () { return this.toLocaleString();}
+     var strTime=JSON.stringify(new Date()).slice(1);
+	var strArr=strTime.split(' ')[0].split('/');
+	strArr[1]=twoStrFn(strArr[1]);
+	strArr[2]=twoStrFn(strArr[2]);
+	strArr=strArr.join('-');
+   
+	
+	var yanzhengmaCodeBoolean = false;
+	
+	var objIndex = {
+		index: 0,
+		tatol: 60,
+		time: strArr
+	}
+    
+
+	var timeFlag = null;
+
+	locaFn();
+
+
+	
+   
+	function twoStrFn(str){
+		if(parseInt(str)<10){
+			str='0'+str;
+		}else{
+			str=str;
+		}
+		return str;
+	}
+	
+
+    function locaFn() {
+		if (localStorage.getItem('indexDataBackUp' + urlData)) { // 有没有本地存储，有就获取值；这个是60和180的秒数
+			var localCun = JSON.parse(localStorage.getItem('indexDataBackUp' + urlData));
+			if (localCun.time == objIndex.time) {
+				console.log(localCun.time, objIndex.time, '本地存储和今天相等的情况647');
+			} else {
+				objIndex = {
+					index: 0,
+					tatol: 60,
+					time: strArr
+				}
+				window.localStorage.setItem('indexDataBackUp' + urlData, {});
+				window.localStorage.setItem('indexDataBackUp' + urlData, JSON.stringify(objIndex));
+			}
+		} else { // 有没有本地存储，没有就设置；
+			window.localStorage.setItem('indexDataBackUp' + urlData, JSON.stringify(objIndex));
+		}
+    }
+	
+	//console.log(Date.parse(new Date()),new Date().getTime());
+
+    var urlDataCode = urlData;
+	$('#sendVerifiCationCode').click(function () {   // 验证码整个的div里面的button 获取手机的验证码
+		var indexCi = 0;
+		var tatolTime = 0;
+		alertBoxWarningOneBtn[0].disabled = true;
+		var localDate = window.localStorage.getItem('indexDataBackUp' + urlData);
+		window.localStorage.setItem(urlDataCode+'backUp', Date.parse(new Date()).toString().substr(0, 10))   // 当前距离1970年的秒数；
+		localDate = JSON.parse(localDate);
+		//	console.log(localDate, '获取本地存储里面的数据1285');
+		console.log(localDate);
+		indexCi = parseInt(localDate.index);
+		indexCi += 1;
+		if (localDate.index < 2) {
+			tatolTime = 60;
+		} else if (localDate.index >= 2) {
+			tatolTime = 180;
+		}
+		objIndex = {
+			index: indexCi,
+			tatol: tatolTime,
+			time: strArr
+		}
+		window.localStorage.setItem('indexDataBackUp' + urlData, JSON.stringify(objIndex));
+
+		//	console.log(window.localStorage.getItem('indexData'))
+		var daojishi = localDate.tatol;
+		//console.log(daojishi, '倒计时1296');
+		if (localDate.index < 2) {
+			timeFlag = setInterval(function () {
+				if (daojishi > 0) {
+					daojishi--;
+					alertBoxWarningOneBtn[0].innerHTML = daojishi + 's';
+					alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74)';
+				    alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74,0.3)';
+				} else {
+					clearInterval(timeFlag);
+					alertBoxWarningOneBtn[0].disabled = false;
+					alertBoxWarningOneBtn[0].style.background = '#47CD69';
+					alertBoxWarningOneBtn[0].innerHTML = "请重新发送";
+				}
+			}, 1000)
+		} else if (localDate.index >= 2) {
+			timeFlag = setInterval(function () {
+				if (daojishi > 0) {
+					daojishi--;
+					alertBoxWarningOneBtn[0].innerHTML = daojishi + 's';
+				    alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74)';
+				    alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74,0.3)';
+				} else {
+					clearInterval(timeFlag);
+					alertBoxWarningOneBtn[0].disabled = false;
+					alertBoxWarningOneBtn[0].style.background = '#47CD69';
+					alertBoxWarningOneBtn[0].innerHTML = "请重新发送";
+				}
+			}, 1000)
+        }
+       
+
+		$('#alertBoxWarningOneYanzhengP').hide();
+		$.post('@{LatoWebApiDelegate.postPhoneVerifi}', {type:'recoveryAppEpk'}, function (
+			data) {
+                console.log(data,619)
+			    yanzhengmaCodeBoolean = JSON.parse(data).isSend;
+        }) 
+	})
+
+
+    var succsBoolean = false;
+    
+    alertBoxWarningOneSpanDom.onclick = function () { // 验证码叉号
+		yangzhengCodeFn()
+	}
+
+  
+	alertBoxWarningOneBtn[1].onclick = function () { // 验证码弹框，取消按钮
+
+		yangzhengCodeFn()
+
+	}
+
+
+	alertBoxWarningOneBtn[2].onclick = function () { // 验证码弹框，确认按钮 
+		yanzhengSuccsFn();
+	}
+    
+
+    $(function () {
+		$('#yanzhengmaCode').on('input propertychange change', function () {
+			if ($(this).val().length != 6) {
+				$('#alertBoxWarningOneYanzhengP').show();
+				$('#alertBoxWarningOneYanzhengP').text('请输入6位验证码');
+			} else {
+				$('#alertBoxWarningOneYanzhengP').hide();
+			}
+		})
+	})
+
+	
+   
+
+    function yangzhengCodeFn() {
+		alertBoxWarningOneDom.style.display = 'none';
+		arrLeft = [];
+		arrRight = [];
+		yanzhengmaCodeValue.value = '';
+		clearInterval(timeFlag);
+		timeFlag = null;
+		yanzhengmaCodeBoolean = false;
+		alertBoxWarningOneBtn[0].style.background = '#47CD69';
+		sendVerifiCationCode.innerHTML = '发送验证码';
+		sendVerifiCationCode.style.backgroundColor = '#47CD69';
+		alertBoxWarningOneBtn[0].disabled = false;
+		succsBoolean = false;
+		document.getElementById('alertBoxWarningOneYanzhengP').style.display = 'none';
+    }
+	
+
+    function yanzhengSuccsFn() {
+        var objSelect = SelectedTemplateData[0];
+        //console.log(objSelect);
+        var yzCode = yanzhengmaCodeValue.value;
+		//var bianhao = objSelect['产品编号'];
+        //var banbenhao = objSelect['版本号'];
+        //console.log(oldLongBianhao,oldurlData);
+		var newTime = Date.parse(new Date()).toString().substr(0, 10);
+         
+		if (newTime - window.localStorage.getItem(urlDataCode+'backUp') < 900 && !yanzhengmaCodeValue.value) {
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('已发送过验证码,请输入');
+			return
+		}
+          
+		if ((newTime - window.localStorage.getItem(urlDataCode+'backUp') > 900 && !yanzhengmaCodeValue.value) || !window.localStorage.getItem(urlDataCode+'backUp')) {
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('请发送验证码');
+			return
+		}
+
+
+		if ((newTime - window.localStorage.getItem(urlDataCode+'backUp') > 900 && yanzhengmaCodeValue.value)) {
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('请发送验证码');
+			return
+		}
+
+		if (yanzhengmaCodeValue.value.length == 6) {
+            var dataJson={
+                appCode:oldurlData,
+                templateLibCode:oldLongBianhao,
+                smsVerifi:yzCode
+            }
+			$.post('@{LatoWebApiDelegate.postAppRecoveryTemplate}',dataJson,function (data) {
+                var data = JSON.parse(data);
+				if (data) {
+					if (data.errorCode == '-1') {
+						var str = data.errorMsg.split(':')[0];
+						$('#alertBoxWarningOneYanzhengP').show();
+						$('#alertBoxWarningOneYanzhengP').text(str);
+					}
+					if (data.errorCode == '0') {
+						succsBoolean = true;
+						alertBoxWarningOneDom.style.display = 'none';
+						$('#myAlert').show();
+						$('#shujuSuccs').text(succsStr);
+						arrLeft = [];
+						arrRight = [];
+						yanzhengmaCodeBoolean = false;
+						clearInterval(timeFlag);
+						timeFlag = null;
+						sendVerifiCationCode.innerHTML = '发送验证码';
+						sendVerifiCationCode.style.backgroundColor = '#6EAF32';
+						sendVerifiCationCode.style.backgroundColor = '#47CD69';
+						alertBoxWarningOneBtn[0].disabled = false;
+						yanzhengmaCodeValue.value = '';
+						document.getElementById('alertBoxWarningOneYanzhengP').style.display = 'none';
+						var objIndex = {
+							index: 0,
+							tatol: 60,
+							time: strArr
+						}
+						window.localStorage.setItem('indexDataBackUp' + urlData, JSON.stringify(objIndex));
+						window.localStorage.setItem(urlDataCode+'backUp', '');  
+					}
+				}
+			})
+		} else {
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('请输入6位验证码');
+		}
+	}
+
+    $(document).keydown(function (e) {
+		if (e.keyCode == 13 && succsBoolean) {
+			$('#myAlert').hide();
+			succsBoolean = false;
+			window.location.href = urlurl;
+		}
+	});
+
+	$('#yanzhengmgSucceBtn').click(function () {
+		$('#myAlert').hide();
+		succsBoolean = false;
+		window.location.href = urlurl;
+	})
+
+
+	$('#alertSuccessDom').click(function () {
+		$('#myAlert').hide();
+		succsBoolean = false;
+		window.location.href = urlurl;
+	})
+
+	var listNumHistory1=0;
+	var listNumHistory2=0;
+
+    
+    $('#app_back_table_history1').bootstrapTable({
+        url: '@{LatoWebDelegate.getJsonData("APP应用备份","查询指定App应用备份(全局应用ID)")}?%E5%85%A8%E5%B1%80%E5%BA%94%E7%94%A8ID='+urlData,
+        pagination: true,
+		pageSize:10,
+		onlyInfoPagination: false,
+        queryParamsType: "",
+        queryParams:  function  (params) {
+            return {pageSize: params.pageSize, pageNumber: params.pageNumber};
+        },
+    });
+	
+	
+	$.get('@{LatoWebDelegate.getJsonData("APP应用备份","查询指定App应用备份(全局应用ID)")}?%E5%85%A8%E5%B1%80%E5%BA%94%E7%94%A8ID='+urlData,function(data){
+		var data=JSON.parse(data);
+		console.log(data);
+		console.log(data.length);
+		listNumHistory1=data.length;
+		var len=data.length;
+		if(len>0){
+			$('#contentBackUp').css({'paddingBottom':'50px'})
+		}else{
+			$('#contentBackUp').css({'paddingBottom':'105px'})
+		}
+	})
+
+    
+
+	function productBackUp(){
+		    $('#app_back_table_history2').bootstrapTable('destroy');
+			$('#app_back_table_history2').bootstrapTable({                                     
+			url: '@{LatoWebDelegate.getJsonData("应用恢复模板库","查询应用恢复列表(应用唯一值)")}?%E5%BA%94%E7%94%A8%E5%94%AF%E4%B8%80%E5%80%BC='+urlData,
+			pagination: true,
+			pageSize:10,
+			onlyInfoPagination: false,
+			queryParamsType: "",
+			queryParams: function  (params) {
+				return {pageSize: params.pageSize, pageNumber: params.pageNumber};
+			},
+		});
+	}
+ 
+   
+	
+	$.get('@{LatoWebDelegate.getJsonData("应用恢复模板库","查询应用恢复列表(应用唯一值)")}?%E5%BA%94%E7%94%A8%E5%94%AF%E4%B8%80%E5%80%BC='+urlData,function(data){
+		var data=JSON.parse(data);
+		console.log(data)
+		console.log(data.length)
+		listNumHistory2=data.length;
+	})
+	
+
+	
+	$('#table_box1').show();
+	$('#table_box2').hide();
+	
+	$('#modal_body_span1').click(function(){
+		$('#table_box1').show();
+		$('#table_box2').hide();
+		if(listNumHistory1>0){
+			$('#contentBackUp').css({'paddingBottom':'50px'})
+		}else{
+			$('#contentBackUp').css({'paddingBottom':'105px'})
+		}
+		$('#modal_body_span2').css({color:'#373F4A'});
+		$('#modal_body_span1').css({color:'#427BC5'});
+		$('#modal_body_span3').css({width:'32px',height: '2px',backgroundColor: '#427BC5',position: 'absolute',top:'22px',left:'15px'});
+	})
+	
+    $('#modal_body_span2').click(function(){
+		$('#table_box2').show();
+		$('#table_box1').hide();
+		productBackUp();
+		if(listNumHistory2>0){
+			$('#contentBackUp').css({'paddingBottom':'50px'})
+		}else{
+			$('#contentBackUp').css({'paddingBottom':'105px'})
+		}
+		$('#modal_body_span1').css({color:'#373F4A'});
+		$('#modal_body_span2').css({color:'#427BC5'});
+	    $('#modal_body_span3').css({width:'32px',height: '2px',backgroundColor: '#427BC5',position: 'absolute',top:'22px',left:'100px'})
+	})
+
+	$('#giveMoneyAlertSpan').on('click',function(){
+		$('#giveMoneyAlert').hide();
+	});
+	$('#giveMoneySpan').on('click',function(){
+		$('#giveMoneyAlert').hide();
+	})
+       
+
+</script>
+
+
+<style>
+
+	
+	
+	.th-inner {
+		 font-family: Microsoft YaHei;
+		 font-style: normal;
+		 font-weight:500;  
+		
+	}
+	
+
+	.fixed-table-container tbody td{
+		/* border: none; */
+		color: rgb(55, 63, 74);
+		color: rgba(55, 63, 74, 0.6);
+	}
+
+	
+	.bootstrap-table .table>thead>tr>th {
+		  vertical-align: bottom;
+		  border-bottom: none; 
+    }
+	
+	bootstrap-table .table>thead>tr>th:last-child{
+		padding-right: 5%;
+	}
+	
+	#table_box2 .fixed-table-pagination{
+		/* background-color: red; */
+		height: 50px;
+		position: absolute;
+		top: 440px;
+		width: 100%;
+	}
+	#table_box2 .fixed-table-container{
+		height: 440px!important;
+	}
+	
+	#alertBoxWarningThree #agreeBtn #queRenCalData:hover{
+		background-color: rgb(89,210,120);
+		border: none;
+		color: #fff;
+	}
+	
+    #alertBoxWarningThree #agreeBtn #queRenCalData:active{
+		background-color: rgb(69,191,102);
+		border: none;
+		color: #fff;
+	}
+
+	#alertBoxWarningThree #agreeBtn #queRenUpData:hover{
+		background-color: rgb(89,210,120);
+		border: none;
+		color: #fff;
+	}
+		
+    #alertBoxWarningThree #agreeBtn #queRenUpData:active{
+		background-color: rgb(69,191,102);
+		border: none;
+		color: #fff;
+	}
+
+	#alertBoxWarningOne .ConfirmCancel .btn1:hover,#alertBoxWarningOne .ConfirmCancel .btn2:hover{
+		background-color: rgb(89,210,120);
+		border: none;
+		color: #fff;
+	}
+	#alertBoxWarningOne .ConfirmCancel .btn1:active,#alertBoxWarningOne .ConfirmCancel .btn2:active,
+	#myAlert .alertBoxWarningT #yanzhengmgSucceBtn:active{
+		background-color: rgb(69,191,102);
+		border: none;
+		color: #fff;
+	}
+	
+	#table_box2 .fixed-table-container,#table_box1 .fixed-table-container {
+       height: 440px!important;
+   }
+  
+	
+
+	
+
+	.fixed-table-container{
+		width: 820px!important;
+	}
+	/* .fixed-table-header{
+		width: 820px!important;
+	}
+	.fixed-table-container tbody,.fixed-table-container thead,.fixed-table-container thead tr,.fixed-table-container tbody tr{
+		width: 820px;
+	} */
+
+	/* .fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+	    
+	
+	} */
+	.fixed-table-container tbody tr td {
+	    background-color:#fff!important;
+	    
+	} 
+	.fixed-table-container thead tr th:nth-child(1) {
+	   width:198px!important;
+	}
+	.fixed-table-container thead tr th:nth-child(2) {
+	   width:298px!important;
+	}
+	.fixed-table-container thead tr th:nth-child(3) {
+	   width:158px!important;
+	}
+	
+	
+   #alertBoxWarningThreeSpan,#alertBoxWarningOneSpan{  
+	   color: rgb(55, 63, 74);
+	   color: rgba(55, 63, 74, 0.6);
+   }
+
+   #giveMoneyAlert {
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    width: 100%;
+    /* background-color: rgb(128,128,128); */
+    background: rgba(55, 63, 74, 0.3);
+    z-index: 10000000;
+    height: 100%;
+    text-align: center;
+}
+
+#giveMoneyAlert .alertBoxWarningT {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    color: #373F4A;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#giveMoneyAlert .alertBoxWarningT {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 500px;
+    height: 258px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 10000000000000000000;
+    top: 20%;
+    margin: auto;
+}
+
+#giveMoneyAlert #giveMoneyAlertSpan {
+    cursor: pointer;
+    font-size: 25px;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    transform: rotate(45deg);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+#giveMoneyAlert .alertBoxWarningT #succsImgMoney {
+    border-radius: 50%;
+    margin-left: auto;
+    margin-top: 60px;
+}
+
+#shujuSuccsMoney {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    color: #373F4A;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+#giveMoneyAlert .alertPWarning .btn1 {
+    border: none;
+    border: 1px solid rgb(55, 63, 74);
+    border: 1px solid rgba(55, 63, 74, 0.6);
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 120px;
+    height: 40px;
+    margin-right: 16px;
+    margin-top: 0px;
+    background-color: #FFFFFF;
+    color: rgb(55, 63, 74);
+    color: rgba(55, 63, 74, 0.8);
+    font-weight: 900;
+    border: 1px solid rgba(55, 63, 74);
+    border: 1px solid rgba(55, 63, 74, 0.3);
+}
+#giveMoneyAlert .alertPWarning .btn2 {
+    width: 120px;
+    height: 40px;
+    font-style: normal;
+    font-family: 'PingFang SC';
+    font-weight: normal;
+    left: 192px;
+    top: 191px;
+    text-align: center;
+    font-size: 14px;
+    background-color: #47CD69;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: none;
+    
+    margin-right: 0px;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+#giveMoneyAlert .alertPWarning .btn2:hover{
+	background-color: rgb(89,210,120);
+}
+#giveMoneyAlert .alertPWarning .btn2:active{
+	background-color: rgb(69,191,102);
+}
+.appEpk_backupInfo{
+	padding-top:20px;background-color:rgb(232,235,239);padding-bottom: 30px;padding-right: 50px;
+}
+
+.giveMoneyAlert
+
+</style>
+
+
+#{/set}

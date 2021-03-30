@@ -1,0 +1,146 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'云端应用空间' /}
+	
+ <div  class="main" >
+ 
+        <!-- form: -->
+        <section>
+            <div  id="mainDiv" name="mainDiv">
+			
+			 <div class="main_title main_title_w">
+				<h3>云端应用</h3>
+				<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back">返回控制台</a>
+			 </div>
+			 
+			 <div class="main_body">
+				   <div class="main_cloud_btn clearfix">
+					   <a class="btu_new_application" href="@{LatoWebDelegate.createCloudApp()}">创建应用</a>
+			 </div>
+			
+			
+               
+			<input type="hidden" name="lato_templateName"  id="lato_templateName" value="${flash.templateName}" /> 
+					
+				<div class="table server_table clearfix">
+				 <table data-toggle="table"  data-url="${flash.dataUrl}"  id="events-id2" name="events-id2"   data-pagination="true"    data-side-pagination="server"      data-search="true"   data-row-style="rowStyle" >
+					 <thead>
+						<tr>
+						#{list items:fieldObjList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+							<th data-field="operate" data-formatter="operateFormatter" data-halign="center" data-events="operateEvents">操 &nbsp;&nbsp;&nbsp;  作</th>
+						</tr>
+						</thead>
+				</table>	
+				
+				</div>
+					
+            </div>
+		
+				
+		
+			
+        </section>
+        <!-- :form -->
+  
+</div>
+
+<script type="text/javascript">
+		
+
+	 $(document).ready(function() {
+	 
+	 
+	 $('#sub-item-2').addClass('in');
+	 
+	 
+		$("#getFormDiv").hide();
+		
+		}
+		)
+		
+		var result="";
+		
+		//查询
+		function queryForm(temp){
+			var appId =	temp.应用ID;
+			var appCode = temp.应用编号;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getAppInfo(':appId',':appCode') /}
+		
+		
+			var  v2 =showUserAction({appId: appId,appCode:appCode}) 
+			
+			//openForm("${flash.templateName}",objectId);	
+			window.open(v2,'_self',''); 
+		}
+		
+	//更新应用信息
+		function update(temp){
+			
+			var globalAppId = temp.应用编号;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getUpdateAppInfo(':globalAppId') /}
+			var  v2 =showUserAction({globalAppId :globalAppId}) 
+			window.open(v2,'_self',''); 
+		}
+		function upgradeForm(temp){
+			var appId = temp.应用ID;
+			var appCode = temp.应用编号;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getChangeAppInfoForm(':appId',':appCode') /}
+			var  v2 =showUserAction({appId :appId,appCode:appCode}) 
+			
+			window.open(v2,'_self',''); 
+		}
+		function postpone(temp){
+			var appId = temp.应用ID;
+			var appCode = temp.应用编号;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getAppInfoFormPostpone(':appId',':appCode') /}
+			
+			var  v2 =showUserAction({appId :appId,appCode:appCode}) 
+			
+			window.open(v2,'_self',''); 
+		}
+		
+		function kaitong(temp){
+			
+			var appCode = temp.应用编号;
+		    var showUserAction = #{jsAction @LatoWebDelegate.openAppInfo(':appCode') /}
+			
+			var  v2 =showUserAction({appCode:appCode}) 
+			
+			window.open(v2,'_self',''); 
+		}
+		
+	function operateFormatter(value, row, index) {
+	
+		return [
+				'<ul class="btu_list">',
+				'<li style="float: none;padding-left: 0px;"><a class="query xiangqing" href="javascript:">应用空间管理</a> </li> ',
+				//'<li><a class="update shezhi" href="javascript:">设置</a></li>',
+				//' <li><a class="postpone xufei" href="javascript:">续费</a></li>',
+				//' <li><a class="upgrade shenji" href="javascript:">升级</a></li>',
+				' </ul>'
+			].join('');
+			
+    }
+    
+
+    window.operateEvents = {
+        'click .query': function (e, value, row, index) {
+           	queryForm(row);
+        },
+        'click .upgrade': function (e, value, row, index) {
+			upgradeForm(row);
+        },
+        'click .update': function (e, value, row, index) {
+			update(row);
+        },
+        'click .postpone': function (e, value, row, index) {
+			postpone(row);
+        },'click .kaitong': function (e, value, row, index) {
+			kaitong(row);
+        }
+		
+    };
+</script>

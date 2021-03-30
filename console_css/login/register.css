@@ -1,0 +1,22 @@
+html {position: relative;padding-top:60px;padding-bottom:1px;background: #333 url(/public/images/intro-userBg.jpg) no-repeat center center; position:relative;}
+.account-box-wrapper #country-selector{clip:rect(0,0,0,0)!important;font-family: PingFang SC,microsoft yahei,Helvetica Neue,Tahoma,Arial,"宋体",Helvetica,sans-serif;}
+.account-box{position:absolute;left:50%; width:420px; height:280px; background:#fff;top:50%; margin-top:250px; margin-left:-210px;}
+.account-box_succ{ width:440px; margin-left:-220px;}
+.account-form-title{ padding:20px 0px;border-bottom:solid 1px #eee;margin-bottom:25px;}
+.account-form-title label{font-size:18px;color:#19be59; font-weight:bold; font-family:inherit;margin-left:20px; line-height:20px; border-left: solid 3px #19be59; padding-left:10px; }
+.account-input-area{ margin-left:32px;}
+.c1{ margin-top:20px;}
+.col-md-3{ font-size:14px; float:left; display:block; line-height:30px; width:65px;background:#fff; margin-right:10px; font-family:inherit;}
+.col-md-4{height:30px;width:337px; background:#f5f4f4; display:block; line-height:24px; margin-left:20px; font-size:16px; font-family:inherit;}
+.account-input-area input:not(.hasflag){height:26px; padding-left:10px; width:280px;border:1px solid #bfbfbf;ont-size:14px;color:#2D3238 ; margin-left:-10px}
+.account-input-area input:not(.hasflag).short{width:360px;float:left}
+.account-input-area.hasflag{height:56px;overflow-y:hidden}
+.account-input-area.hasflag.has-error{height:84px}
+.account-input-area .phone-wrapper{width:300px;height:56px;float:left;border-radius:5px;padding-left:1em;border:1px solid #eaecee;background:#fff;box-sizing:border-box}
+.from_img{ width:100px; height:99px;}
+.for_eversheet{ margin:auto auto; margin-top:-20px;}
+.zhifu_weixin{ margin-top:-10px;}
+.money_pay{ margin-top:20px;}
+.btn{ padding:10px 10px; background:#19be59; border:none; color:#fff; margin:10px; cursor:pointer; margin-top:40px;}
+.account_pay{ margin-left:-233px;}
+.wps_btn{ width:160px; height:36px; text-align:center; background:#19be59; color:#fff; font-size:12px; font-family:inherit; margin-top:40px; font-size:14px}

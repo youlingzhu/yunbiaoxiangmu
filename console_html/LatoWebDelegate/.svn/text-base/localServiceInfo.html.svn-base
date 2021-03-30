@@ -1,0 +1,94 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'本地服务器' /}
+
+
+<script src="@{'/public/javascripts/1.0/clipboard.min.js'}"></script>
+
+<div class="main" >
+
+	
+                <form id="defaultForm" method="post" class="form-horizontal" action="" >
+				<input type="hidden" name="lato_objectId"  id="lato_objectId" value="${flash.lato_objectId}" /> 
+				<div class="main_title">
+					<h3>本地服务器</h3>
+			  </div>
+			  <div class="main_body">
+				  <div class=" clearfix">
+						<div class="empower_left">
+							 <div class="body_name body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">服务器编号</label>
+								 <label class="users_text empower_text">${flash.服务器编号}</label>
+							 </div>
+							  <div class="body_name body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">服务器名称</label>
+								 <label class="users_text empower_text">${flash.服务器名称}</label>
+							 </div>
+						</div>
+						<div class="empower_right">
+							   <div class="body_name body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">状态</label>
+								 <label class="users_text empower_text">${flash.服务器状态}</label>
+								  <a href="https://www.iyunbiao.com/wiki/%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF" class="help_text">帮助说明</a>
+							 </div>
+							  <div class="body_name body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">到期时间</label>
+								 <label class="users_text empower_text">${flash.到期时间}</label>
+							 </div>
+						</div>
+				  </div>
+							
+							  <div class="body_name body_menu1 empower_time clearfix">
+								 <label class="menu_name unwrap_name">描述</label>
+								 <label class="users_text empower_data">${flash.服务器描述}</label>
+							 </div>
+							 <div class="body_pay body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">服务器机器码</label>
+								 <textarea class="users_text empower_beizhu" readonly="readonly" > ${flash.服务器机器码}</textarea>
+							 </div>
+						   
+							 <div class="body_pay body_menu1 clearfix">
+								 <label class="menu_name unwrap_name">激活码</label>
+								 <textarea  class=" users_text empower_beizhu" readonly="readonly">${flash.授权码}</textarea>
+							 </div>
+							 <div class="servercode">
+							   
+							   <div id="btn" class="js-copy" data-clipboard-text="${flash.授权码}">
+									<a htef="#"  class="servercode_sure empower_cope">复制激活码</a>
+								</div>
+							 </div>
+			  </div>
+				
+			
+        <!-- :form -->
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+
+	 var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);//实例化
+
+    //复制成功执行的回调，可选
+    clipboard.on('success', function(e) {
+       alert('复制成功');
+    });
+
+    //复制失败执行的回调，可选
+    clipboard.on('error', function(e) {
+       alert('复制失败');
+    });
+
+ $(document).ready(function() {
+	
+		$('#sub-item-2').addClass('in');	
+			
+    });
+
+
+
+</script>

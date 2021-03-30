@@ -1,0 +1,165 @@
+﻿
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'云表会员登录' /}
+
+    <div class="login_banner">
+	      
+         <div class="login_wrap">
+		 <div class="login_bg">
+		  </div>
+		  <div class="login_yinying"></div>
+            <div class="login_main">
+                 <h2>云表会员登录</h2>
+				  <form id="defaultForm" method="post" class="form-horizontal" action="">
+					<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+					<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+					 
+					 <div class="label_list">
+					       <div class="form-group">
+						  <label class="user_login user_name  " onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入用户名/手机号码" class="lab_input" id ="account" name="account"/>
+						  </label>
+						  </div>
+						<div class="form-group">
+						  <label class="user_login user_password" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						  <input placeholder="请输入密码" class="lab_input" type="password" id="password" name="password"/>
+						  </label>
+						  </div>
+					 </div>
+					 <div class="label_text">
+						 <div class="checkbox">
+							<label style="display:none" for="checkbox1">记住密码</label>
+						</div>
+						<div class="login_list">
+							<p>     <a href="@{LatoWebDelegate.getUserRegister('',redirect)}" class="liji_regin">立即注册</a> | <a href="@{LatoWebDelegate.getUserResetPwd()}" class="forget_psaaword">忘记密码?</a></p>
+						</div>
+					 </div>
+					 <div class="btn_list">
+					<input type="submit" class="btn_login"  value="登  录" />
+					 </div>
+					  <div class="btn_list">
+					   <a  href="@{LatoWpsWebDelegate.getWpsLoginAutoorize()}" class="liji_regin" > <img src="@{'/public/images/1.0/logo_intl.24d37b2d.png'}" class="btn_list_img"/> 金山登录</a>
+					 </div>					 
+				</form>
+            </div>
+              
+         </div>
+    </div>
+    <div class="modal fade" id="myModal">
+	  <div class="modal-dialog modal-sm" style="margin: 300px auto;">
+		  <img alt="" src="@{'/public/images/1.0/waiting.gif'}" />
+	  </div>
+	</div>
+
+	
+	
+
+
+
+
+ <script type="text/javascript">
+ 
+	$(function () {
+        // Invoke the plugin
+        $('input, textarea').placeholder();
+    });
+	
+	
+	$('#errorModel').on('show.bs.modal', centerModals);
+	
+	
+$(document).ready(function() {
+    $('#defaultForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                
+                account: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入账号或手机号'
+                        }
+                    }
+                },
+			password: {
+                validators: {
+                    notEmpty: { message: '请输入密码'}
+                }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+			//console.log('error.field.bv -->', data.element);
+		})
+		.on('success.field.bv', function(e, data) {
+			//console.log('success.field.bv -->', data.element);
+		}).on('success.form.bv', function(e) {
+			 e.preventDefault();
+			 
+			  var params=$("form").serialize();
+			 $.ajax({
+					url:"@{LatoWebDelegate.login}",
+					type:'POST',
+					dataType:'json',
+					data:params
+					,success:function(data){
+						var errCode = data.errorCode;
+						var erroMsg = data.errorMsg;
+						var script = data.synLoginHtml;
+						var url = data.openUrl;
+						if(null != errCode && errCode.length > 0)
+						{
+							$('#myModal').modal('hide');
+							$("form").find(".btn_login").removeAttr("disabled");
+							showErrorModel("登录出现错误",erroMsg);
+						}else{
+							location.href = data.redirectUrl;
+						}
+					},
+					beforeSend: function(xhr) {
+						$('#myModal').modal({backdrop:'static',keyboard:false}); 
+						checkIsEversheetWeb(xhr);
+					}
+					,error:function(XMLHttpRequest, textStatus, errorThrown){
+						$('#myModal').modal('hide');
+						$("form").find(".btn_login").removeAttr("disabled");
+						var data = XMLHttpRequest.responseJSON;
+						if (data === undefined && XMLHttpRequest.responseText && XMLHttpRequest.responseText[0] == "{") {
+							data = eval('0?0:'+decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20').replace(/\r\n|\n|\r/g,'')));
+						}
+						showErrorModel(textStatus,(data&&data.message?data.message:'无法访问服务器')); 
+					}
+				});
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('added.field.bv', function(e, data) {
+			//console.log('Added element -->', data.field, data.element);
+		})
+		.on('removed.field.bv', function(e, data) {
+			//console.log('Removed element -->', data.field, data.element);
+		});
+});
+	
+
+		
+    </script>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4b947d39c8a60250644cfa205a71300b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+
+ 
+

@@ -1,0 +1,261 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'云端模板库备份' /}
+	
+ <div class="main">
+  <div class="main_title">
+            <h3>云端应用模板库备份</h3>
+  </div>
+  <form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putForm('cloudAppBackup')}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="verifiType" value="${verifiType}" id="verifiType" />
+		<input type="hidden" name="lato_vip_account" value="${account}" id="lato_vip_account"/>
+		<input type="hidden" name="lato_app_id" value="${appId}" id="lato_app_id"/>
+		<input type="hidden" name="lato_app_name" value="${appName}" id="lato_app_name"/>
+		<input type="hidden" name="lato_app_global_id" value="${globalId}" id="lato_app_global_id"/>
+  
+  <div class="main_body">
+     <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">应用ID</label>
+                     <label class="userinfo_text">${appId}</label>
+                 </div>
+                 
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">会员账号</label>
+                     <label class="userinfo_text">${account}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">联系电话</label>
+                     <label class=" userinfo_text">${phoneNumber}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">备份名称</label>
+                     <input class="users_text value_color" name="lato_backup_name" id="lato_backup_name"  placeholder="请输入备份名称"></input>
+                 </div>
+                 </div>
+				 
+                  <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">备份描述</label>
+                     <input class="users_text value_color" name="lato_backup_desc" id="lato_backup_desc"  placeholder="请输入备份描述"></input>
+                    </div>
+                 </div>
+                  <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">验证码</label>
+                     <input class="users_text pass_yanzheng value_color" name="lato_yzm" id="lato_yzm" placeholder="请输入验证码"></input>
+                      <img  id="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+					 </div>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">手机验证码</label>
+                     <input class="users_text pass_yanzheng value_color" name="lato_verfiCode" id="lato_verfiCode" value="" placeholder="验证码"></input>
+                     <a href="javascript:showtime(60)" name="phone" id="phone" class="phone_yanzheng">获取验证码</a>
+					 </div>
+                 </div>
+
+                  <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">登录账号</label>
+                     <input class="users_text" name="lato_app_account" id="lato_app_account" placeholder="请输入登录账号"></input>
+                </div>
+				
+                 </div>
+                  <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">登录密码</label>
+                     <input class="users_text" type="password" name="lato_app_password" id="lato_app_password" placeholder="请输入登录密码"></input>
+                   </div>
+                 </div>
+                  <div class="body_pay body_menu1 clearfix">
+                      <button class="btn_cloud">确认备份</button>
+                 </div>
+	</form>
+  </div>
+
+
+				
+<script type="text/javascript">
+		
+	
+var count ;
+
+function recoverySendSms(){
+
+var i1 =document.getElementById('phone');
+i1.innerHTML = "重新发送";
+$("#phone").attr("href","javascript:showtime(60);");
+$("#phone").attr("class","phone_yanzheng");
+
+}
+
+
+function update_p() {
+	
+	var i1 =document.getElementById('phone');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#phone").attr("href","javascript:showtime(60);");
+		$("#phone").attr("class","phone_yanzheng");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+
+function showtime(t){
+
+		count = t;
+		var txyz = $("#lato_yzm").val();
+				
+				if(txyz.length <1){
+							document.getElementById("errorTypeSpan").innerText = "验证码错误";
+							document.getElementById("errorSpan").innerText = "请输入图形验证码";
+							$('#errorModel').modal({
+							keyboard: true
+					})
+					return;
+				}
+				$("#phone").removeAttr("href");
+				$("#phone").removeAttr("class");
+				 $("#phone").attr("class","phone_yanzheng_disabled");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				
+				var account = $("#lato_vip_account").val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var params=$("form").serialize();
+		
+				var  v2 =showUserAction({checkPhone:account,txyz :txyz,key :$("#randomID").val(),type:$("#verifiType").val()}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{	
+									recoverySendSms();
+									window.clearInterval(id);
+									showErrorModel("发送短信出现错误",erroMsg);
+								
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+									
+									recoverySendSms();
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+}
+function refresh(){
+		$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+		
+ 
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			    lato_backup_name:{
+				validators: {
+                        notEmpty: {
+                            message: '备份名称不允许为空'
+                        } 
+				}
+				},
+				lato_backup_desc:{
+				validators: {
+                        notEmpty: {
+                            message: '备份描述不允许为空'
+                        } 
+				}
+				},
+				lato_app_account:{
+				validators: {
+                        notEmpty: {
+                            message: '应用账号不允许为空'
+                        } 
+				}
+				},
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}},
+                lato_app_password: {
+                    validators: {
+                        notEmpty: {
+                            message: '应用密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+                lato_verfiCode: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 6,
+                            message: '请输入正确验证码'
+                        }
+                    }
+                }
+            }
+        })
+		.on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				
+				 
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+		
+		
+</script>

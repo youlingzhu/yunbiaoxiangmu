@@ -1,0 +1,435 @@
+﻿#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'云端应用模板库备份' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+javascript:history.go(-1)
+#{/set}
+#{set 'latoMainSide'}
+	
+<div class="lato-main-side lato_main_side_backup">
+
+    <div id="lato-main-side_a">
+	
+	</div>
+    <!-- @{LatoWebDelegate.getAppInfoFormList()} -->
+      <!-- <form target="formIframe" role="form" id="regForm" method="post" action="@{LatoWebDelegate.putForm('cloudAppBackup')}">  -->
+   <form id="regForm">
+		 <input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="verifiType" value="${verifiType}" id="verifiType" />
+		<input type="hidden" name="lato_vip_account" value="${ybUserAccount}" id="lato_vip_account"/>
+		<input type="hidden" name="lato_app_id" value="${appId}" id="lato_app_id"/>
+		<input type="hidden" name="lato_app_name" value="${appName}" id="lato_app_name"/>
+		<input type="hidden" name="lato_app_global_id" value="${appCode}" id="lato_app_global_id"/> 
+  <div class="main_body">
+     <div class="body_name body_menu1 clearfix main_back_up">
+                <div class="body_name body_menu1 clearfix main_back_up_one">
+                    <label class="menu_names" id="menu_names">云端应用模板库备份</label>
+                </div>
+                <div class="body_name body_menu1 clearfix main_back_up_two">
+                     <label class="menu_name">应用ID</label>
+                     <label class="userinfo_text">${appId}</label>
+                 </div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">会员账号</label>
+                     <label class="userinfo_text">${account}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">联系电话</label>
+                     <label class=" userinfo_text">${phoneNumber}</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix form-group namebuckUp"> 
+				 <div class="clearfix">
+                     <label class="menu_name">备份名称</label>
+                     <input   class="users_text value_color" name="lato_backup_name" id="lato_backup_name"  placeholder="请输入备份名称"></input>
+                 </div>
+                 </div>
+				 
+                  <div class="body_name body_menu1 clearfix form-group namebuckUp">
+				  <div class="clearfix">
+                     <label class="menu_name">备份描述</label>
+                     <input style="margin-top:1px;" class="users_text value_color" name="lato_backup_desc" id="lato_backup_desc"  placeholder="请输入备份描述"></input>
+                    </div>
+                 </div>
+                  <div class="body_name body_menu1 clearfix form-group namebuckUp">
+				  <div class="clearfix">
+                     <label class="menu_name">验证码</label>
+                     <input class="users_text pass_yanzheng value_color" name="lato_yzm" id="lato_yzm" placeholder="请输入验证码"></input>
+                      <img  id="txm"  style="margin-top:1px;" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+					 </div>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix form-group namebuckUp" style="margin-top: 16px;">
+				 <div class="clearfix">
+                     <label class="menu_name">手机验证码</label>
+                     <input  style="margin-top:1px;" class="users_text pass_yanzheng value_color" name="lato_verfiCode" id="lato_verfiCode" value="" placeholder="验证码"></input>
+                     <a href="javascript:showtime(60)" name="phone" id="phone" class="phone_yanzheng">获取验证码</a>
+                     <!-- <input type="button" name="phone" id="phone" class="phone_yanzheng" value="获取验证码"> -->
+					 </div>
+                 </div>
+
+                  <!-- <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">登录账号</label>
+                     <input class="users_text" name="lato_app_account" id="lato_app_account" placeholder="请输入登录账号"></input>
+                </div>
+				
+                 </div>
+                  <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">登录密码</label>
+                     <input class="users_text" type="password" name="lato_app_password" id="lato_app_password" placeholder="请输入登录密码"></input>
+                   </div>
+                 </div> -->
+                  <div class="body_pay body_menu1 clearfix">
+                      <button class="btn_cloud" id="btnSuccess" style="margin: 7px 0px;width: 105px;">确认备份</button>
+                      <!-- <button class="btn_cloud" id="btnSuccess" style="margin: 7px 0px;width: 105px;">确认备份</button> -->
+                 </div>
+    </form> 
+     <!-- <iframe name="formIframe" id="formIframe" style="display:none"></iframe>  -->
+    
+       <!--备份成功后的弹框 -->
+       <div class="contentRight" id="myAlert">
+        <div class="upDateTop"></div>
+        <div class="alertBoxWarningT">
+            <span id="alertSuccessDom">+</span>
+            <div id="succsImg"> 
+                <!-- <div class="succsImgChild" style="margin:15px auto;width: 4px; height: 27px;border: 1px solid transparent;">
+                    <span style="display: block;width: 4px;height: 20px;background-color:white;margin-bottom: 2px;margin-top:13px"></span>
+                    <span style="display: block;width: 4px;height: 4px;background-color: white;"></span>
+                </div> -->
+                <img src="@{'/public/images/succsImg.png'}">
+            </div>
+            <p id="shujuSuccs">云端应用模板库备份成功</p>
+            <button id="yanzhengmgSucceBtn" >确认</button>
+        </div>
+
+    </div>
+  </div>
+
+   
+				
+<script type="text/javascript">
+		
+	
+var count ;
+
+
+    function recoverySendSms(){
+
+        var i1 =document.getElementById('phone');
+        i1.innerHTML = "重新发送";
+        $("#phone").attr("href","javascript:showtime(60);");
+        $("#phone").attr("class","phone_yanzheng");
+
+    }
+
+
+       
+
+
+$('#btnSuccess').on('click',function(){   // @{LatoWebDelegate.putForm('cloudAppBackup')}
+   var dataJson =$("#regForm").serialize();
+   console.log(dataJson,178)
+    $.post("@{LatoWebDelegate.putForm('cloudAppBackup')}",dataJson,function(data){
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.errorMsg==""){
+                $('#myAlert').show();
+            }
+    })
+})
+
+var id=null;
+  
+
+function update_p() {
+    var i1 =document.getElementById('phone');
+	if(count <= 0) {
+        i1.innerHTML = "重新发送";
+        clearInterval(id);
+        $('#phone').css({'background':'#22cb64','color':'#fff'})
+		$("#phone").attr("href","javascript:showtime(60);");
+		$("#phone").attr("class","phone_yanzheng");
+	}
+	else {
+        printnr = count--;
+        $('#phone').css({'background':'#ddd','color':'#373F4A'})
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+
+function showtime(t){    // 发送验证码的函数
+		count = t;
+		var txyz = $("#lato_yzm").val();
+				
+				if(txyz.length <1){
+							document.getElementById("errorTypeSpan").innerText = "验证码错误";
+							document.getElementById("errorSpan").innerText = "请输入图形验证码";
+							$('#errorModel').modal({
+							keyboard: true
+					})
+					return;
+				}
+				$("#phone").removeAttr("href");
+				$("#phone").removeAttr("class");
+                 $("#phone").attr("class","phone_yanzheng_disabled");
+                 
+                 clearInterval(id);
+
+				 id =  window.setInterval("update_p()", 1000);
+				
+				
+				var account = $("#lato_vip_account").val();
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var params=$("form").serialize();
+		      
+				var  v2 =showUserAction({checkPhone:account,txyz :txyz,key :$("#randomID").val(),type:$("#verifiType").val()}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+                           
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							
+							if(null != errCode && errCode.length > 0)
+							{	
+									recoverySendSms();
+									window.clearInterval(id);
+									showErrorModel("发送短信出现错误",erroMsg);
+								
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								//alert(XMLHttpRequest.responseText);
+									
+									recoverySendSms();
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+}
+function refresh(){
+		$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+		
+ 
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			    lato_backup_name:{
+				validators: {
+                        notEmpty: {
+                            message: '备份名称不允许为空'
+                        } 
+				}
+				},
+				lato_backup_desc:{
+				validators: {
+                        notEmpty: {
+                            message: '备份描述不允许为空'
+                        } 
+				}
+				},
+				lato_app_account:{
+				validators: {
+                        notEmpty: {
+                            message: '应用账号不允许为空'
+                        } 
+				}
+				},
+                lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        } ,
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}},
+                lato_app_password: {
+                    validators: {
+                        notEmpty: {
+                            message: '应用密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+                lato_verfiCode: {
+                    validators: {
+                        notEmpty: {
+                            message: '验证码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 6,
+                            message: '请输入正确验证码'
+                        }
+                    }
+                }
+            }
+        })
+		.on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            }).on('success.form.bv', function(e,data) {
+               // console.log(e,300);
+                // if(e.type =='success'){
+                //     $('#myAlert').show();
+                // }
+                
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('success.field.bv', function(e, data) {   // 备份名称和备份描述的值
+               // console.log(data,301)
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log(data,302)
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+               // console.log(e,303)
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+        
+
+  
+   
+
+
+ 
+    serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:history.go(-1)" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+                '<a href="javascript:history.go(-1)" class="list_back_a">应用空间详情</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">模板库备份</a>'
+
+   }
+   
+   $('#reloadPages').click(function(){
+	   window.history.go(0);
+   })
+
+   $('#alertSuccessDom').on('click',function(){
+     window.history.go(0);
+   })
+   $('#yanzhengmgSucceBtn').on('click',function(){
+     window.location.href='@{LatoWebDelegate.getAppEpkBackupInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}'
+   })
+
+
+   
+
+
+
+
+</script>
+
+<style>
+
+
+	.menu_names{
+		font-size: 14px;
+		color:#373F4A;
+		margin-bottom: 6px;
+		font-weight: 700;
+		width: 300px;
+	}
+
+	.upgrade_text {
+        background: #ffffff;
+      
+     }
+
+	 .upuser_text {
+        background: #ffffff;
+        
+     }
+     .menu_name {
+   
+        line-height: 31px;
+     }
+
+     .userinfo_text {
+            width: 237px;
+            height: 30px;
+            border:none;
+            float: left;
+            font-size: 14px;
+            padding-left: 7px;
+            background: #ffffff;
+            color: #373F4A;
+            line-height: 30px;
+}
+
+#phone:hover{
+    color: #ffffff;
+    background-color: rgb(78,213,131);
+}
+
+#phone:active{
+    background-color: rgb(69,191,102);
+}
+
+.namebuckUp{
+    position: relative;
+}
+.namebuckUp small{
+    position: absolute;
+    left: 190px;
+    top:2px;
+}
+#btnSucces{
+    width: 98px;
+}
+#btnSuccess:hover{
+	color: #fff;
+	background-color: rgb(78,213,131);
+}
+#btnSuccess:active{
+	color: #fff;
+	background-color: rgb(69,191,102);
+}
+.main_body {
+    padding-left: 0px;
+    margin-left: 8px;
+}
+
+</style>
+#{/set}

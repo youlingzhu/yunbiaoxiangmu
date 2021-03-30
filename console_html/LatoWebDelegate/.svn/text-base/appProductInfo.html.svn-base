@@ -1,0 +1,1625 @@
+﻿#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'应用模板库' /}
+#{set appProduct:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+	.detail_text {
+		width: 280px;
+		margin-top: 0px;
+	}
+
+	.body_menu1 a {
+		margin: 0px 20px;
+	}
+
+	.first_steps {
+		margin-left: -40px;
+	}
+
+	.first_steps .first_tit {
+		margin-left: 40px;
+	}
+
+	.divTableTemplate {
+		display: none;
+	}
+
+
+	.yes-ul1 p {
+		text-indent: 5px;
+	}
+
+	.yes-ul2 p {
+		text-indent: 15px;
+	}
+
+	.yes-ul3 p {
+		text-indent: 25px;
+	}
+
+	.yes-ul4 p {
+		text-indent: 35px;
+	}
+
+	.yes-ul5 p {
+		text-indent: 45px;
+	}
+
+	.yes-ul6 p {
+		text-indent: 50px;
+	}
+
+	.yes-ul7 p {
+		text-indent: 55px;
+	}
+
+	.yes-ul8 p {
+		text-indent: 60px;
+	}
+
+	.mySystem {
+		font-family: Microsoft YaHei;
+	}
+
+	#box {
+		height: 306px;
+		overflow: auto;
+	}
+
+	#box p {
+		height: 40px;
+		padding-left: 20px;
+		font-size: 16px;
+		cursor: pointer;
+		font-weight: 400;
+		border-bottom: 1px solid gainsboro;
+		line-height: 40px;
+	}
+
+	#box p i {
+		margin-right: 8px;
+	}
+
+	/* #box i{
+    float: left;
+    font-style:normal;
+    font-size:18px;
+    cursor:pointer;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid red;
+    margin-top: 18px;
+}
+ */
+
+
+	#box .activeone {
+		float: left;
+		font-style: normal;
+		font-size: 18px;
+		cursor: pointer;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid gainsboro;
+		margin-top: 18px;
+	}
+
+	#box .activetwo {
+		float: left;
+		font-style: normal;
+		font-size: 18px;
+		cursor: pointer;
+		border-top: 5px solid transparent;
+		border-left: 5px solid gainsboro;
+		border-bottom: 5px solid transparent;
+		margin-top: 18px;
+	}
+
+	#box .active {
+		background-color: #f7f7f8;
+	}
+
+	.middle p {
+		width: 24px;
+		height: 24px;
+		color: gray;
+		/* line-height: 23px; */
+		text-align: center;
+		border: 1px solid gray;
+		background-color: white;
+		cursor: pointer;
+	}
+
+	.middle p:nth-of-type(1) {
+		margin-top: 150px;
+		margin-bottom: 10px;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	.middle p:nth-of-type(2) {
+
+		border-radius: 4px;
+	}
+
+	#ulMySystem {
+		height: 306px;
+		overflow: auto;
+	}
+
+	#ulMySystem li {
+		height: 40px;
+		padding-left: 20px;
+		font-size: 16px;
+		cursor: pointer;
+		font-weight: 400;
+		border-bottom: 1px solid gainsboro;
+		line-height: 40px;
+	}
+
+	#agreeMb b {
+		cursor: pointer;
+	}
+
+	/* #agreeMb b:hover .wenzi{
+    display: block;
+  }
+ */
+</style>
+<div class="lato-main-side">
+	<!-- <img src="@{'/public/images/Rectangle350.png'}" style="width: 90px;">
+	<img src="@{'/public/images/163.png'}" style="width: 90px;">
+	<img src="@{'/public/images/Group36.png'}" style="width: 90px;"> -->
+
+	<!-- 如果没有产品这个div就显示的弹框 -->
+	<div class="contentRight" id="noContentHide" style="background: #FFFFFF;
+		padding-left: 30px;height: 100%;width: 100%;
+		display: none;
+		font-family: Microsoft YaHei;">
+		 <div style="width: 100%;text-align: center;">
+			<img style="width: 305px;"  src="@{'/public/images/nothing.png'}">
+		</div>
+		<div style="width: 100%;height: 42px;text-align: center;margin-top: 12px;">
+			<div style="color:#373F4A;font-family: PingFang SC;font-style: normal;font-weight: normal;font-size: 16px;line-height: 24px;height: 24px;">您的模板库还在路上...</div>
+			<div style="color: rgba(55, 63, 74, 0.6);font-family: PingFang SC;font-style: normal;font-weight: normal;font-size: 12px;line-height: 18px;height: 18px;">马上选择模板库进行导入</div>
+		</div>
+		<div style="width: 100%;display: -webkit-flex;display: flex;justify-content: center;margin-top: 26px;text-align: center;">
+			<button data-toggle="modal" data-target="#loca_app_back_model" style="width: 122px;height: 29px;background: #43BD68;border-radius: 4px;color: white;font-family: Microsoft YaHei;font-style: normal;font-weight: normal;font-size: 14px; border: none;">导入模板库</button>
+		</div>
+	
+	</div>
+
+
+	<div class="modal fade" id="loca_app_back_model" tabindex="-1" role="dialog" aria-labelledby="loca_app_back_model"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width:60%">
+
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					</button>
+					<h4 class="modal-title" id="loca_app_back_model">
+						<span id="errorTypeSpan" style="color: #373F4A;">请选择相应的模板库</span>
+					</h4>
+				</div>
+				<!-- data-url= -->
+				<div class="modal-body">
+					<!-- data-url="@{LatoWebDelegate.getJsonData('软件产品版本信息','查询允许更换的产品信息列表(产品编号)')}" -->
+					<table data-toggle="table" id="app_back_table" name="localServer" data-click-to-select="true"
+						data-header-style="headerStyle" data-search="true" data-pagination="true"
+						data-select-item-name="radioName">
+						<thead>
+							<tr>
+								<th data-field="lato_state" data-radio="true" onclick="clickFun()"
+									data-formatter="stateFormatter"></th>
+								<th data-field="产品编号" data-halign="center" data-align="center">模板库编号</th>
+								<th data-field="产品名称" data-halign="center" data-align="center">模板库名称</th>
+								<th data-field="模板总数量" data-halign="center" data-align="center">模板总数量</th>
+								<th data-field="版本号" data-halign="center" data-align="center">模板库版本</th>
+								<th data-field="是否开源" data-halign="center" data-align="center">是否开源</th>
+								<th data-field="私有产品" data-halign="center" data-align="center">私有产品</th>
+								<th data-field="支持二次发布" data-halign="center" data-align="center">支持二次发布</th>
+								<th data-field="发布时间" data-halign="center" data-align="center">发布时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-lato" data-dismiss="modal">取消
+					</button>
+					<button type="button" class="btn btn-primary" onclick="selectProdct()">下一步</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- data-url="@{LatoWebDelegate.getJsonData('软件产品版本信息','查询允许更换的产品信息列表(产品编号)')}" -->
+
+
+
+
+
+
+
+
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;">
+
+
+
+
+
+
+		<!-- 有产品编号就显示的div -->
+		<div class="contentRight" id="youContenShow" style="background: #FFFFFF;
+			padding-left: 30px;display: none;
+			font-family: Microsoft YaHei;">
+
+			<div id="contentBoxProduct">
+				<!-- title -->
+				<div class="title" style="font-size: 14px;
+				color: #373F4A;
+				font-weight: bold;">
+					<p style="font-family: Microsoft YaHei;
+					padding-bottom:8px;color:#373F4A">基础信息</p>
+				</div>
+
+				<!-- name -->
+
+				<div class="name" style="padding-bottom: 22px;">
+					<span style=" width: 100px;
+					color: rgba(55, 63, 74, 0.6);display: inline-block;">名称</span>
+					<p id="chanpinName" style="color: #373F4A;display: inline-block;"></p>
+				</div>
+
+				<div class="name" style="padding-bottom: 22px;">
+					<span style=" width: 100px;
+					color: rgba(55, 63, 74, 0.6);display: inline-block;">编号</span>
+					<p id="chanpinNumber" style="color: #373F4A;display: inline-block;"></p>
+					<span style=" width: 100px;margin-left: 200px;display: inline-block;
+					color: rgba(55, 63, 74, 0.6);display: inline-block;">版本</span>
+					<p id="banbenNumber" style="color: #373F4A;display: inline-block;"></p>
+				</div>
+
+				<div class="name" style="padding-bottom: 22px;">
+					<span style=" width: 100px;
+					color: rgba(55, 63, 74, 0.6);">描述</span>
+					<p id="chanpinDescribe" style="width:636px;
+					max-height: 65px;
+					overflow: auto;
+					font-size: 14px;
+					font-family: Microsoft YaHei;color: #373F4A;"></p>
+				</div>
+			</div>
+
+			<!-- 应用历史记录 -->
+
+			<div class="historyjilu" style=" box-sizing: border-box;">
+				<div class="title" style="font-weight: bold;
+					font-size: 14px;
+					color: #373F4A;
+					padding-bottom: 17px;
+					position: relative;
+					box-sizing: border-box;" id="historyUpdata">
+					应用历史记录
+					<span id="proudectChongzhuang" data-toggle="modal" data-target="#loca_app_back_model"
+						data-toggle="modal"
+						style="cursor: pointer;margin-left: 365px;font-family:Microsoft YaHei;text-align: center;line-height: 29px;display: inline-block;font-size: 14px;color: white;width: 136px;height: 29px;background: #427BC5;border-radius: 4px;">
+						更新/升级模板库</span>
+					<span id="proudectShengji" data-toggle="modal" data-target="#loca_app_back_model2"
+						style="cursor: pointer;margin-left:20px;font-family:Microsoft YaHei;text-align: center;line-height: 29px;display: inline-block;font-size: 14px;color: white;width: 136px;height: 29px;background: #43BD68;border-radius: 4px;">
+						重装模板库</span>
+					 <p id="daqipao" style="padding-top: 10px;position: absolute;left:580px;top: 30px;width: 150px;height:59px;text-align:left;padding:9px;line-height:21px;">
+						<span style="font-size: 12px;color: #373F4A;opacity: 0.7;font-family: PingFangSC;text-align: left;">点击后将对当前模板库版<br />本<i id="daqipaoCh" style="font-style: normal;">(1.2.1)</i>进行重装</span>
+					</p>	 
+				</div>
+<!--  -->
+				<ul>
+					<li
+						style="background: #F7F7F8;height: 32px;line-height: 31px;text-align: center;width: 750px;border-bottom: 1px solid #F0F2F3;border-right: 1px solid #F0F2F3;">
+						<span class="w1"
+							style="color: #373F4A; width: 125px;border-left: 1px solid #F0F2F3;border-top: 1px solid #F0F2F3;display: block;float: left;">版本编号</span>
+						<span class="w2"
+							style="color: #373F4A; width:210px;padding-left:3px;border-left: 1px solid #F0F2F3;border-top: 1px solid #F0F2F3;display: block;float: left;">名称</span>
+						<span class="w3"
+							style="color: #373F4A; width: 145px;padding-left: 8px;border-left: 1px solid #F0F2F3;border-top: 1px solid #F0F2F3;display: block;float: left;">描述</span>
+						<span class="w4"
+							style="color: #373F4A; width: 240px;border-left: 1px solid #F0F2F3;border-top: 1px solid #F0F2F3;display: block;float: left;">更新时间</span>
+					</li>
+					<ul id="bodyList" style="max-height:250px;;overflow: auto;width: 750px;">
+
+					</ul>
+
+
+				</ul>
+
+
+
+
+			</div>
+
+
+
+
+
+		</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- 警告框一 验证码弹框 -->
+
+<div class="alertBoxWarning" id="alertBoxWarningOne" style="position: fixed;
+        display:none;
+		left: 0;
+		top: 0;
+		width: 100%;
+		z-index: 1000;
+		display: none;
+		height: 100%;
+		background: rgba(55, 63, 74, 0.3);">
+	<div class="alertBoxOne" style=" background: #FFFFFF;
+			width: 499px;
+			height: 330px;
+			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			box-sizing: border-box;">
+		<span id="alertBoxWarningOneSpan"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+
+		<div class="title" style="text-align: center">
+			<p style="width: 52px;
+					height: 52px;
+					background: #FB5040;
+					border-radius: 50%;
+					padding-left: 24px;
+					padding-top: 16px;
+					margin-top: 60px;
+					margin-left: 224px;
+					position: absolute;
+					left: 0;
+					right: 0;
+					top:13px ;
+					align-items: center;">
+				<!-- <span style="background: url('/public/images/Rectangle350.png') no-repeat;
+						width: 4px;
+						height: 20px;"></span> -->
+				<img src="@{'/public/images/Rectangle350.png'}" style="display: block;">
+				<span style=" background: #FFFFFF;
+						width: 4px;
+						height: 4px;
+						margin-top: 2px;display: block;"></span>
+			</p>
+			<p style="height: 36px;
+					font-weight: bold;
+					font-size: 18px;
+					line-height: 36px;
+					color: #FB5040;
+					margin-top:16px;
+					position: absolute;
+					left: 0;
+					right: 0;
+					top:126px ;
+					margin-bottom: 20px;font-family: Microsoft Yahei;">当前操作不可逆,请谨慎执行</p>
+			<p style="height: 16px;
+					font-size: 12px;
+					line-height: 16px;
+					color: rgba(55, 63, 74, 0.8);
+					position: absolute;
+					left: 0;
+					right: 0;
+					top: 185px;
+					margin-bottom: 20px;">我们将发送短信验证至<i style="font-style: normal;">133****2345</i>以确保是您本人操作</p>
+		</div>
+		<div class="messageCode" style="width: 290px;
+				height: 41px;
+				position: absolute;
+				left: 0px;
+				top: 220px;
+				border: 1px solid rgba(55, 63, 74, 0.3);
+				box-sizing: border-box;
+				border-radius: 8px;
+				margin-left: 103px;
+				padding-top: 8px;
+				align-items: center;">
+			<!-- <span background: url('/public/images/163.png') no-repeat"></span> -->
+			<img style="margin-left:13.5px;margin-right: 10px;float: left;padding-top: 3px;" src="@{'/public/images/163.png'}">
+			<input style="font-size: 14px;
+					line-height: 21px;
+					padding-left: 3px;
+					font-family: PingFang SC;
+					float: left;
+					margin-right: 12px;
+					border: none;" id="yanzhengmaCode" type="text" />
+			<button id="sendVerifiCationCode" style="background: #6EAF32;
+					border: none;
+					border-radius: 4px;
+					width: 72px;
+					height: 24px;
+					font-family: PingFang SC;
+					font-size: 10px;
+					color: #FFFFFF;
+					float: left;
+					line-height: 12px;
+					margin-right:3px;">发送验证码</button>
+		</div>
+		<p id="alertBoxWarningOneYanzhengP" style="text-indent: 103px;display: none;color: red;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 260px;
+		">请输入验证码</p>
+		<!-- <img src="@{'/public/images/163.png'}" style="width: 90px;"> -->
+		<div class="ConfirmCancel" style="position: absolute;bottom: 0px;
+				right: 0px;height: 50px;font-size: 0px;">
+			<button
+				style="width: 74px;
+					height: 32px;
+					margin-top: 8px;
+					border-radius: 4px;
+					border: none;
+					border: 1px solid rgba(55, 63, 74, 0.6);
+					border-radius: 4px;
+					background: #FFFFFF;
+					margin-left: 0px;
+					font-size: 14px;
+					color: #373F4A;">取消</button>
+			<button
+				style="width: 74px;
+					height: 32px;
+					margin-top: 8px;
+					border-radius: 4px;
+					border: none;
+					border: 1px solid rgba(55, 63, 74, 0.6);
+					border-radius: 4px;border: none;
+					background: #6EAF32;margin-left: 16px;
+					margin-right: 16px;
+					font-size: 14px;
+					color: #FFFFFF;">确认</button>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- 警告框二 立即升级模板库 -->
+
+<div class="alertBoxWarningTwo" id="alertBoxWarningTwo" style="position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 100000;
+		display: none;
+		background: rgba(55, 63, 74, 0.3);
+		text-align: center;">
+
+	<div class="alertBoxWarningT" style="
+			    width: 499px;
+				height: 258px;
+				background-color: #fff;
+				border-radius: 4px;
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				z-index: 100000;
+				margin: auto;">
+		<span id="alertBoxWarningTwoSpan"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+
+		<!-- <p 
+				background: url('') no-repeat;"></p> -->
+		<img style="width: 52px;height: 52px;margin: 60px 224px;margin-bottom: 20px;"
+			src="@{'/public/images/Group36.png'}">
+		<p style=" height: 36px;
+				font-family: Microsoft YaHei;
+				font-style: normal;
+				font-weight: bold;
+				font-size: 18px;
+				line-height: 36px;
+				color: #373F4A;">当前模板数不足，请升级应用空间后再试</p>
+
+		<p style="margin-top: 20px;">
+			<button style=" border: none;
+					border: 1px solid rgba(55, 63, 74, 0.6);
+					box-sizing: border-box;
+					border-radius: 4px;
+					color:#373F4A;
+					width: 120px;
+					height: 40px;
+					margin-right: 44px;" class="btn1">取消</button>
+			<button style="border: none;
+					border: 1px solid rgba(55, 63, 74, 0.6);
+					box-sizing: border-box;
+					border-radius: 4px;
+					background-color: #6EAF32;
+					width: 120px;
+					color: #FFFFFF;
+					height: 40px;" class="btn2">立即升级</button>
+		</p>
+	</div>
+
+</div>
+
+
+
+
+<!-- 模板库更新 更新前 更新后 -->
+
+<div class="alertBoxWarningThree" id="alertBoxWarningThree" style=" position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		z-index: 100000000;
+		height: 100%;
+		background: rgba(55, 63, 74, 0.3);
+		text-align: center;
+		font-family: Microsoft YaHei;
+		display: none;
+		">
+
+	<div class="alertBoxWarningTh" style=" width: 725px;
+			height: 591px;
+			background-color: #fff;
+			border-radius: 4px;
+			position: fixed;
+			left: 0;
+			z-index: 100000000;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;">
+		<div class="title" style=" height: 99px;
+				line-height: 99px;
+				font-weight: bold;
+				font-size: 24px;
+				color: #373F4A;">
+			模板库更新
+		</div>
+		<span id="alertBoxWarningThreeSpan"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+
+		<div class="content" style="margin-bottom: 29px;">
+
+			<div class="left" style="width: 256px;
+					height: 358px;
+					background: #FFFFFF;
+					border: 1px solid rgba(55, 63, 74, 0.3);
+					box-sizing: border-box;
+					border-radius: 4px;
+					float: left;
+					margin-left:63px;
+					margin-right:80px;
+					text-align: left;">
+
+				<div class="titleTop" style=" height: 50px;
+						box-sizing: border-box;
+						border: 1px solid rgba(55, 63, 74, 0.1);
+						">
+					<i style="font-style: normal;
+							width: 2px;
+							height: 16px;
+							float: left;
+							background-color: #6EAF32;
+							margin-right: 8px;
+							display: block;
+							margin-top: 12px;
+							margin-left: 16px;"></i>
+					<span style="font-weight: bold;
+							font-size: 18px;
+							line-height: 36px;
+							float: left;
+							display: block;
+							color: #6EAF32;">更新前</span>
+				</div>
+
+				<div class="mySystem">
+					<ul id="ulMySystemLeft" style="height:309px;overflow:auto;">
+					</ul>
+				</div>
+
+
+
+			</div>
+
+
+
+			<div class="rigth" style=" width: 256px;
+					height: 358px;
+					float: left;
+					background: #FFFFFF;
+					border: 1px solid rgba(55, 63, 74, 0.3);
+					box-sizing: border-box;
+					border-radius: 4px;
+					text-align: left;">
+				<div class="titleTop" style=" height: 50px;
+					   box-sizing: border-box;
+					   border: 1px solid rgba(55, 63, 74, 0.1);
+					   align-items: center;
+					   text-align: left;">
+					<i style="font-style: normal;
+							width: 2px;
+							height: 16px;
+							background-color: #427BC5;
+							margin-right: 8px;
+							display: block;
+							float: left;
+							margin-top: 12px;
+							margin-left: 16px;"></i>
+					<span style="font-weight: bold;
+								font-size: 18px;
+								line-height: 36px;
+								float: left;
+								display: block;
+							color: #427BC5;">更新后</span>
+				</div>
+
+				<div class="mySystem">
+					<ul id="ulMySystemRight" style="height:309px;overflow:auto;">
+
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="agree" id="agreeMb" style="color: rgba(55, 63, 74, 0.8);padding-top: 30px;padding-bottom:12px;
+				font-size: 12px;text-align: left;text-indent:96px;position: relative;height: 20px;float: left;">
+	       		
+			<!-- <input type="checkbox" name="checkbox" />&nbsp;&nbsp;<span>更新为<i style="color: red;font-style: normal;">不可逆</i>行为，请谨慎操作</span><br /> -->
+			<input id="fengxianInput" style="position: absolute;bottom:-4px;left:80px;" type="checkbox" name="checkbox" />
+			<span>我已阅读<b class="active" style="font-weight: 400;color: #427BC5;text-indent: 5px;">《模板库更新风险须知》</b>, 了解并愿意承担本次操作的风险</span>
+			<div id="wenzi" class="wenzi" style="box-shadow: 0px 2px 4px rgba(55, 63, 74, 0.1);
+					border-radius: 4px;
+					width: 355px;
+					height: 195px;
+					text-align: left;
+					background: #5f656e;
+					line-height: 18px;
+					position: absolute;
+					top: -168px;
+					left:135px;
+					color: #FFFFFF;
+					padding:0 8px;display: none;">
+				<p class="p1" style="height:27px;text-indent: 0px;
+						line-height: 32px;color: #FFFFFF;">模板库更新风险须知</p>
+
+				<p class="p2" style="font-size: 12px;text-indent: 0px;
+						line-height: 20px;color: #FFFFFF;">
+					1、模版库更新操作不可逆,被修改的模版，将无法恢复。<br />
+					2、【确认更新】后,原模版库的同名模版将被覆盖，不同名的模版将保留。<br />
+					3、更新后的模版数不能超过模版数上限。 <br />
+					4、更新不影响该模版下的表单数据。<br />
+					5、云表平台(珠海乐图软件有限公司)不对模版库更新中人为操作导致的后果负责。<br />
+				</p>
+				<p class="p3" style=" width: 0;
+						height: 0;
+						margin-top: 18px;
+						margin-left: 55px;
+						border-left: 5px solid transparent;
+						border-right: 5px solid transparent;
+						border-top: 5px solid #5f656e;"></p>
+			</div>
+		
+		</div>
+
+		<div id="agreeBtn">
+			<p style="float: left;
+			        height: 40px;
+					padding-left: 222px;
+					margin-top: 26px;">
+				<button style="border: none;
+						border: 1px solid rgba(55, 63, 74, 0.6);
+						font-size: 14px;
+						box-sizing: border-box;
+						border-radius: 4px;
+						width: 120px;
+						height: 40px;
+						margin-right: 44px;
+						margin-top: 0px;
+						background-color: #FFFFFF;color: #373F4A;" class="btn1">取消</button>
+				<button id="queRenUpData" style=" border: none;
+						box-sizing: border-box;
+						border-radius: 4px;
+						background-color: #6EAF32;
+						width: 120px;
+						font-size: 14px;
+						height: 40px;
+						margin-top: 0px;color: #FFFFFF;" class="btn2">确认更新</button>
+			</p>
+
+		</div>
+
+
+
+	</div>
+
+
+</div>
+
+
+<!-- 警告框四 选择更新模板库 这个已经被模态框淘汰了 -->
+
+<div class="alertBoxWarningFour" id="alertBoxWarningFour" style="position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		display: none;
+		z-index: 10000000;
+		height: 100%;
+		background: rgba(55, 63, 74, 0.3);
+		text-align: center;">
+	<div class="alertBoxWarningT" style="
+			 padding-left:20px;padding-right:20px;
+			 width:897px;
+				height: 591px;
+				background-color: #FFFFFF;
+				border-radius: 4px;
+				position: fixed;
+				left: 0;				
+				right: 0;
+				z-index: 10000000000000000000;
+				top: 0;
+				bottom: 0;
+				margin: auto;">
+		<span id="alertBoxWarningFourSpan"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+		<h3 style="font-size: 24px;font-weight: 700;height: 103px;line-height: 103px;">选择更新模板库</h3>
+		<ul style="margin: 0;padding: 0;list-style: none;color: #373F4A;">
+			<li class="title"
+				style="height: 34px;line-height: 34px;display: flex;justify-content: space-evenly;border-top: 1px solid #F0F2F3;border-left: 1px solid #F0F2F3;;background-color: #F7F7F8;color: #373F4A;">
+				<span style="width: 100px;border-right: 1px solid #F0F2F3;">选择</span>
+				<span style="width: 180px;border-right: 1px solid #F0F2F3;">产品版本编号</span>
+				<span style="width: 120px;border-right: 1px solid #F0F2F3;">产品名称</span>
+				<span style="width: 120px;border-right: 1px solid #F0F2F3;">模板数量</span>
+				<span style="width: 120px;border-right: 1px solid #F0F2F3;">版本号</span>
+				<span style="width: 120px;border-right: 1px solid #F0F2F3;">是否开源</span>
+				<span style="width: 120px;border-right: 1px solid #F0F2F3;">私有产品</span>
+				<span style="width: 180px;border-right: 1px solid #F0F2F3;">支持二次发布</span>
+				<span style="width: 300px;border-right: 1px solid #F0F2F3;">更新时间</span>
+			</li>
+		</ul>
+		<ul style="margin: 0;padding: 0;list-style: none;color:rgba(55, 63, 74, 0.6);border-bottom: 1px solid #F0F2F3;"
+			id="tableUpdata">
+		</ul>
+		<p id="alertBoxWarningFourAp"
+			style="display:none;color: red;text-align: left;padding-left: 10px;font-size:16px;">请选择模板</p>
+		<div id="alertBoxWarningFourNextBtn"
+			style="position: absolute;bottom: 40px;left: 0;right: 0;width: 284px;margin: auto;display:none;">
+			<button
+				style="font-size:14px;height: 40px;width: 120px;line-height: 40px;color:#373F4A;border: 1px solid rgba(55, 63, 74, 0.6);box-sizing: border-box;border-radius: 4px;text-align: center;margin-right: 40px;">取消</button>
+			<button
+				style="font-size:14px;height: 40px;border: none; width: 120px;line-height: 40px;color: #FFFFFF;background: #6EAF32;box-sizing: border-box;border-radius: 4px;text-align: center;">下一步</button>
+		</div>
+	</div>
+
+
+
+
+
+
+</div>
+
+
+
+<!-- 验证码发送成功的弹框 -->
+<!-- <div id="myAlert" class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>成功！</strong>数据提交成功！
+</div> -->
+<div class="contentRight" id="myAlert" style="position: fixed;
+		left: 0;
+		top: 0;
+		display:none;
+		width: 100%;
+		background: rgba(55, 63, 74, 0.3);
+		z-index: 10000000;
+		height: 100%;
+		text-align: center;">
+		 <div class="alertBoxWarningT" style="
+		 padding-left:20px;padding-right:20px;
+		 width:500px;
+			height: 258px;
+			background-color:rgb(255, 255,255);
+			border-radius: 4px;
+			position: fixed;
+			left: 0;				
+			right: 0;
+			z-index: 10000000000000000000;
+			top: 20%;
+			margin: auto;">
+			<span id="alertSuccessDom"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+			   <div id="succsImg" style="border-radius: 50%;margin-left:auto;margin-top:60px;">
+				 <!-- <div class="succsImgChild" style="margin:15px auto;width: 4px; height: 27px;border: 1px solid transparent;">
+					<span style="display: block;width: 4px;height: 20px;background-color:white;margin-bottom: 2px;margin-top:13px"></span>
+					<span style="display: block;width: 4px;height: 4px;background-color: white;"></span>
+				 </div> -->
+				 <img src="@{'/public/images/succsImg.png'}" >
+			   </div>
+			    <p id="shujuSuccs" style="font-size:18px;font-style: normal;font-weight: 700;color:#373F4A;margin-bottom: 10px;margin-top: 20px;">数据提交成功</p>
+				<button id="yanzhengmgSucceBtn" style="font-family: Alibaba PuHuiTi;width: 120px;height: 40px;
+				font-style: normal;
+				font-family: PingFang SC;
+				font-weight: normal;
+				position: absolute;
+				left:192px;
+				top:191px;
+				text-align: center;
+				font-size: 14px;background-color: #6EAF32;color: #FFFFFF;
+				border-radius:5px;border: none;display: block;">确认</button>
+			   
+			  	</div>
+	
+	</div>
+	
+
+
+
+</form>
+</div>
+
+<script>
+
+
+
+
+	$('#loca_app_back_model').on('show.bs.modal', function () {
+		$("#app_back_table").bootstrapTable('uncheckAll');
+	})
+
+	$('#app_back_table').css('color', 'rgba(55, 63, 74, 0.6)');
+
+
+
+
+	$('#app_back_table').bootstrapTable('refreshOptions', {
+		theadClasses: 'colorBlue'
+	})
+
+
+
+
+
+
+
+
+
+	var agreeMb = document.getElementById('agreeMb');
+	var ob = agreeMb.getElementsByTagName('b')[0];
+	var wenzi = document.getElementById('wenzi');
+	var onOff = true;
+	ob.onclick = function (e) {
+		if (onOff) {
+			wenzi.style.display = 'block';
+		} else {
+			wenzi.style.display = 'none';
+		}
+		onOff = !onOff;
+		e.stopPropagation();
+
+	}
+	document.onclick = function () {
+		//console.log(wenzi)
+		wenzi.style.display = 'none'
+	}
+
+
+	var urlData = location.search.slice(1).split('&')[0].split('=')[1];
+	var chanpinName = document.getElementById('chanpinName');
+	var chanpinNumber = document.getElementById('chanpinNumber');
+	var chanpinDescribeDom = document.getElementById('chanpinDescribe');
+	var objectModelInit = '';
+	var alertBoxWarningTwoDom = document.getElementById('alertBoxWarningTwo');
+	var alertBoxWarningTwoDomBtn = alertBoxWarningTwoDom.getElementsByTagName('button');
+	var banbenNumberDom=document.getElementById('banbenNumber');
+	var objectModelInitString = null;
+	var modalBodyDom = document.getElementById('modalBodyDom');
+	var bianhaoName = null;
+	var SelectedTemplateData = null; // 选择更新模板的数组,这个值是最新的值和如果是重装产品就把产品编号和版本号 赋值到这个值上
+    var nameNumber=null;
+
+	ajaxuser();
+	function ajaxuser() {
+		$.get('http://192.168.1.234:9001/console/api/getAppProductInfo?appCode=' + urlData, function (data) {
+			if(data){
+				objectModelInitString=data;
+				var responseJson = JSON.parse(data);
+				SelectedTemplateData=[responseJson];
+				var nameProduct = responseJson.产品名称;
+				var banbenNumber=responseJson.版本号;
+				nameNumber = responseJson.产品编号;
+				bianhaoName = nameNumber;
+				var chanpinDescribe = responseJson['版本描述'];
+				$('#daqipaoCh').text(banbenNumber);
+				console.log(chanpinDescribe);
+				if (!nameNumber) {
+					$('#noContentHide').show();
+					$('#youContenShow').hide();
+				} else {
+					$('#noContentHide').hide();
+					$('#youContenShow').show();
+					chanpinName.innerHTML = nameProduct;
+					chanpinNumber.innerHTML = nameNumber;
+					banbenNumberDom.innerHTML=banbenNumber;
+				}
+				objectModelInit = responseJson;
+				console.log(objectModelInit)
+			}
+			
+		})
+	}
+
+
+	var urllocation = window.location.search;
+	var serverCodeStr = 'serviceCode';
+	var indexUrl = urllocation.indexOf(serverCodeStr);
+    var urlurl=window.location.href;
+	console.log(urlurl,'906url'); 
+	
+	 benDiYunDuan();
+	function benDiYunDuan() { //  proudectChongzhuang  proudectShengji
+	   // alert(indexUrl);
+		if (indexUrl > -1) {
+			$('#proudectShengji').hide();
+			$('#proudectChongzhuang').css('marginLeft', '525px');
+		} else {
+			$('#proudectShengji').show();
+			$('#proudectChongzhuang').css('marginLeft', '365px');
+		}
+	}
+   
+    var succsStr='模板库更新成功';
+
+    $('#proudectChongzhuang').on('click',function(){
+		succsStr='模板库更新/升级成功'
+	})
+
+	
+    $('#proudectChongzhuang').on('click',function(){
+		succsStr='模板库更新/升级成功'
+	})
+
+	$('#proudectShengji').on('click',function(){
+		succsStr='模板库重装成功'
+	})
+	
+
+
+
+
+
+	var bodyList = document.getElementById('bodyList');
+
+	ajaxHistory();
+	function ajaxHistory() { // 应用历史记录
+		$.get('http://192.168.1.234:9001/console/%E5%BA%94%E7%94%A8%E4%BA%A7%E5%93%81%E6%9B%B4%E6%8D%A2/%E6%9F%A5%E8%AF%A2%E6%9B%B4%E6%96%B0%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8(%E5%BA%94%E7%94%A8%E5%94%AF%E4%B8%80%E5%80%BC)/getJsonData?应用唯一值=' +
+			urlData + '&order=asc&limit=10&offset=0',
+			function (data) {
+				var objData = JSON.parse(data);
+				if(objData[0]){
+					console.log(data);
+					var innerBodyList = "";
+					var newTime = objData[0]['更新时间'];
+					var vision = objData[0]['版本号'];
+					var nameProduct = objData[0]['产品名称'];
+					var nameNumber = objData[0]['产品编号'];
+					var productExplain = objData[0]['版本描述'];
+					for (var i = 0; i < objData.length; i++) {
+						innerBodyList +=
+							'<li style=" height: 30px;line-height: 30px;text-align: center;width: 750px;border-bottom: 1px solid #F0F2F3;border-right: 1px solid #F0F2F3;">' +
+							'<span class="w1" style=" width: 125px;border-left: 1px solid #F0F2F3;display: block;float: left;">' +
+							objData[i]['产品编号'] + '</span>' +
+							'<span class="w2" style="width:210px;padding-left:3px;border-left: 1px solid #F0F2F3;display: block;float: left;">' +
+							objData[i]['产品名称'] + '</span>' +
+							'<span class="w3" style="width: 145px;padding-left: 8px;border-left: 1px solid #F0F2F3;display: block;float: left;">' +
+							objData[i]['版本号'] + '</span>' +
+							'<span class="w4" style="width: 240px;border-left: 1px solid #F0F2F3;display: block;float: left;">' +
+							objData[i]['更新时间'] + '</span>' +
+							'</li>'
+					}
+					bodyList.innerHTML = innerBodyList;
+				}
+			
+			})
+
+
+	}
+
+
+	var historyUpdataDom = document.getElementById('historyUpdata');
+	var aSpanUpdataDom = historyUpdataDom.getElementsByTagName('span');
+	var alertBoxWarningFourDom = document.getElementById('alertBoxWarningFour');
+	var aUlAlertFourDom = alertBoxWarningFourDom.getElementsByTagName('ul');
+	var aInputAlertFourDom = null;
+	var objectModelUpdata = null;
+	var upDataModleData = null;
+  
+
+
+
+	$('#app_back_table').bootstrapTable({
+		url: 'http://192.168.1.234:9001/console/%E8%BD%AF%E4%BB%B6%E4%BA%A7%E5%93%81%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/%E6%9F%A5%E8%AF%A2%E5%85%81%E8%AE%B8%E6%9B%B4%E6%8D%A2%E7%9A%84%E4%BA%A7%E5%93%81%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%28%E4%BA%A7%E5%93%81%E7%BC%96%E5%8F%B7%29/getJsonData?order=asc&limit=10&offset=0'
+	});
+
+
+
+
+
+
+
+
+
+
+	function selectProdct() {
+		rowNewSelect = null;
+		var row = $("#app_back_table").bootstrapTable('getSelections');
+		console.log(row,1096)
+		SelectedTemplateData = row;
+		if (row.length > 0) {
+			$('#loca_app_back_model').modal('hide');
+			newOldDuiBi(row);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	var alertBoxWarningFourSpan = document.getElementById('alertBoxWarningFourSpan');
+	var alertBoxWarningThreeDom = document.getElementById('alertBoxWarningThree');
+	var ulMySystemLeftDom = document.getElementById('ulMySystemLeft');
+	var ulMySystemRightDom = document.getElementById('ulMySystemRight');
+	var alertBoxWarningFourNextBtnDom = document.getElementById('alertBoxWarningFourNextBtn');
+	var alertBoxWarningFourNextBtnsDom = alertBoxWarningFourNextBtnDom.getElementsByTagName('button');
+
+
+
+
+
+
+
+
+
+
+	var arrLeft = [];
+	var arrRight = [];
+	
+
+
+
+
+
+	alertBoxWarningFourSpan.addEventListener('click', function () {
+		alertBoxWarningFourDom.style.display = 'none';
+		upDataModleData = null;
+		dataIndexInput = -1;
+		document.getElementById('alertBoxWarningFourAp').style.display = 'none';
+	}, false)
+
+	alertBoxWarningFourNextBtnsDom[0].onclick = function () { // 点击选择更新模板 里面的取消按钮
+		alertBoxWarningFourDom.style.display = 'none';
+		upDataModleData = null;
+		dataIndexInput = -1;
+		document.getElementById('alertBoxWarningFourAp').style.display = 'none';
+	}
+
+
+
+
+
+	function newOldDuiBi(rows) {
+		upDataModleData = rows[0];
+		console.log(upDataModleData);
+		arrLeft = [];
+		arrRight = [];
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		console.log(rows, '1147更新产品列表');
+		if (rows[0]) {
+			console.log(objectModelInitString,'objectModelInitString 1060');
+			let modelNum=rows[0]['产品编号'];
+			let modelBan=rows[0]['版本号'];
+			console.log(modelNum,modelBan,'1151');
+			if (objectModelInitString != '{}') {
+				console.log(upDataModleData['模板总数量'],'upDataModleData[模板总数量]1150');
+				console.log(objectModelInit['应用模板总数量'],'objectModelInit[应用模板总数量]1151');
+				if (objectModelInit['应用模板总数量']) {
+					if(!upDataModleData['模板总数量']){
+						upDataModleData['模板总数量']=0;
+					}
+					if(!objectModelInit['应用模板总数量']){
+						objectModelInit['应用模板总数量']=0;
+					}
+					//console.log('11应用模板总数量:'+objectModelInit['应用模板总数量'],upDataModleData['模板总数量'])
+					if (parseInt(objectModelInit['应用模板总数量']) < parseInt(upDataModleData['模板总数量'])) {
+						alertBoxWarningTwoDom.style.display = 'block'; // 升级模板库就显示
+						$('#loca_app_back_model').modal('hide');
+						$('#loca_app_back_model2').modal('hide');
+					} else {
+						$.get('http://192.168.1.234:9001/console/api/getProductInfoByCodeAndVersion?code='+modelNum+'&version='+modelBan,
+							function (data) {
+								objectModelUpdata = JSON.parse(data);
+								console.log("更新模板的数据", objectModelUpdata)
+								alertBoxWarningFourDom.style.display = 'none';
+								alertBoxWarningThreeDom.style.display = 'block';
+								$('#queRenUpData').attr('disabled',false);
+								$('#queRenUpData').css('backgroundColor','gray');
+								$('#queRenUpData').css('cursor','not-allowed');
+								arrRight = objectModelUpdata['模板列表'].replace("[", "").replace("]", "").split(',');
+								if (objectModelInit['模板列表']) {
+									arrLeft = objectModelInit['模板列表'].replace("[", "").replace("]", "").split(',');
+								}
+								console.log(arrRight, '1336');
+								if (arrLeft.length > 0) {
+									for (var i = 0; i < arrLeft.length; i++) {
+										var li = document.createElement('li');
+										li.innerHTML = arrLeft[i];
+										console.log(li, '1344');
+										ulMySystemLeftDom.appendChild(li);
+										li.style.fontSize = '14px';
+										li.style.width = '228px';
+										li.style.height = '44px';
+										li.style.paddingLeft = '26px';
+										li.style.lineHeight = '44px';
+										li.style.color = '#373F4A';
+									}
+                                }
+									for (var i = 0; i < arrRight.length; i++) {
+										var li = document.createElement('li');
+										li.innerHTML = arrRight[i];
+										ulMySystemRightDom.appendChild(li);
+										var str = li.innerHTML;
+										var index = -1;
+										if (arrLeft[0]) {
+											index = arrLeft.indexOf(str);
+										}
+										if (index == -1) {
+											li.style.color = 'red';
+										} else {
+											li.style.color = '#373F4A';
+										}
+										li.style.fontSize = '14px';
+										li.style.width = '228px';
+										li.style.height = '44px';
+										li.style.paddingLeft = '26px';
+										li.style.lineHeight = '44px';
+									}
+								   document.getElementById('alertBoxWarningFourAp').style.display = 'none';
+							})
+
+
+					}
+
+				}
+			}
+
+
+		}
+
+
+	}
+
+
+	alertBoxWarningTwoDomBtn[1].onclick = function () { // 升级模板库按钮
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningTwoDom.style.display = 'none'; // 自身的升级模板弹框div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		//	dataIndexInput=-1;                                // 选择的input下标为-1； 
+		var url = window.location.search;
+		var str = 'serviceCode';
+		var index = url.indexOf(str);
+		//	dataIndexInput=-1;
+		if (index != -1) {
+			window.location.href =
+				'@{LatoWebDelegate.getLocalServerAppUpgrade(serviceCode,serverAppId,serverAppCode,serverName)}';
+		} else {
+			window.location.href = '@{LatoWebDelegate.getChangeAppInfoForm(serverAppId,serverAppCode)}'
+		}
+	}
+
+	alertBoxWarningTwoDomBtn[0].onclick = function () { // 升级模板库取消按钮
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningTwoDom.style.display = 'none'; // 自身的升级模板弹框div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		dataIndexInput = -1; // 选择的input下标为-1； 
+	}
+
+	////////////////////////////// 升级模板库叉号；
+	document.getElementById('alertBoxWarningTwoSpan').onclick = function () {
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningTwoDom.style.display = 'none'; // 自身的升级模板弹框div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		//	dataIndexInput=-1;                                // 选择的input下标为-1；
+	}
+
+
+
+
+
+
+	var agreeBtnDom = document.getElementById('agreeBtn'); // 确认更新div  
+	var agreeInputBtn = agreeBtnDom.getElementsByTagName('button'); // 确认更新button
+	var alertBoxWarningOneDom = document.getElementById('alertBoxWarningOne'); // 验证码整个的div
+	var agreeMbInput = agreeMb.getElementsByTagName('input'); // 模板更新的复选框
+	var alertBoxWarningOneOI = alertBoxWarningOneDom.getElementsByTagName('i')[0]; //验证码整个的div里面的
+	var alertBoxWarningOneBtn = alertBoxWarningOneDom.getElementsByTagName('button') //验证码整个的div里面的button 
+	var yanzhengmaCodeValue = document.getElementById('yanzhengmaCode');
+
+	var alertBoxWarningOneSpanDom = document.getElementById('alertBoxWarningOneSpan'); // 验证码叉号
+	var alertBoxWarningThreeSpanDom = document.getElementById('alertBoxWarningThreeSpan');
+
+	alertBoxWarningThreeSpanDom.onclick = function () { // 模板库叉号
+		agreeMbInput[0].checked = false;
+		alertBoxWarningThreeDom.style.display = 'none';
+		ulMySystemLeftDom.innerHTML = '';
+		ulMySystemRightDom.innerHTML = '';
+		//	dataIndexInput=-1;
+	}
+
+
+	agreeInputBtn[0].onclick = function () { // 更新模板 取消按钮
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningThreeDom.style.display = 'none'; // 模板库更新div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		//	dataIndexInput=-1;                                // 选择的input下标为-1； 
+	}
+
+	agreeInputBtn[1].onclick = function () { // 更新模板 确认更新按钮，验证码弹框就显示
+		if (agreeMbInput[0].checked) {
+			phoneNumber();
+		}
+	}
+
+
+	$('#fengxianInput').change(function(){
+		if($(this).prop('checked')){
+			$('#queRenUpData').attr('disabled',false);
+		    $('#queRenUpData').css('backgroundColor','#6EAF32');
+			$('#queRenUpData').css('cursor','pointer');
+		} else{
+			$('#queRenUpData').attr('disabled',true);
+		    $('#queRenUpData').css('backgroundColor','gray');
+			$('#queRenUpData').css('cursor','not-allowed');
+		}
+      
+	})
+	
+    
+     
+
+	
+    
+	function phoneNumber(){
+		alertBoxWarningOneDom.style.display = 'block';
+		alertBoxWarningThreeDom.style.display = 'none';
+		ulMySystemLeftDom.innerHTML = "";
+		ulMySystemRightDom.innerHTML = "";
+		agreeMbInput[0].checked = false;
+		$.get('http://192.168.1.234:9001/console/api/getCurrentUserInfo', function (data) {
+				var str = JSON.parse(data);
+				alertBoxWarningOneOI.innerHTML = str['电话'];
+				window.localStorage.setItem('phone', JSON.stringify(str['电话']));
+		})
+	}
+    
+    
+    
+
+
+
+
+	var yanzhengmaCodeBoolean = false;
+	var objIndex = {
+		index: 0,
+		tatol: 60,
+		time: JSON.stringify(new Date()).slice(1, 11)
+	}
+
+	var timeFlag = null;
+
+
+
+
+	locaFn();
+
+	function locaFn() {
+		if (localStorage.getItem('indexData'+urlData)) { // 有没有本地存储，有就获取值；
+			var localCun = JSON.parse(localStorage.getItem('indexData'+urlData));
+			if (localCun.time == objIndex.time) {
+				console.log(localCun.time, objIndex.time, '本地存储和今天相等的情况1257');
+			} else {
+				objIndex = {
+					index: 0,
+					tatol: 60,
+					time: JSON.stringify(new Date()).slice(1, 11)
+				}
+				window.localStorage.setItem('indexData'+urlData, {});
+				window.localStorage.setItem('indexData'+urlData, JSON.stringify(objIndex));
+			}
+		} else { // 有没有本地存储，没有就设置；
+			window.localStorage.setItem('indexData'+urlData, JSON.stringify(objIndex));
+		}
+	}
+    
+	
+
+	
+
+	$('#sendVerifiCationCode').click(function () { // 验证码整个的div里面的button 获取手机的验证码
+		var indexCi = 0;
+		var tatolTime = 0;
+		alertBoxWarningOneBtn[0].disabled = true;
+		var localDate = window.localStorage.getItem('indexData'+urlData);
+		var urlDataCode=urlData;
+        window.localStorage.setItem(urlDataCode,Date.parse(new Date()).toString().substr(0,10))     // 当前距离1970年的秒数；
+		localDate = JSON.parse(localDate);
+		//	console.log(localDate, '获取本地存储里面的数据1285');
+		indexCi = parseInt(localDate.index);
+		indexCi += 1;
+		if (localDate.index < 2) {
+			tatolTime = 60;
+		} else if (localDate.index >= 2) {
+			tatolTime = 180;
+		}
+		objIndex = {
+			index: indexCi,
+			tatol: tatolTime,
+			time: JSON.stringify(new Date()).slice(1, 11)
+		}
+		window.localStorage.setItem('indexData'+urlData, JSON.stringify(objIndex));
+
+		//	console.log(window.localStorage.getItem('indexData'))
+		console.log('验证码')
+		var daojishi = localDate.tatol;
+		//console.log(daojishi, '倒计时1296');
+		if (localDate.index < 2) {
+			timeFlag = setInterval(function () {
+				if (daojishi > 0) {
+					daojishi--;
+					alertBoxWarningOneBtn[0].innerHTML = daojishi + 's';
+					alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74,0.3)';
+				} else {
+					clearInterval(timeFlag);
+					alertBoxWarningOneBtn[0].disabled = false;
+					alertBoxWarningOneBtn[0].style.background = '#6EAF32';
+					alertBoxWarningOneBtn[0].innerHTML = "请重新发送";
+				}
+			}, 1000)
+		} else if (localDate.index >= 2) {
+			timeFlag = setInterval(function () {
+				if (daojishi > 0) {
+					daojishi--;
+					alertBoxWarningOneBtn[0].innerHTML = daojishi + 's';
+					alertBoxWarningOneBtn[0].style.background = 'rgba(55,63,74,0.3)';
+				} else {
+					clearInterval(timeFlag);
+					alertBoxWarningOneBtn[0].disabled = false;
+					alertBoxWarningOneBtn[0].style.background = '#6EAF32';
+					alertBoxWarningOneBtn[0].innerHTML = "请重新发送";
+				}
+			}, 1000)
+
+		}
+		$('#alertBoxWarningOneYanzhengP').hide();
+		$.post('http://192.168.1.234:9001/console/api/postPhoneVerifi?type=updateAppProduct', function (
+			data) {
+			yanzhengmaCodeBoolean = JSON.parse(data).isSend;
+			console.log(yanzhengmaCodeBoolean, '1357');
+		})
+
+
+	})
+
+          
+    var succsBoolean=false;
+
+
+	alertBoxWarningOneSpanDom.onclick = function () {
+		yangzhengCodeFn()
+	}
+
+
+	alertBoxWarningOneBtn[1].onclick = function () { // 验证码弹框，取消按钮
+		yangzhengCodeFn()
+
+	}
+
+    
+    
+
+
+	function yangzhengCodeFn() {
+		//	console.log(this);
+		alertBoxWarningOneDom.style.display = 'none';
+		arrLeft = [];
+		arrRight = [];
+		yanzhengmaCodeValue.value = '';
+		clearInterval(timeFlag);
+		timeFlag = null;
+		yanzhengmaCodeBoolean = false;
+		sendVerifiCationCode.innerHTML = '发送验证码';
+		sendVerifiCationCode.style.backgroundColor = '#6EAF32';
+		alertBoxWarningOneBtn[0].disabled = false;
+		succsBoolean=false;
+		document.getElementById('alertBoxWarningOneYanzhengP').style.display = 'none';
+		
+	}
+     
+
+    $('#proudectShengji').click(function(){   // 点击重装产品
+
+        
+        
+		
+	})
+
+	$('#daqipao').hide();
+
+	$('#proudectShengji').on('click',function(){
+        phoneNumber();
+	})
+
+	$('#proudectShengji').on('mouseover',function(){
+        $('#daqipao').show();
+	})
+	$('#proudectShengji').on('mouseout',function(){
+        $('#daqipao').hide();
+	})
+
+
+    
+
+	alertBoxWarningOneBtn[2].onclick = function () { // 验证码弹框，确认按钮 
+        yanzhengSuccsFn();
+	}
+    
+    
+
+	$(function(){
+		$('#yanzhengmaCode').on('input propertychange change',function(){
+        if($(this).val().length !=6){
+			$('#alertBoxWarningOneYanzhengP').show();
+            $('#alertBoxWarningOneYanzhengP').text('请输入6位验证码');
+		}else{
+			$('#alertBoxWarningOneYanzhengP').hide();
+		}
+	  })
+	})
+	
+
+     
+
+
+
+    function yanzhengSuccsFn(){
+		console.log(SelectedTemplateData,'SelectedTemplateData1412');
+		var objSelect = SelectedTemplateData[0];
+		var yzCode = yanzhengmaCodeValue.value;
+		var bianhao = objSelect['产品编号'];
+		var banbenhao = objSelect['版本号'];
+	    var newTime=Date.parse( new Date() ).toString().substr(0,10);
+        if(newTime-window.localStorage.getItem(urlData)<900 && !yanzhengmaCodeValue.value){
+			$('#alertBoxWarningOneYanzhengP').show();
+			//alert(newTime-window.localStorage.getItem(urlData)+'进入小于900秒');
+            $('#alertBoxWarningOneYanzhengP').text('已发送过验证码,请输入');
+			return
+		}
+		
+		if((newTime-window.localStorage.getItem(urlData)>900 && !yanzhengmaCodeValue.value) || !window.localStorage.getItem(urlData) ){
+			//alert(newTime-window.localStorage.getItem(urlData)+'进入大于900秒');
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('请发送验证码');
+			return
+		}
+		if (yanzhengmaCodeValue.value.length==6) {
+			var dataJson = "appCode=" + urlData + "&productCode=" + bianhao + "&productVersion=" + banbenhao +
+				"&smsVerifi=" + yzCode;
+			$.post('http://192.168.1.234:9001/console/api/postAppProductChange', dataJson, function (data) {
+				var data=JSON.parse(data);
+				console.log(data);
+				if (data) {
+					if(data.errorCode=='-1'){
+						console.log(data.errorMsg);
+						let str=data.errorMsg.split(':')[0];
+					   $('#alertBoxWarningOneYanzhengP').show();
+                       $('#alertBoxWarningOneYanzhengP').text(str);
+					}
+					if(data.errorCode=='0'){
+						succsBoolean=true;
+						alertBoxWarningOneDom.style.display = 'none';
+						$('#myAlert').show();
+						$('#shujuSuccs').text(succsStr);    
+						arrLeft = [];
+						arrRight = [];
+						yanzhengmaCodeBoolean = false;
+						clearInterval(timeFlag);
+						timeFlag = null;
+						sendVerifiCationCode.innerHTML = '发送验证码';
+						sendVerifiCationCode.style.backgroundColor = '#6EAF32';
+						alertBoxWarningOneBtn[0].disabled = false;
+						yanzhengmaCodeValue.value = '';
+						document.getElementById('alertBoxWarningOneYanzhengP').style.display = 'none';
+						var objIndex = {
+							index: 0,
+							tatol: 60,
+							time: JSON.stringify(new Date()).slice(1, 11)
+						}
+						window.localStorage.setItem('indexData'+urlData, JSON.stringify(objIndex));
+						window.localStorage.setItem(urlData,'');
+					}
+				}
+			})
+		}else{
+			$('#alertBoxWarningOneYanzhengP').show();
+			$('#alertBoxWarningOneYanzhengP').text('请输入6位验证码');
+		}
+	}
+
+
+    $(document).keydown(function(e){
+		if(e.keyCode==13&&succsBoolean){
+			$('#myAlert').hide();
+			succsBoolean=false;
+			window.location.href=urlurl;
+		}
+	});
+
+	$('#yanzhengmgSucceBtn').click(function(){
+		$('#myAlert').hide();
+		succsBoolean=false;
+		window.location.href=urlurl;
+	})
+   
+
+   $('#alertSuccessDom').click(function(){
+	 $('#myAlert').hide();
+	 succsBoolean=false;
+	 window.location.href=urlurl;
+   })
+   
+
+
+
+</script>
+
+
+
+#{/set}

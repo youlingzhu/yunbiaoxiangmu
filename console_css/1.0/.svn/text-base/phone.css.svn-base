@@ -1,0 +1,157 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form, 
+fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0; 
+	padding:0;
+}
+html,body {font-family:"微软雅黑",'Roboto-Regular'; font-size:100%; margin:0 auto; padding:0;} 
+table { 
+	border-collapse:collapse; /*让表格边框细线*/
+	border-spacing:0; /*清除边框间距*/
+} 
+fieldset,img { 
+	border:0 none; /*有些浏览器默认这些标签有边框，所以要清除默认边框*/
+	display:block;
+} 
+address,caption,cite,code,dfn,em,i,u,b,strong,th,var {
+	font-style:normal; 
+	font-weight:normal; 
+	/*清除标签默认文本样式和加粗*/
+}
+input,textarea{
+	outline:0 none;/*去掉文本框的默认轮廓线*/
+} 
+ol,ul { 
+	list-style:none; /*清除列表默认样式*/
+} 
+
+h1,h2,h3,h4,h5,h6 { 
+	font-size:100%; 
+	font-weight:normal;/*清除标题标签的默认样式*/
+} 
+a{
+	text-decoration:none;/*大部分页面中的链接没有下划线*/
+}
+
+.clearfix:after{
+		height:0;
+		content:" ";
+		display:block;
+		overflow:hidden;
+		clear:both;
+	}
+.clearfix{
+	zoom:1;/*IE低版本浏览器不支持after伪类所以要加这一句*/}
+	
+.wrap{ width:1080px; margin:0 auto; min-height:1920px; background:#fff; font-size:38px; position:relative; overflow:hidden; top:0px !important;}
+.top{height:170px;background: #FFF;}
+.logo{background:url(../../images/1.0/logo.png) no-repeat;width: 310px;height:125px;margin: 23px 0 0px 10px;float: left;display: block;}
+.menu{ float:right; background:url(../../images/1.0/menu.png) no-repeat; width:70px; height:77px; margin: 45px 30px 0 0;}
+.menu a{ display:inline-block; width:70px; height:77px; }
+.content_banner{position: relative;display: block;height:610px;overflow: hidden;}
+.banner{ width:100%; height:100%; background:url(../../images/1.0/banner.png) no-repeat;}
+.content_1{ height:545px; margin-top:20px; margin-bottom:20px; }
+.content1_img{ background:url(../../images/1.0/content_1.png) no-repeat 10px center; width:100%; height:100%;}
+.content_2{ height:430px;}
+.content2_img{ background:url(../../images/1.0/content_2.png) no-repeat; width:100%; height:100%;}
+.content_3{ height:490px;}
+.content3_img{ background:url(../../images/1.0/content_3.png) no-repeat; width:100%; height:100%;}
+.content_4{ height:490px;}
+.content4_img{ background:url(../../images/1.0/content_4.png) no-repeat; width:100%; height:100%;}	
+.content_5{ height:490px;}
+.content5_img{ background:url(../../images/1.0/content_5.png) no-repeat; width:100%; height:100%;}
+.content_6{ height:490px;}
+.content6_img{ background:url(../../images/1.0/content_6.png) no-repeat; width:100%; height:100%;}	
+.content_7{ height:490px;}
+.content7_img{ background:url(../../images/1.0/content_7.png) no-repeat; width:100%; height:100%;}	
+.content_8{ height:490px;}
+.content8_img{ background:url(../../images/1.0/content_8.png) no-repeat; width:100%; height:100%;}
+.content_9{ height:490px;}
+.content9_img{ background:url(../../images/1.0/content_9.png) no-repeat; width:100%; height:100%;}
+
+.phone_top{height:546px; width:100%;}
+.logo_top{height:546px; width:100%; background:url(../../images/1.0/logo_bg.jpg)}
+.reg_bg{height:546px; width:100%; background:url(../../images/1.0/logo_bg1.png) no-repeat center 110px;}
+.reg_bg1{height:546px; width:100%; background:url(../../images/1.0/logo_bg2.png) no-repeat center 110px;}
+.phone_content{ width:864px; margin:0 auto; margin-top:60px;}
+.phone_content_reg{ width:864px; margin:0 auto; margin-top:20px;}
+.phone_input{ width:786px; height:124px;padding-left:90px;border-bottom: 2px solid #f2f2f2;margin-bottom: 80px !important;}
+.phone_input input {width: 794px;border: none;height: 120px;color: #444443;font-size: 42px;}
+.phone_user{ background:url(../../images/1.0/peson.png) no-repeat 0px center;}
+.phone_name{ background:url(../../images/1.0/peson.png) no-repeat 0px center;}
+.phone_password{ background:url(../../images/1.0/mima.png) no-repeat 0px center;}
+.phone_number{ background:url(../../images/1.0/phonenum.png) no-repeat 0px center;}
+.phone_code{ background:url(../../images/1.0/phonema.png) no-repeat 0px center;}
+.phone_qq{ background:url(../../images/1.0/phoneqq.png) no-repeat 0px center;}
+.phone_com{ background:url(../../images/1.0/phonecom.png) no-repeat 0px center;}
+
+
+
+input::-webkit-input-placeholder {color: #555553;}
+input:-moz-placeholder {color: #555553;}
+input::-moz-placeholder {color: #555553;}
+input::-ms-input-placeholder {color: #555553;}
+.phone_btn input{height: 128px;width: 864px;border-radius:90px;background: #26b768;border: 2px solid #38b66d;color:#fff;font-size: 42px;margin-top:34px;}
+.phone_btnn  a{ height: 128px;width: 864px;border-radius:90px;background: #26b768;border: 2px solid #38b66d;color:#fff;font-size: 42px; margin-top:100px !important;}
+.phone_btn_code  input{height: 128px;width: 864px;border-radius:90px;background: #26b768;border: 2px solid #38b66d;color:#fff;font-size: 42px;margin-top:100px !important;}
+.phone_btn  .phone_btn_register{height: 128px;width: 864px;border-radius:90px;background: #26b768;border: 2px solid #38b66d;color:#fff;font-size: 42px;margin-top:34px; display:block; text-align:center; line-height:120px;}
+
+
+.phone_action{ margin-top:30px;}
+.phone_action a{color: #555553;font-size: 42px;}
+.phone_action a.phone_action_right{float: right;}
+.phone_log p{ font-size:42px; text-align:center;}
+.phone_log a{ float:none; color:#26b768;}
+.phone_action a,.phone_log a:hover{ text-decoration:none;}
+.phone_code{ width:500px; float:left;}
+.code_btn{ display:inline-block; width:300px; height:124px; background:#f3f3f2; color:#888888; font-size:42px; line-height:110px; text-align:center; float:right;}
+.phone_sure input{ margin-top:0px;}
+.phone_content .form-group{ margin-left:0px !important; margin-right:0px !important; margin-bottom:90px !important; }
+a:hover, a:focus {color: #26b768 !important;text-decoration: none !important;}
+
+.phone_sure a{
+    padding-left: 15vw;
+    padding-right: 15vw;
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    margin-top: 5vw;
+    border-radius: 90px;
+    background: #26b768;
+    border: 2px solid #38b66d;
+    color: #fff;
+    font-size: 42px;
+}
+
+.login_content{width: 100%;min-height:1010px;margin: auto;}
+.row_login{height:auto;margin:120px 110px 0 110px;}
+.regin_list{margin:88px 110px 0 110px;}
+.row_login input{height: 130px; width: 100%; margin: 20px 0 30px 0; border:none; border-bottom:1px solid #e8e8e8; font-size:46px; color:#bababa;font-family: "微软雅黑",'Roboto-Regular';
+}
+.regin_list input{height:98px;}
+.row_login .user{ padding-left:20px;}
+.row_login .password{ padding-left:20px;}
+.row_login .btn-1{ background:#39ba20; color:#fff;margin-top:150px;}
+.row_login .identifying{ width:540px; float:left; padding-left:20px;}
+.row_login .btn-2{ float:right; width:280px; height:130px; color:#fff; font-size:40px; background:#39ba20; margin-top:-12px; display:black;line-height:130px;text-align:center;text-decoration:none; }
+.register_btn a{ color:#39ba20; float: right; font-size:46px;}
+.btn-3{ float:right;color:#fff !important; font-size:40px; background:#39ba20; margin-top:50px !important;}
+
+
+.qrcodeBackground{
+   width:50vw;
+   height:50vw;
+   background:url(https://www.iyunbiao.com/wpa/qrcode) no-repeat 0px center;
+   background-position:center;
+   background-size:50vw;
+}
+
+.login_phoneBox{
+  width: 100%;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}

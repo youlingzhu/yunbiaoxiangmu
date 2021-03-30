@@ -1,0 +1,258 @@
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'会员资料完善' /}
+
+		<form role="form" id="regForm" method="post" action="checkRegisterPhone">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name="lato_register_type" value="${registerType}" id="lato_register_type"/>
+		<input type="hidden" name="lato_invitation_code" value="${invitationCode}" id="lato_invitation_code"/>
+    
+    <div class="reset_banner information_banner">
+	<form role="form" id="regForm" method="post" action="">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect"/>
+		<input type="hidden" name="lato_phone" value="${phone}" id="lato_phone"/>
+		<input type="hidden" name="uuid" value="${uuid}" id="uuid"/>
+		
+         <div class="login_wrap">
+		     <div class="userInfo_650"></div>
+			 <div class="login_yinying xinxi_yinying"></div>
+            <div class="login_main">
+                 <h2>会员资料完善</h2>
+                 <div class="label_list">
+				 
+				 <div class="form-group">
+						<label class="user_resetword reset_name" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+						
+						<input class="lab_input" placeholder="请设置会员昵称" name="lato_name" id="lato_name" ></input>
+						</div>
+						</label>
+
+					<div class=" form-group">
+					<label class="user_login user_password"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      
+                      <input placeholder="请输入密码" class="lab_input" id="lato_pwd" name="lato_pwd" type="password"/>
+					 </label>
+					 	</div>
+					 <div class="clearfix">
+					  <div class="form-group">
+
+					   <label class="user_login user_password"  onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input placeholder="请确认密码" class="lab_input" name="lato_pwd_red" id="lato_pwd_red" type="password"/>
+					  
+					   </label>
+					    </div>
+					    </div>
+
+
+
+				   <!-- <div class="form-group">
+                       <label class="user_resetword reset_qq" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+					 
+                      <input class="lab_input" placeholder="请设置QQ号码" name="lato_qq" id="lato_qq"></input>
+                      
+					 
+					</label>
+					</div> -->
+					<div class=" form-group">
+					   <label class="user_resetword reset_com" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                       <input class="lab_input" id="lato_companies" name="lato_companies" placeholder="请设置公司名称"></input>
+                      </label>
+					</div>
+					
+                 </div>
+                 <div class="btn_list">
+                     <input type="submit" class="btn_login" id="reset_sure" value="确  认"></input>
+                 </div>
+            </div>
+              
+         </div>
+    </div>
+	
+	
+	
+
+
+<script type="text/javascript" src="//pv.sohu.com/cityjson?ie=utf-8"></script>
+ <script type="text/javascript">
+ 
+Date.prototype.format = function (format) {
+    var args = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+        "S": this.getMilliseconds()
+    };
+    if (/(y+)/.test(format))
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var i in args) {
+        var n = args[i];
+        if (new RegExp("(" + i + ")").test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" +
+                    n)
+                .length));
+    }
+    return format;
+};
+var ip = window.returnCitySN?window.returnCitySN.cip:"";
+var days = new Date().format("yyyy-MM-dd");
+var getIntoTime = new Date().format("hh:mm:ss");
+var registerId = localStorage.getItem("uuid");
+var fromData = {
+        "formId": 0,
+        "url": "new",
+        "latoVersion": 0,
+        "classTemplateName": "WPS入口页面数据",
+        "dataTableList": [{
+            "tableCaption": "WPS入口页面数据",
+            "fieldList": ["f1", "f2", "f3", "f4", "f5", "f6","f7","f8","f9"],
+            "deletedRecList": [],
+            "insertRecList": [
+                [3, days, getIntoTime, null, null, ip, "注册页面获取验证码",null,registerId]
+            ],
+            "updatedRecList": []
+        }]
+}
+
+ 
+$(document).ready(function() {
+    var url = "";
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+			
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			  
+				lato_companies:{
+				
+					validators: {
+                        notEmpty: {
+                            message: '公司名称不允许为空'
+                        }
+                    }
+				},
+				lato_name: {
+                    validators: {
+                        notEmpty: {
+                            message: '会员昵称不允许为空'
+                        }
+                    }
+                }
+				,
+                lato_pwd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不允许为空'
+                        } ,stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '请输入长度最短为6位最长为30位的密码'
+                        }
+                    }
+                },
+			lato_pwd_red: {
+                validators: {
+                    notEmpty: { message: '确认密码不允许为空'},
+                    identical: {
+                        field: 'lato_pwd',
+						message: '输入的验证密码不匹配'
+                    }
+                }
+				}
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putUserRegister}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+							console.log(data);
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							var script = data.synLoginHtml;
+							url = data.openUrl;
+							if(null != errCode && errCode.length > 0)
+							{
+                                showErrorModel("完善信息出现错误",erroMsg);
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}else{
+								//location.href = url;
+                                $(".login_main").empty();
+                                $(".login_main").append('<div class="qrcodeBackground"></div> <div style="width:350px;text-align:center;margin-top:20px;margin-bottom:20px;">微信扫码加入云表学习群</div> <div class="button_list"><a href="'+url+'">完成</a></div>')
+                                monitoring("注册成功")
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="完善信息出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message); 
+                                   
+                                $("#regForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+function monitoring(message){
+     if(message){
+        fromData.dataTableList[0].insertRecList[0][6] = message;
+     }
+     $.ajax({
+                        url:"http://www.iyunbiao.cn/13374/WPS%e5%85%a5%e5%8f%a3%e9%a1%b5%e9%9d%a2%e6%95%b0%e6%8d%ae/new",
+                        type:'POST',
+                        data:{
+                           "formJson":JSON.stringify(fromData)
+                        },
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/x-lato",
+                        },
+                        success:function(data){
+                                    
+                                    
+                        },
+                    });
+}
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4b947d39c8a60250644cfa205a71300b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+

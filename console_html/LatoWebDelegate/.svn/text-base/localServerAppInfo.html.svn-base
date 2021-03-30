@@ -1,0 +1,69 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'本地应用空间详情' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/set}
+#{set 'latoMainSide'}
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" action="" >		
+	
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				#{get 'title' /}<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" class="list_back">返回应用空间列表</a>
+		</div> -->
+			
+		<div class="main_body">
+			 <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">应用空间ID</label>
+				<label class="detail_text">${flash.空间ID} </label>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">应用空间名称</label>
+				<label class="detail_text">${flash.应用名称} </label>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">模板数</label>
+				<label class="detail_text">${flash.模板数}</label>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">并发数</label>
+				<label class="detail_text">${flash.并发数}</label>
+			 </div> 
+			 <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">到期时间</label>
+				<label class="detail_text">${flash.到期时间}</label>
+			 </div> 
+			 <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">描述</label>
+				<label class="detail_text">${flash.应用描述}</label>
+			 </div>
+			 
+			  <div class="body_name body_menu1 clearfix">
+				<label class="menu_name_app">APP横幅图片链接</label>
+				<label class="detail_text">${flash.横幅图片链接}</label>
+			 </div>
+			  <div class="body_name body_menu1 clearfix">
+			   <label class="menu_name_app">APP图标图片链接</label>
+				<label class="detail_text">${flash.图标图片链接}</label>
+			 </div>
+
+			<div class="main_body_btn clearfix">
+				<a class="btu_update sever_local" href="@{LatoWebDelegate.getUpdateAppInfo(serverAppCode,serviceCode,serverAppId,serverAppCode,serverName)}">设置</a>
+				<a class="btu_postpone sever_local" href="@{LatoWebDelegate.getLocalServerAppPostpone(serviceCode,serverAppId,serverAppCode,serverName)}">续费</a>
+				<a class="btu_upgrade sever_local" href="@{LatoWebDelegate.getLocalServerAppUpgrade(serviceCode,serverAppId,serverAppCode,serverName)}">升级</a>
+			</div>
+		</div>
+	</form>
+</div>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+</script>
+#{/set}

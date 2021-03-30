@@ -1,0 +1,226 @@
+﻿#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'账号管理' /}
+
+#{script '1.0/clipboard.min.js' ,charset:'utf-8' /}
+#{stylesheet '../javascripts/1.0/layui/css/layui.css' /}
+#{stylesheet '../javascripts/1.0/layui/css/lato-layout.css' /}
+#{script '1.0/layui/layui.js' ,charset:'utf-8' /}
+#{script '1.0/layui/lib/lato-common.js' ,charset:'utf-8' /}
+
+<div class="main userInfo" >
+
+
+  <div class="main_title main_title_w">
+  	<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back list_back_a">
+			<img class="imgs" src="@{'/public/images/vector_header.png'}" >
+		</a>
+    <h3>账号管理</h3>
+  </div>
+  <div class="main_body userInfo_one">
+     <div class="body_name body_menu1 clearfix">
+         <label class="menu_name">会员账号</label>
+         <label class="detail_text" id="lbSocialAccount"></label>
+     </div>
+     <div class="body_pay body_menu1 clearfix">
+         <label class="menu_name">会员昵称</label>
+         <label class="detail_text" id="lbNickname"></label>
+     </div>
+      <div class="body_name body_menu1 clearfix">
+         <label class="menu_name">手机号码</label>
+         <label class="detail_text" id="lbPhone"></label>
+     </div>
+     <!-- <div class="body_name body_menu1 clearfix">
+         <label class="menu_name">电子邮箱</label>
+         <label class="detail_text" id="lbEmail"></label>
+     </div> -->
+      <div class="body_name body_menu1 clearfix">
+         <label class="menu_name">公司名称</label>
+         <label class="detail_text" id="lbCompanies"></label>
+     </div>
+     
+     <div class="body_pay body_menu1 clearfix" >
+         <label class="menu_name">推广链接</label>
+         <textarea class="users_text infor_text detail_text" type="text" name="promotion_url" id="promotion_url" readonly="readonly" placeholder="推广链接" ></textarea>
+         
+         <div id="btn_clip" class="js-copy" data-clipboard-target="#promotion_url">
+            <a htef="#"  class="huiyuan_pay" id="d_clip_button" >复制链接</a>
+        </div>
+     </div> 
+      <div class="body_pay body_menu clearfix body_pay_last" >
+        <br/>
+        <div class="js-copy" >
+            <a htef="#" class="huiyuan_pay" id="btnUserInfoModify">修改账号信息</a>
+        </div>
+     </div> 
+
+  </div>
+	
+	
+</div>
+<div id="divUserInfoModify" style="display:none;padding: 20px;">
+  <form class="layui-form" onsubmit="return false;">
+    <div class="layui-form-item layui-hide" id="divSocialAccountItem">
+      <label class="menu_name">会员账号</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="hidden" name="lato_social_account_old" id="lato_social_account_old" value="" />
+        <input type="text" name="lato_social_account_new" id="lato_social_account_new" value="" lay-verify="required" autocomplete="off" placeholder="请输入新昵称" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;line-height: 18px;">账号只允许更新一次</p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">会员昵称</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="hidden" name="lato_nickname_old" id="lato_nickname_old" value="" />
+        <input type="text" name="lato_nickname_new" id="lato_nickname_new" value="" lay-verify="required" autocomplete="off" placeholder="请输入新昵称" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;line-height: 18px;">会员昵称会同步修改社区昵称,一天只能修改一次.</p> 
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="menu_name">公司</label>
+      <div class="layui-input-block" style="display: flex;">
+        <input type="hidden" name="lato_companies_old" id="lato_companies_old" value="" />
+        <input type="text" name="lato_companies_new" id="lato_companies_new" value="" lay-verify="required" autocomplete="off" placeholder="请输入新昵称" class="layui-input">
+        <div class="clearfix price_details" >
+          <p class="text_explain" id="text_free" style="margin-left: 15px;line-height: 18px;"></p> 
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+
+var userInfo = {};
+function initUserInfo() {
+    $.ajax({
+        type:'get',
+        url: '@{LatoWebApiDelegate.getCurrentUserInfo}',
+        cache:false,
+        dataType:'json',    
+        success:function(data){
+            var errorCode = data['errorCode'];
+            if(errorCode && errorCode != "0")
+                alert(data['errorMsg']);
+            else{
+                userInfo = data;
+                $('#lbSocialAccount').text(userInfo['会员账号']);
+                $('#lbNickname').text(userInfo['用户姓名']);
+                $('#lbPhone').text(userInfo['电话']);
+                $('#lbEmail').text(userInfo['电子邮箱']);
+                $('#lbCompanies').text(userInfo['公司']);
+                $('#promotion_url').val(userInfo['推广链接']);
+            }
+        }
+    }); 
+}
+	
+$(document).ready(function() {
+    $('#sub-item-1').addClass('in');
+    
+    var btn = document.getElementById('btn_clip');
+    var clipboard = new Clipboard(btn);//实例化
+
+    //复制成功执行的回调，可选
+    clipboard.on('success', function(e) {
+       alert('复制成功');
+    });
+
+    //复制失败执行的回调，可选
+    clipboard.on('error', function(e) {
+       alert('复制失败');
+    });
+    
+    initUserInfo();
+});
+
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+    
+	
+	$("#btnUserInfoModify").click(function(){
+        
+        $('#lato_social_account_old').val(userInfo['会员账号']);
+        $('#lato_social_account_new').val(userInfo['会员账号']);
+        $('#lato_nickname_old').val(userInfo['用户姓名']);
+        $('#lato_nickname_new').val(userInfo['用户姓名']);
+        $('#lato_companies_old').val(userInfo['公司']);
+        $('#lato_companies_new').val(userInfo['公司']);
+        var canModifyAccount = false;
+        
+        //暂时还不支持用户表的社交账号修改
+        canModifyAccount = userInfo['已设置会员账号']=='否';
+        if (canModifyAccount) {
+            $('#divSocialAccountItem').removeClass("layui-hide").show();
+        }
+        
+		layer.open({
+			type: 1
+			,title: '修改账号信息'
+			,content: $("#divUserInfoModify")
+			,btn: ['确认']
+			,area: ['480px', (canModifyAccount?'328px':'262px')]
+			,yes: function(index, layero){
+				var openPostUrl = "@{LatoWebApiDelegate.postUserInfoUpdate}";
+				
+                if (!$("#lato_social_account_new").val()) {
+                    layer.alert("请输入新的会员账号", {icon: 5, title: '提示'}, function(index){
+                        $("#lato_social_account_new").focus();
+                        layer.close(index);
+                    });
+                    return false;
+                }
+                if (!$("#lato_nickname_new").val()) {
+                    layer.alert("请输入新的会员昵称", {icon: 5, title: '提示'}, function(index){
+                        $("#lato_nickname_new").focus();
+                        layer.close(index);
+                    });
+                    return false;
+                }
+                $("#lato_nickname_new").val($("#lato_nickname_new").val().trim());
+                $("#lato_social_account_new").val($("#lato_social_account_new").val().trim());
+                $("#lato_companies_new").val($("#lato_companies_new").val().trim());
+                
+				$.ajax({
+					type:'post',
+					url: openPostUrl,    
+					data: layero.find("form").serialize(),    
+					cache:false,    
+					async: false,
+					dataType:'json',    
+					success:function(data){
+						var errorCode = data['errorCode'];
+						if(errorCode && errorCode != "0")
+							layer.alert(data['errorMsg'], {icon: 5});
+						else{
+							layer.alert("账号信息修改成功,如果修改了昵称,需要重新登录后看到效果!", {icon: 1}, function(index2){
+								//刷新页面
+								location = location.href;
+                                //initUserInfo();layer.close(index2);layer.close(index);
+							});
+						}
+					}
+				});  
+				return false;
+			}
+		});
+        $("#lato_nickname_new").focus();
+		form.render();
+	});
+});
+
+</script>
+
+<style>
+
+
+
+
+
+
+</style>

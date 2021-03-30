@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0;url=#{if flash.url!=null}${flash.url}#{/if}#{else}@{LatoWebDelegate.getLoginForm()}#{/else}">
+<title>#{if flash.title!=null}${flash.title}#{/if}#{else}正在跳转...#{/else}</title>
+</body>
+</html>

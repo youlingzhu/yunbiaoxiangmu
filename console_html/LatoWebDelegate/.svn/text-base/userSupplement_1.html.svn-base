@@ -1,0 +1,284 @@
+﻿
+
+#{extends 'LatoWebDelegate/modalDiv.html' /}
+#{set title:'会员信息完善' /}
+
+	<form role="form" id="regForm" method="post" action="@{LatoWebDelegate.putUserResettingPwd()}">
+		<input type="hidden" name="randomID" value="${randomID}" id="randomID"/>
+		<input type="hidden" name = "redirect" id="redirect" value="${redirectUri}" />
+		<input type="hidden" name="lato_temp_token" value="${tempToken}" id="lato_temp_token"/>
+		
+    <div class="reset_banner huiyuan_banner">
+         <div class="login_wrap">
+		      <div class="huiyuan_630"></div>
+			  <div class="login_yinying huiyuan_yinying"></div>
+            <div class="login_main">
+                 <h2>会员信息完善</h2>
+                 
+				  <div class="label_list">
+                    <label class="user_resetword reset_name" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input class="lab_input" placeholder="请输入用户名" value="${nickname}"></input>
+                      </label>
+					  
+					<div class="form-group">
+						<div class="clearfix">
+                        <label class="user_resetword huiyuan_for_img" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''">
+                        <input  class="huiyuan_infor number" name="lato_yzm" id="lato_yzm" placeholder="请输入图形验证码" />
+                     </label>
+					
+					  <img borde="2" class="infor_img" id="txm" name="txm" alt="验证码" src="@{LatoWebDelegate.getVerifiCode(randomID)}" onclick="refresh()">
+                  </div>
+					</div>
+				  <div class="form-group">
+                   <label class="user_resetword huiyuan_phone" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''" >
+                      <input class="lab_input" name="lato_phone" id="lato_phone" placeholder="请输入手机号码" ></input>
+                    </label>
+					</div>
+					
+                     <div class=" label_list clearfix ">
+                     <label class="user_resetword huiyuan_for_phone huiyuan_tuxing form-group" onmouseover="this.style.borderColor='#4ea638'" onmouseout="this.style.borderColor=''">
+                        <input  class="huiyuan_infor phonenumber" name="lato_codePhoneText" id="lato_codePhoneText" placeholder="请输入验证码" />
+                     </label>
+					 <a  href="javascript:sendSms();" class="huiyuan_yanzheng" id="restSend" name="restSend">获取验证码</a>
+                     </div>
+					 
+                    <div class="clearfix">
+                       <p class="infor_xieyi">我同意遵守<a href="#">《用户协议》</a></p>
+                      
+                    </div>
+
+                 </div>
+				
+				 <div class="btn_list">
+                     <input type="submit" class="btn_login" id="reset_sure" value="提   交"></input>
+                      <p class="infor_login">已有账号？<a href="#">立即登录</a></p>
+                 </div>
+				 
+				 
+            </div>
+              
+         </div>
+    </div>
+	</form>
+    
+
+	
+</body>
+
+</html>
+
+ <script type="text/javascript">
+ 
+var count ;
+
+function update_p() {
+	var i1 =document.getElementById('restSend');
+	if(count <= 0) {
+		i1.innerHTML = "重新发送";
+		$("#restSend").attr("href","javascript:showtime(60);");
+		$("#restSend").removeAttr("style");
+	}
+	else {
+		printnr = count--;
+		i1.innerHTML = "剩余:" + printnr +"s";
+	}
+}
+ 
+function showtime(t){
+				count = t;
+				var txyz = $("#lato_yzm").val();
+				
+				
+				var phone = $("#lato_phone").val();
+				
+				var params=$("form").serialize();
+				
+				
+				$("#restSend").removeAttr("href");
+				
+				$("#restSend").attr("style","cursor:not-allowed");
+				var id =  window.setInterval("update_p()", 1000);
+				
+				var showUserAction = #{jsAction @LatoWebDelegate.postVerifiApplication(':checkPhone',':txyz',':key',':type') /}
+				var  v2 =showUserAction({checkPhone:phone,txyz :txyz,key :$("#randomID").val(),type:'register'}) 
+				
+					$.ajax({
+						url:v2,
+						type:'POST',
+						dataType:'json',
+						data:params,
+						success:function(data){
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							if(null != errCode && errCode.length > 0)
+							{	
+									window.clearInterval(id);
+									 showErrorModel("发送短信出现错误",erroMsg);
+							}
+							
+						},
+						beforeSend: function(xhr) {
+							checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+								
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="发送短信出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+							}
+						}
+					);
+}
+
+ function sendSms(){
+	
+			if(!$('#regForm').data('bootstrapValidator').isValid()){
+				return;
+			}
+			
+			
+			showtime(60);
+			
+	}
+
+function buildCode(){
+
+var yzm =	$("#lato_yzm").val();
+
+}
+
+function refresh(){
+
+	$("#txm").attr("src","@{LatoWebDelegate.getVerifiCode(randomID)}"+"?t="+Math.random());
+}
+
+
+
+ function GetQueryString(name) {  
+
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");  
+
+    var r = window.location.search.substr(1).match(reg);  
+
+     
+
+    if (r != null) {   
+
+        return unescape(r[2]);  
+
+    }  
+
+    return null;  
+
+}     
+
+
+$(document).ready(function() {
+
+    $('#regForm')
+        .bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+			  
+			  lato_yzm:{
+					validators: {
+                        notEmpty: {
+                            message: '图形验证不允许为空'
+                        },
+						remote: {
+                        message: '图形验证码错误',
+						type: 'GET',
+                        url: '@{LatoWebDelegate.checkGraphica(lato_yzm,randomID)}'
+                    }
+				}},
+				
+				lato_name: {
+                    validators: {
+                        notEmpty: {
+                            message: '用户姓名不允许为空'
+                        }
+                    }
+                },
+			lato_phone: {
+                validators: {
+                    notEmpty: { message: '手机号码不允许为空' },
+                    digits: {message:'请输入正确的手机格式' },
+                   stringLength: {
+                            min: 11,
+                            max: 11,
+                            message: '请输入正确的手机号码位数'
+                        }
+                }
+            }
+            }
+        })
+       .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				 e.preventDefault();
+					
+				var rediter =  GetQueryString("redirect");  
+				$("#redirect").val(rediter);
+				
+				
+				 var params=$("form").serialize();
+				  $.ajax({
+						url:"@{LatoWebDelegate.putWpsSupplementUserRegister}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){	
+							
+							var errCode = data.errorCode;
+							var erroMsg = data.errorMsg;
+							var script = data.synLoginHtml;
+							var url = data.openUrl;
+							if(null != errCode && errCode.length > 0)
+							{
+									 showErrorModel("完善信息出现错误",erroMsg);
+							}else{
+								location.href = url;
+							}
+						},
+						beforeSend: function(xhr) {
+							checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="完善信息出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message); 
+									
+									
+							}
+						}
+					);
+				 
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+});
+
+ 
+		
+    </script>
+
+

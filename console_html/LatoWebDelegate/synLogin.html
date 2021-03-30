@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>正在加载</title>
+</head>
+<body>
+<!--[if lt IE 9]>
+    <script src="public/javascripts/1.0/html5shiv.js"></script>
+    <script src="public/javascripts/1.0/respond.min.js"></script>
+    <![endif]-->
+    #{script src:'1.0/jquery-1.11.3.min.js', id:'jquery' , charset:'utf-8' /}   
+
+<script>
+function GetQueryString(name) {  
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");  
+    var r = window.location.search.substr(1).match(reg);  
+    if (r != null) {   
+        return unescape(r[2]);  
+    }  
+    return null;  
+}
+function jumpurl(){ 
+	var url = '${redirect!=null?redirect.raw():""}';
+    if(url != null && url.length > 0)	{
+        location=url;  
+    }
+    else{
+        location='@{LatoWebDelegate.getIndexForm()}';  
+    }
+}
+
+//不管有没有异步登录bbs成功,都要跳转
+var vto = setTimeout('jumpurl()',900);
+
+</script>
+
+#{list items:srcList, as:'src'}
+    <script type="text/javascript" language="javascript" id="${src.id}" src="${src.url}"></script>
+#{/list}
+
+<script>
+$(document).ready(
+    function() {
+        //都加载完了,立刻跳转
+        if (window.vto)clearTimeout(window.vto);
+        jumpurl();
+    })
+</script>
+
+</body>
+</html>

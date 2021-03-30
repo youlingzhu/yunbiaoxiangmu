@@ -1,0 +1,392 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'升级应用空间实例订单' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+javascript:history.go(-1)
+#{/set}
+#{set 'latoMainSide'}
+
+<div class="lato-main-side">
+			<div id="lato-main-side_a">
+				
+			
+			</div>
+		
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('changeCloudAppForm')}" >
+
+				<input type="hidden" name="lato_app_code"  id="lato_app_code" value="${flash.应用编号}" /> 
+				<input type="hidden" name="lato_app_id"  id="lato_app_id" value="${appId}" /> 
+				<input type="hidden" name="old_user_limit"  id="old_user_limit" value="${flash.用户数}" /> 
+				<input type="hidden" name="old_template_limit"  id="old_template_limit" value="${flash.模板数}" /> 
+				<input type="hidden" name="old_attachment_content" id="old_attachment_content" value="${flash.附件容量}" />
+				
+			  <!-- <div class="main_title main_title_w">
+					<h3>云端升级应用空间配置</h3>
+					@{LatoWebDelegate.getAppInfoFormList()}
+					<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+			  </div>-->
+			  
+			  <div class="main_body app_change">
+			    <div class="col-md-9">
+					<div class="body_name body_menu1 clearfix app_change_title">
+						<label class="menu_names" id="menu_names">升级应用空间实例订单</label>
+					  </div>
+							<div class="body_name body_menu1 clearfix app_change_one">
+								<label class=" menu_name">应用ID</label>
+								<label class="upgrade_text"> ${appId}</label>
+							 </div>
+							  <div class="body_name body_menu1 clearfix form-group app_change_two">
+							   <div class="clearfix">
+								<label class="menu_name">用户数</label>
+								<label class="upuser_text">${flash.用户数}</label>
+							   <label class="zengjia">增加至</label>
+								<input class="upuser_text_1" name="lato_app_user_number" id="lato_app_user_number"   onkeyup="alertProduct('lato_app_user_number',this.value)" value="${flash.用户数}"></input>
+								<i id="userName_min">用户数不允许小于当前用户数</i>
+									<span class=" butt butt_user user_3"  onclick="alertProduct('lato_app_user_number',3)">3用户</span>
+								   <span class=" butt butt_user user_5" onclick="alertProduct('lato_app_user_number',5)">5用户</span>
+								   <span class=" butt butt_user user_10" onclick="alertProduct('lato_app_user_number',10)">10用户</span>
+								   <span class=" butt butt_user user_30" onclick="alertProduct('lato_app_user_number',30)">30用户</span>
+								   <span class=" butt butt_user user_30" onclick="alertProduct('lato_app_user_number',100)">100用户</span>
+								  </div>
+							 </div> 
+							 
+							 <div class="body_name body_menu1 clearfix form-group app_change_three">
+							  <div class="clearfix">
+								  <label class="menu_name">模板数</label>
+								  <label class="upuser_text">${flash.模板数}</label>
+								  <label class="zengjia">增加至</label>
+								 <input class="upuser_text_1" name="lato_template_number" id="lato_template_number" value="${flash.模板数}" onkeyup="alertProduct('lato_template_number',this.value)"></input>
+								 <i id="backUpName_min">不允许小于当前模板数</i>
+								 <span class=" butt butt_template user_3" onclick="alertProduct('lato_template_number',60)" >60模板</span>
+								  <span class=" butt butt_template user_5" onclick="alertProduct('lato_template_number',100)">100模板</span>
+								  <span class=" butt butt_template user_10" onclick="alertProduct('lato_template_number',150)">150模板</span>
+								  <span class=" butt butt_template template_10" onclick="alertProduct('lato_template_number',200)">200模板</span>
+							 </div>
+							   </div>
+							   
+							   <div class="body_name body_menu2 clearfix form-group app_change_four" id="app_change_four">
+							  <div class="clearfix">
+								  <label class="menu_name">网盘容量(G)</label>
+								  <label class="upuser_text">${flash.附件容量}</label>
+								  <label class="zengjia">增加至</label>
+								
+									<div id="attachment_content_spinner" class="input-group spinner">
+										<input type="text" class="value_color" value="${flash.附件容量}" data-rule="quantity" id="lato_attachment_content" name="lato_attachment_content">
+										<div class="input-group-btn-vertical">
+										  <button class="btn btn-default" type="button"><i class="spinner-up"></i></button>
+										  <button class="btn btn-default" type="button"><i class="spinner-down"></i></button>
+										</div>
+									</div>
+									<div class="clearfix price_details" >
+										<p class="text_explain" id="text_freeOne">附件会占用网盘容量</p> 
+									</div>
+								</div>
+							</div>
+							   
+							   <div class="clearfix price_details">
+								 <p class="text_explain" id="text_freeTwo">购买一年以上立享9折</p>
+							 </div>
+							  <div class=" body_name body_menu1 clearfix cloud_upgrade_btn">
+							   <p class="cost_prompt">原价<s class="cost_price" id="cost_price"></s><span class="save_price" >立省￥<span id="save_price"></span></sapn></p>
+							   
+								  <label class="tishi">*如果已过期请先续费再升级</label>
+								     <label class="pay">总费用：<b><span id="productPrice" name="productPrice"> </span> </b></label>
+							<button type="submit" class="btn btn-spacepay" id="btnsuccess" data-dismiss="modal">确认支付</button>
+							  </div>
+							   <div class="pay_prompt"> <p class="pay_tishi"><span id="errorMsg" name="errorMsg"> </span></p>
+								 </div>
+								 
+								 
+							 
+				</div>
+				</div>
+				</form>
+				
+        <!-- :form -->
+    
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+	
+
+	var numberUser='${flash.用户数}';
+	var numberModel='${flash.模板数}';
+	
+function alertProduct(idName,limit){
+	console.log(idName,limit,125);
+    // if(idName=='lato_app_user_number'&&parseFloat(limit)<numberUser){
+	// 	console.log(idName,limit,125);
+	// 	$('#userName_min').show();
+	// }else if(idName=='lato_template_number'&&parseFloat(limit)<numberModel){
+    //     $('#backUpName_min').show();
+	// }else{
+		console.log(idName,limit,127)
+		$('#userName_min').hide();
+		$('#backUpName_min').hide();
+        $( "#"+idName ).val( limit );
+	
+	   $('#defaultForm').data('bootstrapValidator').updateStatus(idName,'NOT_VALIDATED').validateField(idName);
+
+	   queryMoney();
+//	}
+
+	 
+}
+
+	function queryMoney(){
+		
+		 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+			
+			$.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("changeCloudAppForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('errorMsg').innerText=error;
+					else{
+						document.getElementById('productPrice').innerText=data.总费用;
+						document.getElementById('cost_price').innerText="￥"+data.原价;
+						document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+						document.getElementById('errorMsg').innerText="";
+					}
+				}    
+			});    
+	}
+	
+ $(document).ready(function() {
+ 
+ 	queryMoney();
+									
+	$('#sub-item-2').addClass('in');	
+    });
+
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                  
+					'lato_app_user_number':{
+						validators: {
+                            notEmpty: {
+                                message: '请输入用户数...'
+                            },
+   						 
+						 callback: {  
+                         message: '用户数不允许小于当前用户数',  
+                         callback: function(value, validator) {
+							var check = parseInt($("#old_user_limit").val());
+						
+							var check1 = parseInt($("#lato_app_user_number").val());
+							if(check> check1){
+								return false;
+							}
+							else{
+								return true;
+							}
+                         }  
+						},between: {
+								min: 1,
+								max: 10000,
+								message: '用户数最小为1...'
+							}
+                        }
+					
+					},
+					'lato_attachment_content':{
+						validators: {
+								notEmpty: {
+									message: '请输入网盘容量...'
+								},
+							callback: {  
+								 message: '不允许小于当前网盘容量',  
+								 callback: function(value, validator) 
+								 {
+									if(parseInt($("#old_attachment_content").val())>parseInt($("#lato_attachment_content").val()))
+										return false;
+											else
+										return true;
+								 }  
+							 
+							},between: {
+								min: 10,
+								max: 10000,
+								message: '网盘容量最小10,最大10000'
+							}
+							}
+						
+						}
+					,
+					'lato_template_number':{
+						validators: {
+                            notEmpty: {
+                                message: '请输入模板数...'
+                            },
+						callback: {  
+							 message: '不允许小于当前模板数',  
+							 callback: function(value, validator) {
+								if(parseInt($("#old_template_limit").val())>parseInt($("#lato_template_number").val()))
+							return false;
+								else
+							return true;
+							
+							 }  
+						 
+						}
+					
+					}
+					}
+					
+                }
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('changeCloudAppForm')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("升级应用出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="升级应用出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+(function ($) {
+	var minValue = $("#old_attachment_content").val();
+	$('#attachment_content_spinner.spinner .btn:first-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) + 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#attachment_content_spinner.spinner .btn:last-of-type').on('click', function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val()) - 5;
+		curValue = Math.ceil(curValue/5)*5;
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+	$('#lato_attachment_content').on('blur change' ,function() {
+		var curValue = Math.ceil($('#lato_attachment_content').val());
+		if (curValue % 1024 != 0) {
+			curValue = Math.ceil(curValue/5)*5;
+		}
+		curValue = curValue>=minValue?curValue:minValue;
+		alertProduct("lato_attachment_content",curValue);
+	});
+})(jQuery);
+
+serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">应用空间详情</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">升级</a>'
+
+   }
+   
+   $('#reloadPages').click(function(){
+	   window.history.go(0);
+   })
+
+</script>
+
+<style>
+
+#app_change_four{
+	position: relative;
+}
+
+#app_change_four small{
+	/* position: absolute;
+	top: 28px;
+	left: 39px; */
+	margin-left: 191px;
+}
+#text_freeTwo {
+    margin-left: 105px;
+    margin-top: -4px;
+}
+.app_change_one,.app_change_three{
+	position: relative;
+}
+
+#userName_min,#backUpName_min{
+	position: absolute;
+	top: 32px;
+	left: 192px;
+	color: #FB5040;
+	font-size: 10px;
+	display: none;
+}
+
+
+</style>
+	
+
+
+#{/set}

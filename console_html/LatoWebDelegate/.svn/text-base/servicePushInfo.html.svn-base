@@ -1,0 +1,134 @@
+﻿
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'推送服务详情' /}
+#{set push:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+#{if serviceCode}
+@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}
+#{/if}
+#{else}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/else}
+#{/set}
+#{set 'latoMainSide'}
+<style>
+.detail_text{width: 280px;margin-top: 0px;}
+.body_menu1 a{margin: 0px 20px;}
+.first_steps{margin-left: -40px;}
+.first_steps .first_tit{margin-left: 40px;}
+.divTableTemplate{display:none;}
+</style>
+<div class=" lato-main-side" >
+	<form id="defaultForm" method="post" class="form-horizontal" onsubmit="return false;" >		
+	
+		<!-- <div class="main_title_w main_title ">
+			<h3>
+				推送服务详情<span lato-separator>&nbsp;</span>
+			</h3>
+			<a href="javascript:void(0)" onclick="history.go(-1)" class="list_back">返回</a>
+		</div>-->
+		#{if opened==2}
+		<div class="main_body">
+			<div class="clearfix price_details" >
+			  <p class="text_explain" id="text_free" style="margin-left: 15px;font-size: 20px;">服务已开通.</p> 
+			</div>
+			<br />
+			<div class="clearfix price_details" >
+			  <p class="text_explain" style="color:#000;margin-left: 15px;font-size: 18px;">如需更新秘钥,请点击&nbsp;</p> 
+			  <a class="btu_update" id="updateButton" href="javascript:void(0)" style="margin-top:0px;">更新秘钥</a>
+			</div>
+			<hr />
+			<div class="clearfix price_details" >
+				<p class="text_explain" style="color:#000;margin-left: 15px;font-size: 20px;">APP消息推送服务使用方法</p> 
+			</div>
+			<div class="clearfix price_details" >
+				<p class="text_explain" style="color:#000;margin-left: 15px;font-size: 15px;">开通服务后我们需要在云表空间中，通过执行业务公式对“APP待发送消息”模板进行新建，来完成APP消息推送。</p> 
+				
+				<a  href="https://www.iyunbiao.com/wiki/%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1:APP%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81%E6%9C%8D%E5%8A%A1" target="_blank" class="text_explain" style="margin-left: 15px;font-size: 18px;color: blue;"><u>详细教程</u></a>
+			</div>
+		</div>
+		#{/if}
+		#{elseif opened==1}
+		<div class="main_body">
+			<div class="clearfix price_details" >
+			  <p class="text_explain" id="text_free" style="margin-left: 15px;font-size: 20px;">服务开通中,请稍后再试...</p> 
+			</div>
+		</div>
+		#{/elseif}
+		#{else}
+		<div class="main_body">
+			<div class="main_body_btn clearfix">
+				<a class="btu_postpone sever_local" id="openButton" href="javascript:void(0)">开通</a>
+			</div>
+		</div>
+		#{/else}
+	</form>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#sub-item-2').addClass('in');	
+});
+layui.use(['layer' ,'form'], function(){
+	var layer = layui.layer
+	,form = layui.form;
+	
+	$("#openButton").click(function(){
+		layer.confirm('是否确认开通推送服务?', {icon: 3, title:'提示'}, function(index){
+			var openPostUrl = "@{LatoWebDelegate.getServicePushOpen(serviceCode,serverAppId,serverAppCode,serverName)}";
+			$.ajax({
+				type:'post',
+				url: openPostUrl,
+				cache:false,
+				async: false,
+				dataType:'json',
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("开通成功!", {icon: 1}, function(index){
+							//详情页面
+							location = '@{LatoWebDelegate.getServicePushInfo(serviceCode,serverAppId,serverAppCode,serverName)}';
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	
+	$("#updateButton").click(function(){
+		layer.confirm('是否确认更新秘钥?', {icon: 3, title:'提示'}, function(index){
+			var updatePostUrl = "@{LatoWebDelegate.updatePushService()}";
+			$.ajax({
+				type:'post',
+				url: updatePostUrl,    
+				data: {'lato_params':'{"lato_server_id":"${serviceId}", "m_is_refresh_secret":true}', 'lato_global_app_id':"${serverAppCode}"},
+				cache:false,    
+				async: false,
+				dataType:'json',    
+				success:function(data){
+					var errorCode = data['errorCode'];
+					if(errorCode && errorCode != "0")
+						layer.alert(data['errorMsg'], {icon: 5});
+					else{
+						layer.alert("更新成功!", {icon: 1}, function(index){
+							location = location.href;
+						});
+					}
+				}
+			});  
+			layer.close(index);
+		});
+		form.render();
+	});
+	
+	
+});
+
+</script>
+#{/set}

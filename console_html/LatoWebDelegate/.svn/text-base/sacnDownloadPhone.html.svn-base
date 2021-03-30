@@ -1,0 +1,46 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>云表手机</title>
+
+
+#{stylesheet '1.0/app.css' /}
+#{script '1.0/openApp.js' /}   
+<style> 
+#weixin-tip{display:none;position:fixed;left:0;top:0;background:rgba(0,0,0,0.8);filter:alpha(opacity=80);width:100%;height:100%;z-index:100;}
+#weixin-tip p{text-align:right;margin-top:10%;padding:0 5%;position:relative;}
+</style>
+<script>
+var url='${url!=null?url.raw():""}';
+</script>
+</head>
+
+
+
+<body onload="eversheetApp(url);">
+ <div class="wraapp">
+       <div class="logo-app"></div>
+       <div class="appbutton">
+          <a href="javascript:eversheetApp(url)" class="appbut">
+             <p>打开云表APP</p>
+          </a>
+       </div>
+	   
+	   
+	<div id="weixin-tip"><p><img src="@{'/public/images/1.0/live_weixin.png'}" alt="微信打开"/></p></div>
+	 <div class="appbutton">
+			  <a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.latosoft.eversheet.multiDevice" class="appbut_p">
+				 <p>下载云表APP</p>
+			  </a>
+		   </div>
+		   <div class="image"></div>
+		   <div class="end"><p>Copyright ? 2013-2017 乐图软件</p></div>
+	   </div>
+	</body>
+	
+	
+	
+	
+</html>

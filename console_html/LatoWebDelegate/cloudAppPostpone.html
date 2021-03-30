@@ -1,0 +1,679 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'应用空间实例续费' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}
+#{/set}
+#{set 'latoMainSide'}
+
+<div class="lato-main-side" >
+	<div id="lato-main-side_a">
+		
+	
+	</div>
+
+                <form id="defaultForm" method="post" class="form-horizontal" action="@{LatoWebDelegate.putForm('postponeCloudApp')}" >
+				<input type="hidden" name="lato_objectId"  id="lato_objectId" value="" /> 
+				<input type="hidden" name="old_month"  id="old_month" value="${flash.购买时长}" /> 
+				<input type="hidden" name="lato_app_code"  id="lato_app_code" value="${flash.应用编号}" /> 
+				<input type="hidden" name="lato_app_id"  id="lato_app_id" value="${appId}" /> 
+				<input type="hidden" id="lato_add_month" name="lato_add_month" value="" />
+				
+				<!-- <div class="main_title main_title_w">
+					<h3>应用空间实例续费</h3>
+					@{LatoWebDelegate.getAppInfoFormList()} 
+					<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+			        javascript:history.go(-1)
+				</div> -->
+			
+			<div class="main_body">
+			  <div class="col-md-9 post_pone">
+				<div class="body_name body_menu1 clearfix post_pone_one">
+					<label class="menu_names" id="menu_names">应用空间实例续费</label>
+				  </div>
+                <div class="body_name body_menu1 clearfix post_pone_two">
+                    <label class=" menu_name">应用名称</label>
+                    <label class="upgrade_text" id="serverName"></label>
+				 </div>
+				 <div class="body_name body_menu1 clearfix post_pone_three">
+                    <label class=" menu_name">应用ID</label>
+                    <label class="upgrade_text" id="serverId"></label>
+				 </div>
+				<div class="floatBox">
+				 <div class="body_name body_menu1 clearfix floatLeft floatBox_one">
+                    <label class=" menu_name">到期时间</label>
+                    <label class="upgrade_text" id="serverTimeOut"></label>
+				 </div>
+				 <div class="body_name body_menu1 clearfix floatRight">
+                    <label class=" menu_name xufeizhi">续费至</label>
+                    <label class="upgrade_text" id="serverMoneyEnd"></label>
+				 </div>
+				</div>
+				 <div class="body_name body_menu1 clearfix post_pone_four">
+                    <label class=" menu_name" id="chaoTime">到期时长</label>
+                    <label class="upgrade_text" id="serverTime"></label>
+				 </div>
+				 <div class="body_name body_menu1 clearfix post_pone_five">
+                    <label class=" menu_name" id="chaoMoney">欠费金额</label>
+                    <label class="upgrade_text" id="serverMoney"></label>
+                 </div>
+				 
+				 <!-- <div class="body_menu1 body_template clearfix form-group" > 
+		  <div class="clearfix">
+                   <label class="menu_name">空间容量</label>				   
+				    <input type="text" value="" id="lato_attachment_content" name="lato_attachment_content" placeholder="请输入空间容量"  class="value_color" onkeyup="alertProduct('lato_attachment_content',this.value)"/>
+                   <span class=" butt butt_template user_3" onclick="alertProduct('lato_attachment_content',10)" name="t_1"  >10G</span>
+                   <span class=" butt butt_template user_5" onclick="alertProduct('lato_attachment_content',20)" name="t_2" >20G</span>
+                   <span class=" butt butt_template user_10" onclick="alertProduct('lato_attachment_content',50)" name="t_3">50G</span>
+                   <span class=" butt butt_template template_10" onclick="alertProduct('lato_attachment_content',100)" name="t_4">100G</span>
+            </div> 
+			
+			 </div> -->
+			   <!-- <div class="boxone"> -->
+                 <div class="body_name body_menu1 clearfix post_pone_six">
+                     <label class="menu_name post_pone_six_time">购买时长</label>
+                    <div class="slider-date" id="slider-date-1">
+                          <!--底层-->
+                          <ul class="slider-bg clearfix">
+                              <li>1</li>
+                              <li>2</li>
+                              <li>3</li>
+                              <li>4</li>
+                              <li>5</li>
+                              <li>6</li>
+                              <li>7</li>
+                              <li>8</li>
+                              <li>9</li>
+                              <li>1年</li>
+                              <li>2年</li>
+                              <li>3年</li>
+                          </ul>
+                      
+                          <!--互动层-->
+                         <div class="slider-bar">
+                              <ul class="slider-bg clearfix">
+                                  <li>1<span>1个月</span></li>
+                                  <li>2<span>2个月</span></li>
+                                  <li>3<span>3个月</span></li>
+                                  <li>4<span>4个月</span></li>
+                                  <li>5<span>5个月</span></li>
+                                  <li>6<span>6个月</span></li>
+                                  <li>7<span>7个月</span></li>
+                                  <li>8<span>8个月</span></li>
+                                  <li>9<span>9个月</span></li>
+                                  <li>1年<span>1年</span></li>
+                                  <li>2年<span>2年</span></li>
+                                  <li>3年<span>3年</span></li>
+                              </ul>-->
+                              <!--滑块按钮-->
+                             <a href="javascript:;" class="slider-bar-btn"><i></i><i></i></a>
+                         </div>
+                         </div>
+                 </div>
+				<!-- </div>	 	 -->
+				 
+                   <div class=" body_name body_menu1 clearfix re_btn">
+				   <p class="cost_prompt">原价<s class="cost_price" id="cost_price"></s><span class="save_price" >立省￥<span id="save_price"></span></sapn></p>
+                      <label class="pay">总费用：<b><span id="productPrice" name="productPrice" > </span> </b></label>
+                <button type="button" class="btn btn-spacepay" id="btnSuccesss" data-dismiss="modal" onclick="paymentForm()">确认支付</button>
+                  </div>
+                   <div class="pay_prompt bottomMoney">
+                     <p class="pay_tishi"><span id="errorMsg" name="errorMsg">123</span></p>
+					 
+					</div>
+					 <div class="clearfix price_details post_pone_year">
+						<p class="text_explain post_pone_yearT" id="text_free">购买一年以上立享9折</p> 
+						<p class="text_explain post_pone_yearB" id="text_free_money"></p> 
+					 </div>
+		</div>
+				<!-- btn  -->
+        <!-- :form -->
+    </div>
+	
+	
+</div>	
+</div>
+
+<script type="text/javascript">
+
+
+	
+  
+
+	 var oldTimestr1 = "${flash.到期时间}";
+	 oldTimestr1=oldTimestr1.replace(/-/g,'/');
+	 var newTime=new Date();
+	 var startDate=oldTimestr1.slice(0,10);
+	 var endDate=getYearMonDate()
+	 var tatoleMoney=0;
+	 var months_tatol=null;   // 欠的月份和选中的总月份；
+	 var tatoleMonth=0;       // 到期时间总的月份；年*12+月；
+	 var month_qian= month(startDate,endDate);   // 欠的总月份；
+	 var montn_index=0;       // 欠的月份和选中的总月份，用的地方不一样；  
+	 ajaxuser();
+	function ajaxuser() {
+		$.get('@{LatoWebApiDelegate.getCloudAppInfo}?appId=' + '${appId}&appCode='+'${appCode}', function (data) {
+				var data = JSON.parse(data);
+                endTime=data.到期时间;
+				$('#serverName').text(data.应用名称);
+				$('#serverId').text(data.应用ID);
+				$('#serverTimeOut').text(data.到期时间);
+				$('#serverTime').text(month(startDate,endDate)+'（月）');
+		})
+	}
+		   
+
+	
+	 function month(startDate,endDate) {
+				startDate = startDate.split("/");  // 到期时间；
+				endDate = endDate.split("-");      // 现在的日期；
+				var  startDate1 = parseInt(startDate[0]) * 12 + parseInt(startDate[1]);
+				var  endDate1 = parseInt(endDate[0]) * 12 + parseInt(endDate[1]);
+				var times=0;
+				tatoleMonth=parseFloat(startDate1);  // 到期时间总的月份
+				if(getTimestamp(oldTimestr1,newTime)>0){   // 过期
+					times=endDate1-startDate1;
+					if(parseInt(endDate[2])-parseInt(startDate[2])<0){
+						times-=1;
+						if(endDate[2]==28&&endDate[1]==2){
+							times+=1;
+						}else if(endDate[2]==30&&(endDate[1]==4||endDate[1]==6||endDate[1]==9||endDate[1]==11)){
+                            times+=1; 
+						}
+					}
+				}else if(getTimestamp(oldTimestr1,newTime)<0){  // 没有过期
+					times=startDate1-endDate1;
+					if(parseInt(stateDate[2])-parseInt(endDate[2])<0){
+						times-=1;
+						if(stateDate[2]==28&&stateDate[1]==2){
+							times+=1;
+						}else if(stateDate[2]==30&&(stateDate[1]==4||stateDate[1]==6||stateDate[1]==9||stateDate[1]==11)){
+                            times+=1; 
+						}
+					}
+				}
+
+				return times;
+		}
+
+		var cost_price=null;
+    
+		ajaxInit();
+		function ajaxInit(){     // 初始化
+			var dataJosn={
+				lato_app_code:'${appCode}',
+				lato_app_id:'${appId}',
+				lato_add_month:month(startDate,endDate)
+			}
+			//console.log('',217);
+			$.post('@{LatoWebDelegate.queryProductPrice("postponeCloudAppForm")}',dataJosn,function(data){
+				var data=JSON.parse(data);
+				//console.log(data,'发送日期获取的金额');
+				tatoleMoney=parseFloat(data.总费用);         // 欠的或者是超出的金额;
+				// cost_price=$('#cost_price').text().slice(1);
+				// cost_price=parseFloat(cost_price);
+				//alert(cost_price,217);
+				cost_price=173.2;
+				if(parseFloat(month_qian)>=12){
+					cost_price=173.2*0.9;
+					//console.log(cost_price,221)
+				}
+				//alert('222行');
+				if(getTimestamp(oldTimestr1,newTime)>0){
+					console.log(tatoleMoney,cost_price,217);
+					$('#text_free_money').text('已含欠费￥'+tatoleMoney); // 欠费金额 
+                    $('#productPrice').text(tatoleMoney+cost_price);     // 总费用
+					$('#cost_price').text(tatoleMoney+cost_price);       // 原价
+					$('#serverMoney').text(data.总费用);                 // 欠费金额
+				}else{
+					$('#chaoMoney').text('剩余金额');
+					$('#text_free_money').hide();
+					$('#serverMoney').text(data.总费用); 
+				}
+			})
+		}
+
+  
+function alertProduct(idName,limit){
+	 $( "#"+idName ).val( limit );
+	queryMoney();
+	$('#defaultForm').data('bootstrapValidator').updateStatus(idName,'NOT_VALIDATED').validateField(idName);
+}
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+	
+	function paymentForm(){
+			if(months_tatol){
+				$('#lato_add_month').val(months_tatol);
+			}
+
+			var params=$("form").serialize();
+			//console.log(params);
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('postponeCloudApp')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("空间续费出现错误",data.errorMsg);
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+						
+									var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+									var text1 =	text.replace(/\r\n|\n|\r/g,'');
+									var va11 =	decodeURI(text1);
+									var val2="空间续费出现错误";
+									var dataObj=eval("("+va11+")");
+									
+									showErrorModel(val2,dataObj.message);
+							}
+						}
+					);
+	}
+  
+
+	function queryMoney(){
+		 var formParam = $("#defaultForm").serialize();//序列化表格内容为字符串    
+		// console.log('',304)
+		 $.ajax({    
+				type:'post',        
+				url:'@{LatoWebDelegate.queryProductPrice("postponeCloudAppForm")}',    
+				data:formParam,    
+				cache:false,    
+				dataType:'json',    
+				success:function(data){  
+					//console.log(data.总费用,283);
+					//console.log(data,284);
+					var error = data.error;
+					if(error.length > 0)
+						document.getElementById('errorMsg').innerText=error;
+					else{
+						if(getTimestamp(oldTimestr1,newTime)>0){
+							var cost_price=parseFloat(data.总费用);
+							//console.log(cost_price,304)
+							//console.log(parseFloat(month_qian)+montn_index,308)
+						    
+							if(parseFloat(month_qian)+montn_index>=12&&montn_index<12){
+								cost_price=cost_price*.9; 
+							}
+						
+							var tatolStr=cost_price+tatoleMoney;
+							var initPrice=parseFloat(data.原价)+tatoleMoney;
+							initPrice=initPrice.toFixed(2);
+                            tatolStr=tatolStr.toFixed(2);
+						//	console.log(tatolStr,initPrice,montn_index,313);
+							if(montn_index<12){
+								initPrice=tatolStr;
+							}
+							
+							document.getElementById('cost_price').innerText="￥"+initPrice;
+							document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+							document.getElementById('productPrice').innerText=tatolStr;
+							document.getElementById('errorMsg').innerText="";
+						}else{
+							var tatolStr=parseFloat(data.总费用);
+							var initPrice=parseFloat(data.原价);
+							initPrice=initPrice.toFixed(2);
+							document.getElementById('cost_price').innerText="￥"+initPrice;
+							document.getElementById('save_price').innerText=ForDight(data.原价 - data.总费用,2);
+							tatolStr=tatolStr.toFixed(2);
+							document.getElementById('productPrice').innerText=tatolStr;
+							document.getElementById('errorMsg').innerText="";
+						}
+						
+					}
+				}    
+			});    
+	}
+
+	
+	
+ $(document).ready(function() {
+		
+	$("#lato_attachment_content").val(10);	
+	$('#sub-item-2').addClass('in');	
+    });
+
+
+
+
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+				 
+				excluded : ':disabled',  
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                }
+            }).on('success.form.bv', function(e) {
+				
+			})
+            .on('error.field.bv', function(e, data) {
+				//alert('error.field.bv'+data.field);
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+			
+				//alert('success.field.bv'+data.field);
+                //console.log('success.field.bv -->', data.element);
+            })
+            .on('added.field.bv', function(e, data) {
+				//alert('added.field.bv'+data.field);
+                //console.log('Added element -->', data.field, data.element);
+            })
+			
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+
+			
+(function($) {
+    $.fn.sliderDate = function(setting) {
+        var defaults = {
+                callback: false //默认回调函数为false
+            }
+        //如果setting为空，就取default的值
+        var setting = $.extend(defaults, setting);
+        this.each(function() {
+            //插件实现代码 
+            //var $sliderDate = $(".slider-date");
+            var $sliderDate = $(this);
+			var $sliderBar = $sliderDate.find(".slider-bar");
+			var $sliderBtn = $sliderDate.find(".slider-bar-btn");
+			var liWid = 50+1; //单个li的宽度
+
+			//滚动指定的位置
+			var sliderToDes = function(index){
+           
+				//最大不能超过11
+				if(index > 11){
+					index = 11;
+				}
+
+				//最小不能小于 0 
+				if(index < 0){
+					index = 0;
+				}
+
+				//背景动画
+				$sliderBar.animate({
+					"width" : liWid*(index+1)
+				},500);
+
+				//执行回调
+				if(setting.callback){
+					setting.callback(index);
+				}
+
+			};
+
+			//点击 - 滚动到指定位置
+			$sliderDate.on('click', "li", function(e) {
+				//执行滚动方法
+				sliderToDes($(this).index());
+			});
+			
+			//默认为1个月
+			sliderToDes(0);
+			//点击 - 滚动到指定位置
+			$sliderDate.on('click', "li", function(e) {
+				//执行滚动方法
+				sliderToDes($(this).index());
+			});
+
+			//拖动 - 滚动到指定位置
+			$sliderBtn.on('mousedown', function(e) {
+				var $this = $(this);
+				var pointX = e.pageX - $this.parent().width();
+				var wid = null;
+
+				//拖动事件
+				$(document).on('mousemove',function(ev){
+					wid = ev.pageX - pointX
+					if(wid > 20 && wid < 620){
+						$sliderBar.css("width", wid);
+					}
+				}).on('mouseup',function(e){
+					$(this).off('mousemove mouseup');
+					var index = Math.ceil(wid/liWid) - 1;
+					sliderToDes(index);
+				});
+			});
+        });
+    }
+})(jQuery);
+
+var months=month(startDate,endDate);
+
+$(function(){
+	function a(index){
+		 var month = index +1;
+		if(month == 10)
+			month = 12;
+		else if(month == 11)
+			month = 24;
+		else if(month == 12)
+			month = 36;
+		var indexMonth=index+1;
+		if(index==9){
+			indexMonth=12;
+		}else if(index==10){
+            indexMonth=24;
+		}else if(index==11){
+			indexMonth=36;
+		}else{
+			indexMonth=index+1;
+		}
+		var	endTime=0;
+
+		 $.get('@{LatoWebApiDelegate.getCloudAppInfo}?appId=' + '${appId}&appCode='+'${appCode}', function (data) {
+			    var data = JSON.parse(data);
+		//		console.log(data,435)
+				endTime=data.到期时间;
+		//		console.log(endTime,437)
+				var endTime1=endTime.slice(8,10);
+				var endTime2=endTime.slice(10);
+				if(getTimestamp(oldTimestr1,newTime)>0){                                   // 过期了
+					var totalMonth=tatoleMonth+months+indexMonth;   // 移动了
+                    var giveRest=totalMonth%12;                     // 移动了
+					var giveInteger=parseInt(totalMonth/12);        // 移动了     
+					months_tatol=months+indexMonth;
+                    strEnd=giveInteger+'-'+twoStrFn(giveRest)+'-'+timeFn(giveRest,endTime1)+' '+endTime2;
+				}else{
+                    var  endDir=endTime.slice(0,11);   // 类似 2021-01-28
+					endDir=endTime.split('-');
+					var startDate1 = parseInt(endDir[0]) * 12 + parseInt(endDir[1])+indexMonth;
+					var giveInteger=parseInt(startDate1/12);
+					var giveRest=startDate1%12;
+						if(giveRest<10){
+							giveRest='0'+giveRest;
+						}
+					strEnd=giveInteger+'-'+giveRest+'-'+timeFn(giveRest,endTime1)+' '+endTime2;
+				}
+			
+			$('#serverMoneyEnd').text(strEnd)
+		})
+		$("#lato_add_month").val(month);
+		montn_index=month;
+		queryMoney();
+	}
+	$("#slider-date-1").sliderDate({callback:a});
+});
+
+function timeFn(giveRest,endTime1){
+  //   console.log(giveRest,endTime1,444);
+	 if(endTime1==31&&(giveRest==4||giveRest==6||giveRest==9||giveRest==11)){
+         endTime1=30;
+	 }
+	 else if((endTime1==31||endTime1==30||endTime1==29)&&giveRest==2){
+		 endTime1=28;
+	 }else{
+		endTime1=endTime1;
+	 }
+	 
+	 return endTime1;
+
+}
+
+function getYearMonDate(){  // 添加年 月 日函数
+	var d=new Date();
+	var year=d.getFullYear();
+	var month=d.getMonth()+1;
+	var datas=d.getDate();
+	var str=year+'-'+twoStrFn(month)+'-'+twoStrFn(datas);
+	return str;
+}
+
+function twoStrFn(str){   // 增加时间字符串函数
+   if(parseInt(str)<10){
+	   str='0'+str;
+   }else{
+	   str=str;
+   }
+   return str;
+}
+
+function getTimestamp(oldTimestr1,newTime){  // 增加时间戳函数
+	var newTime=Date.parse(newTime);
+	var oldTime=Date.parse(oldTimestr1);
+	var time=newTime-oldTime;
+	return time;
+}
+
+serverCode();
+   function serverCode(){
+		var latoMainSideA=document.getElementById('lato-main-side_a');
+		var urlServerCode= window.location.href;
+		var strCode='serviceCode';
+		var indexCode=urlServerCode.indexOf(strCode);
+		var nameServer=window.localStorage.getItem('nameServer');
+
+        	latoMainSideA.innerHTML='<a href="@{LatoWebDelegate.getIndexForm()}" class="list_back_a">首页</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back_a">云端应用</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">'+nameServer+'</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}" class="list_back_a">应用空间详情</a>'+
+				'<img src="@{'/public/images/vector38.png'}" >'+
+				'<a href="javascript:;" id="reloadPages" class="list_back_a">续费</a>'
+
+   }
+   
+   $('#reloadPages').click(function(){
+	   window.history.go(0);
+   })
+
+
+
+
+
+</script>
+
+<style>
+	.floatLeft .floatRight{
+		float: left;
+		background-color: rgb(69,191,102);
+	}
+
+
+.menu_names{
+	font-size: 14px;
+	color:#373F4A;
+	margin-bottom: 6px;
+	font-weight: 700;
+	width: 300px;
+}
+#btnSuccesss{
+	border: none;
+	outline:none;
+	color: #fff;
+}
+button.btn{
+	border: none;
+	outline:none;
+	color: #fff;
+}
+
+#btnSuccesss:active{
+	color: #fff;
+	background-color: rgb(69,191,102);
+}
+.btn-spacepay{
+	margin-top: -4px;
+	border-radius: 4px;
+	margin-left: -8px;
+}
+
+.re_btn{
+	float: none;
+	margin-left: 472px;
+	height: 66px;
+	position: relative;
+}
+.re_btn .cost_prompt{
+	position: absolute;
+	right: 0;
+	top: 0px;
+}
+.re_btn .pay{
+	position: absolute;
+	right: 95px;
+	top: 26px;
+}
+#btnSuccesss{
+	position: absolute;
+	right: 0px;
+	top: 30px;
+}
+.upgrade_text {
+    line-height: 27px;
+}
+.main_body{
+	padding-left: 0px;
+	margin-left: -12px;
+}
+
+.main_body .post_pone_six{
+	overflow: hidden;
+	/* background-color: red; */
+	margin: 0;
+	position: relative;
+	margin-top: 14px;
+}
+.bottomMoney{
+	right: 64px;margin-top: 0;color: #FB5040;
+	font-size: 10px;
+}
+.bottomMoney span{
+	color: #FB5040;
+	font-size: 10px;
+}
+/* .re_btn{
+ background-color: seagreen; 
+}
+.boxone {
+	overflow: hidden;height:40px;
+	
+} */
+</style>
+
+
+
+#{/set}

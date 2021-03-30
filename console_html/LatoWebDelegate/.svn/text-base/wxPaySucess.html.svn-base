@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>微信支付成功通知</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+ <link rel="shortcut icon" type="image/png" href="@{'/public/images/Eversheet.ico'}">
+	
+	 <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	  
+#{stylesheet '/login/nav.css' /}
+#{stylesheet '/login/register.css' /}
+</head>
+
+<body class="service">
+
+<div class="navigation">
+	<div class="container">
+		<a href="/" class="logo left" id="J_logo"></a>
+	</div>
+</div>
+
+
+<div class="account-box-wrapper">
+    <div class="account-box account-box_succ">
+        <div class="register-form" style=" width:440px;">
+		<form role="form" id="regForm" method="post" action="">
+		<input type="hidden" name="lato_redirect" value="${redirect}" id="lato_redirect"/>
+		
+		<input type="hidden" name="lato_useraccount" value="${loginAccount}" id="lato_useraccount"/>
+            <div class="account-form-title">
+                <label>微信支付成功通知</label>
+            </div>
+			
+            
+			<div class="account-input-area c1 " style="text-align:center">
+				<div class="form-group">
+					 <img  id="img"  src="@{'/public/images/success.png'}"  class="from_img">
+				</div>
+				<div class="status status_browser js_status" id="wx_default_tip">
+			                <p>支付成功，请等待跳转</p>
+				</div>
+			</div>	
+			    
+            
+		</form>
+        </div>
+    </div>
+</div>
+
+
+ <script type="text/javascript">
+		
+	function redirectUrl()	{
+		
+
+		var url = $("#lato_redirect").val();
+		
+		//window.open(url,"_self","" );
+        location.href = url;
+	}
+		
+		
+		$(document).ready(function() {	
+		
+		var t1 = window.setInterval(redirectUrl,2000); 
+    });
+		
+		
+	
+		
+	
+	
+	
+	
+
+   </script>
+
+
+
+
+
+</body>
+
+
+</html>

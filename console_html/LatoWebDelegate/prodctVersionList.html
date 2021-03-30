@@ -1,0 +1,214 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'产品版本列表' /}
+	
+	
+	
+	<div class=" main">
+	<input type="hidden" name="lato_service_code"  id="lato_service_code" value="${prodctCode}" /> 
+  <!-- <div class="main_title">
+	<a href="javascript:;" class="list_back list_back_a" onClick="history.go(-1)" >
+		<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+	</a>
+            <h3>产品详情</h3>
+  </div> -->
+  <div class="main_title main_title_w" style="margin-bottom: 0px;">
+	<a href="javascript:;" class="list_back list_back_a" onClick="history.go(-1)" style="margin-left: -6px;">
+		<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+	</a>
+	<h3>产品详情</h3>
+</div>
+  <div class="main_body">
+         <div class="clearfix">
+        <div class="main_left">
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">产品名称</label>
+                    <label class="userinfo_text">${productCode}(${productName})</label>
+                 </div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">审核结果</label>
+                     <label class="userinfo_text">${flash.operatorValue}</label>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">当前版本号</label>
+                     <label class="userinfo_text">${flash.版本号}</label>
+                 </div>
+                  <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">本地首并发价</label>
+                     <label class="userinfo_text">${flash.本地首并发价}</label>
+                 </div>
+
+                
+         </div>
+          <div class="main_left main_right">
+               
+                 <div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">本地续并发价</label>
+                    <label class="userinfo_text">${flash.本地续并发价}</label>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">云端销售价</label>
+                     <label class="userinfo_text">${flash.云端部署标价}</label>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">最低购买时长</label>
+                     <label class="userinfo_text">${flash.最低购买时长}</label>
+                 </div>
+                
+         </div>
+         </div>
+        
+         
+          <div class="table clearfix">
+		     <a class="btu_new_application product_pay" href="javascript:publishVersion();">版本升级</a>
+          <table data-toggle="table"   data-url="${flash.dataUrl}"   data-search="true"  data-pagination="true"      data-side-pagination="server"   >
+								<thead>
+								<tr class="line-bg">
+								#{list items:fieldList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+							#{/list} 
+								</tr>
+								</thead>
+           </table>
+          </div>
+          </div>
+  </div>
+	
+	<!-- form: 
+    <div class="row">
+        
+        <section>
+            <div  id="mainDiv" name="mainDiv">
+                <div class="page-header">
+			
+						<!-- <h3 class="text-left text-info " style="margin-right: 35%;"></h3> 
+						<span> <h3>产品</h3>  ${productCode}(${productName}) </span>
+						
+						
+                </div>
+				
+				<input type="hidden" name="lato_service_code"  id="lato_service_code" value="${prodctCode}" /> 
+				
+				
+				<div id="toolbar">
+				
+				</div>
+				<div class ="panel-body" >
+								
+								
+						<div class="col-md-4">
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">产品：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${productCode}(${productName})</label>
+												</div>
+												
+										</div>
+										
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">审核结果：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.operatorValue}</label>
+												</div>
+												
+										</div>
+										
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">当前版本号：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.版本号}</label>
+												</div>
+												
+										</div>
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">最低购买时长：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.最低购买时长}</label>
+												</div>
+												
+										</div>
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">本地首并发价：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.本地首并发价}</label>
+												</div>
+												
+										</div>
+										
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">本地续并发价：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.本地续并发价}</label>
+												</div>
+												
+										</div>
+										
+										 <div class="form-group">
+												  <label class="col-md-4 control-label ">云端销售价：</label>
+												<div class="col-md-8">
+														<label class=" control-label">&nbsp;${flash.云端部署标价}</label>
+												</div>
+												
+										</div>
+										
+										
+										
+										
+						</div>
+									
+					
+						</div>
+						
+					</div>
+					
+				</div>
+		
+				<div class="form-group">			
+											<div class="col-md-2">
+												<button type="button" class="btn btn-primary  w-lg waves-effect waves-light" id="tj" onclick="publishVersion()">版本升级</button>
+											</div>
+				</div>	
+				
+					
+				
+			<div>
+					
+					</br>
+						 <table data-toggle="table"   id="table" data-url="${flash.dataUrl}"  data-height="500" id="events-id2" name="events-id2"   data-pagination="true"      data-side-pagination="server"   data-row-style="rowStyle" >
+							 <thead>
+								<tr>
+								#{list items:fieldList, as:'field' }
+									<th data-field="${field}" data-halign="center" data-switchable="true">${field}</th>
+								#{/list} 
+								</tr>
+								</thead>
+						</table>	
+					</div>
+            </div>
+			
+			
+        </section>
+        <!-- :form 
+    </div>-->
+</div>
+
+<script type="text/javascript">
+	
+	function publishVersion(){
+        location.href = "@{LatoWebDelegate.publishproduct(productCode,productName)}";
+		//window.open("@{LatoWebDelegate.publishproduct(productCode,productName)}",'_self','')
+	}	
+
+   
+	 $(document).ready(function() {
+		
+	
+	 $('#sub-item-5').addClass('in');
+	
+	 
+		
+		}
+		)
+  
+</script>

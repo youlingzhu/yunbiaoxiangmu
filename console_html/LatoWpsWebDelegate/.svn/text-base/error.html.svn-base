@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<title>提示页</title>
+<meta name="description" content="">
+<meta name="author" content="saptarang">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ #{stylesheet 'error/style.css' /}
+<style type="text/css"></style>
+
+</head>
+<body>
+  <div class="error_bg">
+      <div class="error_tishi">
+         <p>${flash.errorMsg}</p>
+         <div class="list_btn">
+            <a href="javascript:location.reload()">刷新</a>
+             <a href="@{LatoWebDelegate.getLoginForm()}">重新登录</a>
+         </div>
+      </div>
+       
+  </div>
+
+</body>
+</html>

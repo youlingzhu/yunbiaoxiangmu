@@ -1,0 +1,446 @@
+﻿
+	
+#{extends 'LatoWebDelegate/main.html' /}
+
+#{set title:title /}
+
+
+<div class="main">
+  <div class="main_title">
+            <h3>发布新产品</h3>
+  </div>
+  
+  <form id="defaultForm" method="post"  action="@{LatoWebDelegate.putForm('productPublish')}" >
+			<input type="hidden" name="lato_objectId"  id="lato_objectId" value="" /> 
+			<input type="hidden" name="lato_product_code"  id="lato_product_code" value="${prodctCode}" /> 
+			<input type="hidden" name="query_product_name" id="query_product_name" value="" />
+			<input type="hidden" name="lato_app_id" id="lato_app_id" value="" />
+			<input type="hidden" name="lato_app_name" id="lato_app_name" value="" />
+			<input type="hidden" name="lato_server_code" id="lato_server_code" value="" />
+			<input type="hidden" name="lato_app_global_id" id="lato_app_global_id" value="" />
+			<input type="hidden" name="lato_is_open_source" id="lato_is_open_source" value="false" />
+			<input type="hidden" name="lato_is_repeated_release" id="lato_is_repeated_release" value="false" />
+			<input type="hidden" name="lato_back_code" id="lato_back_code" value="" />
+			
+  <div class="main_body">
+        <div class="main_left">
+                 <div class="body_name body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">产品名称</label>
+                     
+					  <input type="text" value="${prodctName}" id="lato_product_name" name="lato_product_name" placeholder="请输入产品名称" class="users_text"/>
+					 
+                 </div>
+				 </div>
+				 
+                  <div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">是否开源</label>
+                     <ul class="radio_type">
+                         <li id="radio_is_open" class="radio_pub is_open"><i></i>是</li>
+                          <li id="radio_is_close" class="radio_pub is_open select_radio"><i></i>否</li>
+                     </ul>
+					<img src="@{'/public/images/1.0/wenhao.png'}" style="width:25px;" data-html="true" data-toggle="tooltip" data-placement="right"   title="开源: 不允许修改模板 <br>不开源: 允许修改模板，但不允许发布给其他人" >
+					
+					
+                 </div>	
+
+				<div class="body_pay body_menu1 clearfix">
+                     <label class="menu_name">支持二次发布</label>
+                     <ul class="radio_type">
+                         <li id="radio_is_repeated_release" class="radio_pub is_release "><i></i>是</li>
+                          <li id="radio_is_repeated_release_close" class="radio_pub is_release select_radio"><i></i>否</li>
+                     </ul>
+					<img src="@{'/public/images/1.0/wenhao.png'}" style="width:25px;"  data-toggle="tooltip" data-placement="right"   title="支持二次发布:完全开放模板库，可以自由修改，可以自由发布给其他人" >
+                 </div>
+                 <div class="body_name body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">本地首并发价</label>
+                    
+					  <input type="text" value="" id="lato_local_product_first_limit" name="lato_local_product_first_limit" placeholder="请输入本地首并发价" class="users_text"/>
+					 
+                 </div>
+				  </div>
+                 <div class="body_pay body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">本地续并发价</label>
+					 
+					   
+					    <input type="text" value="" id="lato_product_continue_limit" name="lato_product_continue_limit" placeholder="请输入本地续并发价" class="users_text"/>
+                 </div></div>
+				 
+                 <div class="body_pay body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">云端销售价</label>
+                    
+					 
+					 <input type="text" value="" id="lato_cloud_product_price" name="lato_cloud_product_price" placeholder="请输入云端销售价" class="users_text"/>
+                 </div></div>
+				 
+                 <div class="body_pay body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">最低购买时长</label>
+                    
+					 
+					 <input type="text" value="" id="lato_minimum_purchase_month" name="lato_minimum_purchase_month" placeholder="请输入最低购买时长" class="users_text"/>
+					 
+                 </div></div>
+                
+         </div>
+          <div class="main_left main_right">
+                 <div class="body_name body_menu1 clearfix form-group">
+				  <div class="clearfix">
+                     <label class="menu_name">产品版本号</label>
+                     
+					 
+					 <input type="text" value="" id="lato_product_version" name="lato_product_version" placeholder="请输入版本号" class="users_text"/>
+					 
+                     <a class="version_number" data-toggle="modal" href="javascript:query_app_back();">选择模板库备份</a>
+                 </div></div>
+                 <div class="body_name body_menu1 clearfix">
+                     <label class="menu_name">产品描述</label>
+                     <textarea class="product_description" name="lato_product_desc" id="lato_product_desc"></textarea>
+                 </div>
+                 <div class="body_pay body_menu1 clearfix form-group">
+				 <div class="clearfix">
+                     <label class="menu_name">备份名称</label>
+                     <input class="users_text" name="lato_back_name" id="lato_back_name"></input>
+                 </div></div>
+                 <div class=" body_menu1 clearfix">
+                     <label class="menu_name">备份描述</label>
+                    <textarea class="product_description" name="lato_back_desc" id="lato_back_desc"></textarea>
+					 <button type="submit"  class="version_number product_sure" data-dismiss="modal">确认发布</button>
+                 </div>
+              
+         </div>
+  </div>
+</div>
+					
+        <!-- :form -->
+	
+	
+	
+			<div class="modal fade" id="loca_app_back_model" tabindex="-1"   role="dialog" 
+				   aria-labelledby="loca_app_back_model" aria-hidden="true">
+				   <div class="modal-dialog" style="width:60%">
+					  <div class="modal-content">
+						 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+							</button>
+							<h4 class="modal-title" id="loca_app_back_model">
+								<span id="errorTypeSpan">请选择相应的备份</span>
+							</h4>
+						 </div>
+						 
+						 <div class="modal-body" >
+							
+						<table data-toggle="table"  data-url="@{LatoWebDelegate.queryAccountAppBack()}"    id="app_back_table"  name="localServer" data-click-to-select="true"  data-search="true"    data-pagination="true"      data-select-item-name="radioName">
+							<thead>
+							<tr>
+								<th data-field="lato_state" data-radio="true" data-formatter="stateFormatter"></th>
+								<th data-field="备份名称"  data-halign="center" data-align="left">备份名称</th>
+								<th data-field="备份描述" data-halign="center"  data-align="left">备份描述</th>
+								<th data-field="备份时间" data-halign="center"  data-align="left">备份时间</th>
+								<th data-field="应用名称" data-halign="center"  data-align="left">应用名称</th>
+								<th data-field="应用ID" data-halign="center"  data-align="left">应用ID</th>
+								<th data-field="服务器编号" data-halign="center"  data-align="left">服务器编号</th>
+							</tr>
+							</thead>
+						</table>
+						
+						 </div>
+						 <div class="modal-footer">
+							<button type="button" class="btn btn-lato" 
+							   data-dismiss="modal">取消
+							</button>
+							<button type="button" class="btn btn-primary" onclick="selectAppBack()">确认</button>
+							
+							
+						 </div>
+					  </div>
+				</div>
+				</div>
+				
+				
+						<div class="modal fade" id="loca_prodct_list_model" tabindex="-1"   role="dialog" 
+				   aria-labelledby="loca_prodct_list_model" aria-hidden="true">
+				   <div class="modal-dialog" style="width:40%">
+					  <div class="modal-content">
+						 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+							</button>
+							<h4 class="modal-title" id="loca_prodct_list_model">
+								<span id="errorTypeSpan">选择指定产品进行升级</span>
+							</h4>
+						 </div>
+						 
+						 <div class="modal-body" >
+							
+						<table data-toggle="table"  data-url="@{LatoWebDelegate.queryProductList()}"    id="prodct_list_table"  name="localServer" data-click-to-select="true"  data-search="true"    data-pagination="true"      data-select-item-name="radioName">
+							<thead>
+							<tr>
+								<th data-field="lato_state" data-radio="true" data-formatter="stateFormatter"></th>
+								<th data-field="产品编号"  data-halign="center" data-align="left">产品编号</th>
+								<th data-field="产品名称" data-halign="center"  data-align="left">产品名称</th>
+							</tr>
+							</thead>
+						</table>
+						
+						 </div>
+						 <div class="modal-footer">
+							<button type="button" class="btn btn-lato
+							   data-dismiss="modal">取消
+							</button>
+							
+							 <button type="button" class="btn btn-primary" onclick="selectProdct()" id="load-data">
+							   选择完毕
+							</button>
+							
+						 </div>
+					  </div>
+					  
+					  
+					  
+					  
+				</div>
+				
+				
+				
+				
+				</div>
+
+				
+	
+
+<script type="text/javascript">
+		
+		
+function updateButtonState(){
+	
+	$('#defaultForm').bootstrapValidator('disableSubmitButtons', false);  
+	
+	}
+			$("#select_is_open_source :radio").click(function(){
+
+				var value1 = $(this).val();
+				$("#lato_is_open_source").val(value1);
+			  });
+		
+			function query_app_back(){	
+					$('#loca_app_back_model').modal({
+						keyboard: true
+					})	
+				}
+				
+			
+			
+			function query_prodct_list(){
+				$('#loca_prodct_list_model').modal({
+						keyboard: true
+					})	
+			}
+			
+			
+			function clearProduct(){
+								$("#lato_product_code").val('');
+							   $("#lato_product_name").val('');
+							   $("#query_product_name").val('');
+			
+			}
+			
+			function selectAppBack(){
+				
+				  var ids = $.map($('#app_back_table').bootstrapTable('getSelections'), function ( row) {
+							
+							   $("#lato_app_id").val(row.应用ID);
+							   $("#lato_app_name").val(row.应用名称);
+							   $("#lato_server_code").val(row.服务器编号);
+							   $("#lato_app_global_id").val(row.应用唯一标识);
+							   $("#lato_back_code").val(row.编号);
+								
+							    $("#lato_back_name").val(row.备份名称);
+								$("#lato_back_desc").val(row.备份描述);
+
+							   //模态框隐藏
+							  $('#loca_app_back_model').modal("hide");
+							  
+							  
+							  $('#defaultForm').data('bootstrapValidator').updateStatus('lato_back_name','NOT_VALIDATED').validateField('lato_back_name');
+							  
+							  
+							  });
+
+				
+			}
+			
+			function selectProdct(){
+				
+				  var ids = $.map($('#prodct_list_table').bootstrapTable('getSelections'), function ( row) {
+									
+									
+							   $("#lato_product_code").val(row.产品编号);
+							   $("#lato_product_name").val(row.产品名称);
+							   $("#query_product_name").val(row.产品名称);
+							   $("#lato_is_open_source").val(row.是否开源);
+							   
+							   //模态框隐藏
+							  $('#loca_prodct_list_model').modal("hide");
+							  
+							  $('#defaultForm').data('bootstrapValidator').updateStatus('lato_product_name','NOT_VALIDATED').validateField('lato_product_name');
+							  
+							  });
+
+				
+			}
+			
+			
+			
+ $('#defaultForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    'lato_local_product_first_limit': {
+                        validators: {
+                            notEmpty: {
+                                message: '本地首并发价不允许为空...'
+                            },integer: {
+								message: '只允许输入整数'
+							}
+                        }
+                    },'lato_product_continue_limit': {
+                        validators: {
+                            notEmpty: {
+                                message: '本地续费不允许为空...'
+                            },integer: {
+								message: '只允许输入整数'
+							}
+                        }
+                    },'lato_cloud_product_price': {
+                        validators: {
+                            notEmpty: {
+                                message: '云端销售价不允许为空...'
+                            },integer: {
+								message: '只允许输入整数'
+							}
+                        }
+                    },'lato_minimum_purchase_month': {
+                        validators: {
+                            notEmpty: {
+                                message: '最低购买时长不允许为空...'
+                            },integer: {
+								message: '只允许输入整数'
+							}
+                        }
+                    },'lato_product_name':{
+					
+						  validators: {
+                            notEmpty: {
+                                message: '产品名称不能为空...'
+                            }
+                        }
+					},'lato_product_version':{
+						  validators: {
+                           notEmpty: {
+                            message: '版本号不允许为空'
+							} 
+                        }
+					},'lato_back_name':{
+						  validators: {
+                           notEmpty: {
+                            message: '需要选择指定的备份才能发布版本'
+							} 
+                        }
+					}
+                }
+            })
+            .on('error.field.bv', function(e, data) {
+                //console.log('error.field.bv -->', data.element);
+            })
+            .on('success.field.bv', function(e, data) {
+                //console.log('success.field.bv -->', data.element);
+            }).on('success.form.bv', function(e) {
+				e.preventDefault();
+				
+				 var params=$("form").serialize();
+				 $.ajax({
+						url:"@{LatoWebDelegate.putForm('productPublish')}",
+						type:'POST',
+						dataType:'json',
+						data:params
+						,success:function(data){
+							if(null != data.errorCode && data.errorCode.length > 0)
+							{
+								showErrorModel("发布产品出现错误",data.errorMsg);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}else{
+								location.href = data.url;
+							}
+						},
+						beforeSend: function(xhr) {
+							//checkIsEversheetWeb(xhr);
+						}
+						,error:function(XMLHttpRequest, textStatus, errorThrown){
+                                var text = decodeURIComponent(XMLHttpRequest.responseText.replace(/\+/g, '%20'));
+                                var text1 =	text.replace(/\r\n|\n|\r/g,'');
+                                var va11 =	decodeURI(text1);
+                                var val2="发布产品出现错误";
+                                var dataObj=eval("("+va11+")");
+                                
+                                showErrorModel(val2,dataObj.message);
+                                $("#defaultForm").data('bootstrapValidator').resetForm();
+							}
+						}
+					);
+				 	
+			})
+            .on('added.field.bv', function(e, data) {
+                //console.log('Added element -->', data.field, data.element);
+            })
+            .on('removed.field.bv', function(e, data) {
+                //console.log('Removed element -->', data.field, data.element);
+            });
+			
+			
+	
+		$(".is_open").click(function(){
+		$(".is_open").removeClass("select_radio");
+		$(this).addClass("select_radio");
+		if(this.id=="radio_is_open"){
+				$("#lato_is_open_source").val("true");
+		} else{
+			$("#lato_is_open_source").val("false");
+		}
+		
+	});
+
+$(".is_release").click(function(){
+		$(".is_release").removeClass("select_radio");
+		$(this).addClass("select_radio");
+		if(this.id=="radio_is_repeated_release"){
+				$("#lato_is_repeated_release").val("true");
+		} else{
+			$("#lato_is_repeated_release").val("false");
+		}
+		
+	});
+
+	
+				
+ $(document).ready(function() {
+		
+		 $(function () { $("[data-toggle='tooltip']").tooltip(); });
+		$("#lato_is_open_source").val("false");
+		$("#lato_is_repeated_release").val("false");
+
+		$('#sub-item-5').addClass('in');	
+			
+    });
+	
+
+
+</script>

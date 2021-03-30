@@ -1,0 +1,662 @@
+﻿
+	
+#{extends 'LatoWebDelegate/mainServicesList.html' /}
+#{set title:'云表应用信息' /}
+#{set appInfo:'true' /}
+#{set returnLinkLable:'返回应用空间列表' /}
+#{set 'returnLink'}
+@{LatoWebDelegate.getAppInfoFormList()}
+#{/set}
+#{set 'latoMainSide'}
+
+<script src="@{'/public/javascripts/1.0/clipboard.min.js'}"></script>
+<div class="lato-main-side" >
+			  
+	
+<!-- 历史记录模态框弹框 -->
+	<div class="modal fade" id="loca_app_back_model_history" tabindex="-1" role="dialog" aria-labelledby="loca_app_back_model"
+	aria-hidden="true">
+		<div class="modal-dialog" style="width:60%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					</button>
+					
+				</div>
+				<!-- data-url= -->
+				<div class="modal-body">
+					<!-- data-url="@{LatoWebDelegate.getJsonData('软件产品版本信息','查询允许更换的产品信息列表(产品编号)')}" -->
+				<table data-toggle="table" id="app_back_table_history" name="localServer" data-click-to-select="true"
+						data-header-style="headerStyle" data-search="true" data-pagination="true"
+						data-select-item-name="radioName">
+					
+					<thead>
+						<tr>
+							<th data-field="产品编号" data-halign="center" data-align="center">模板库编号</th>
+									<th data-field="产品名称" data-halign="center" data-align="center">模板库名称</th>
+									<th data-field="版本描述" data-halign="center" data-align="center">描述</th>
+									<th data-field="更新时间" data-halign="center" data-align="center">更新时间</th>
+						</tr>
+					</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-lato" data-dismiss="modal">取消
+					</button>
+				
+				</div>
+			</div>
+		</div>
+    </div>
+
+<!-- 更新模板模态框弹框 -->
+	<div class="modal fade" id="loca_app_back_model" tabindex="-1" role="dialog" aria-labelledby="loca_app_back_model"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width:60%">
+			
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					</button>
+					<h4 class="modal-title" id="loca_app_back_model">
+						<span id="errorTypeSpan" style="color: #373F4A;">请选择相应的模板库</span>
+					</h4>
+				</div>
+				<!-- data-url= -->
+				<div class="modal-body">
+					<!-- data-url="@{LatoWebDelegate.getJsonData('软件产品版本信息','查询允许更换的产品信息列表(产品编号)')}" -->
+					<table data-toggle="table" id="app_back_table" name="localServer" data-click-to-select="true"
+						data-header-style="headerStyle" data-search="true" data-pagination="true"
+						data-select-item-name="radioName">
+						<thead>
+							<tr>
+								<th data-field="lato_state" data-radio="true" onclick="clickFun()"
+									data-formatter="stateFormatter"></th>
+								<th data-field="产品编号" data-halign="center" data-align="center">模板库编号</th>
+								<th data-field="产品名称" data-halign="center" data-align="center">模板库名称</th>
+								<th data-field="模板总数量" data-halign="center" data-align="center">模板总数量</th>
+								<th data-field="版本号" data-halign="center" data-align="center">模板库版本</th>
+								<th data-field="是否开源" data-halign="center" data-align="center">是否开源</th>
+								<th data-field="私有产品" data-halign="center" data-align="center">私有产品</th>
+								<th data-field="支持二次发布" data-halign="center" data-align="center">支持二次发布</th>
+								<th data-field="发布时间" data-halign="center" data-align="center">发布时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-lato" data-dismiss="modal">取消
+					</button>
+					<button type="button" class="btn btn-primary" onclick="selectProdct()">下一步</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--  模板库更新弹框 更新前 更新后 -->
+    <div class="alertBoxWarningThree" id="alertBoxWarningThree" style=" position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		z-index: 100000000;
+		height: 100%;
+		background: rgba(55, 63, 74, 0.3);
+		text-align: center;
+		font-family: Microsoft YaHei;
+		display: none;
+		">
+
+	<div class="alertBoxWarningTh" style=" width: 725px;
+			height: 591px;
+			background-color: #fff;
+			border-radius: 4px;
+			position: fixed;
+			left: 0;
+			z-index: 100000000;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;">
+		<div class="title" style=" height: 99px;
+				line-height: 99px;
+				font-weight: bold;
+				font-size: 24px;
+				color: #373F4A;">
+			模板库更新
+		</div>
+		<span id="alertBoxWarningThreeSpan"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+
+		<div class="content" style="margin-bottom: 29px;">
+
+			<div class="left" style="width: 256px;
+					height: 358px;
+					background: #FFFFFF;
+					border: 1px solid rgba(55, 63, 74, 0.3);
+					box-sizing: border-box;
+					border-radius: 4px;
+					float: left;
+					margin-left:63px;
+					margin-right:80px;
+					text-align: left;">
+
+				<div class="titleTop" style=" height: 50px;
+						box-sizing: border-box;
+						border: 1px solid rgba(55, 63, 74, 0.1);
+						">
+					<i style="font-style: normal;
+							width: 2px;
+							height: 16px;
+							float: left;
+							background-color: #6EAF32;
+							margin-right: 8px;
+							display: block;
+							margin-top: 12px;
+							margin-left: 16px;"></i>
+					<span style="font-weight: bold;
+							font-size: 18px;
+							line-height: 36px;
+							float: left;
+							display: block;
+							color: #6EAF32;">更新前</span>
+				</div>
+
+				<div class="mySystem">
+					<ul id="ulMySystemLeft" style="height:309px;overflow:auto;">
+					</ul>
+				</div>
+
+
+
+			</div>
+
+
+
+			<div class="rigth" style=" width: 256px;
+					height: 358px;
+					float: left;
+					background: #FFFFFF;
+					border: 1px solid rgba(55, 63, 74, 0.3);
+					box-sizing: border-box;
+					border-radius: 4px;
+					text-align: left;">
+				<div class="titleTop" style=" height: 50px;
+					   box-sizing: border-box;
+					   border: 1px solid rgba(55, 63, 74, 0.1);
+					   align-items: center;
+					   text-align: left;">
+					<i style="font-style: normal;
+							width: 2px;
+							height: 16px;
+							background-color: #427BC5;
+							margin-right: 8px;
+							display: block;
+							float: left;
+							margin-top: 12px;
+							margin-left: 16px;"></i>
+					<span style="font-weight: bold;
+								font-size: 18px;
+								line-height: 36px;
+								float: left;
+								display: block;
+							color: #427BC5;">更新后</span>
+				</div>
+
+				<div class="mySystem">
+					<ul id="ulMySystemRight" style="height:309px;overflow:auto;">
+
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="agree" id="agreeMb" style="color: rgba(55, 63, 74, 0.8);padding-top: 30px;padding-bottom:12px;
+				font-size: 12px;text-align: left;text-indent:96px;position: relative;height: 20px;float: left;">
+	       		
+			<!-- <input type="checkbox" name="checkbox" />&nbsp;&nbsp;<span>更新为<i style="color: red;font-style: normal;">不可逆</i>行为，请谨慎操作</span><br /> -->
+			<input id="fengxianInput" style="position: absolute;bottom:-4px;left:80px;" type="checkbox" name="checkbox" />
+			<span>我已阅读<b class="active" style="font-weight: 400;color: #427BC5;text-indent: 5px;cursor: pointer;">《模板库更新风险须知》</b>, 了解并愿意承担本次操作的风险</span>
+			<div id="wenzi" class="wenzi" style="box-shadow: 0px 2px 4px rgba(55, 63, 74, 0.1);
+					border-radius: 4px;
+					width: 355px;
+					height: 195px;
+					text-align: left;
+					background: #5f656e;
+					line-height: 18px;
+					position: absolute;
+					top: -168px;
+					left:135px;
+					color: #FFFFFF;
+					padding:0 8px;display: none;">
+				<p class="p1" style="height:27px;text-indent: 0px;
+						line-height: 32px;color: #FFFFFF;">模板库更新风险须知</p>
+
+				<p class="p2" style="font-size: 12px;text-indent: 0px;
+						line-height: 20px;color: #FFFFFF;">
+					1、模版库更新操作不可逆,被修改的模版，将无法恢复。<br />
+					2、【确认更新】后,原模版库的同名模版将被覆盖，不同名的模版将保留。<br />
+					3、更新后的模版数不能超过模版数上限。 <br />
+					4、更新不影响该模版下的表单数据。<br />
+					5、云表平台(珠海乐图软件有限公司)不对模版库更新中人为操作导致的后果负责。<br />
+				</p>
+				<p class="p3" style=" width: 0;
+						height: 0;
+						margin-top: 18px;
+						margin-left: 55px;
+						border-left: 5px solid transparent;
+						border-right: 5px solid transparent;
+						border-top: 5px solid #5f656e;"></p>
+			</div>
+		
+		</div>
+
+		<div id="agreeBtn">
+			<p style="float: left;
+			        height: 40px;
+					padding-left: 222px;
+					margin-top: 26px;">
+				<button style="border: none;
+						border: 1px solid rgba(55, 63, 74, 0.6);
+						font-size: 14px;
+						box-sizing: border-box;
+						border-radius: 4px;
+						width: 120px;
+						height: 40px;
+						margin-right: 44px;
+						margin-top: 0px;
+						background-color: #FFFFFF;color: #373F4A;" class="btn1">取消</button>
+				<button id="queRenUpData" style=" border: none;
+						box-sizing: border-box;
+						border-radius: 4px;
+						background-color: #6EAF32;
+						width: 120px;
+						font-size: 14px;
+						height: 40px;
+						margin-top: 0px;color: #FFFFFF;" class="btn2">确认更新</button>
+			</p>
+
+		</div>
+
+
+
+	</div>
+
+
+    </div>
+     
+<!-- 验证码发送成功的弹框 -->
+<div class="contentRight" id="myAlert" style="position: fixed;
+		left: 0;
+		top: 0;
+		display:none;
+		width: 100%;
+		background: rgba(55, 63, 74, 0.3);
+		z-index: 10000000;
+		height: 100%;
+		text-align: center;">
+		 <div class="alertBoxWarningT" style="
+		 padding-left:20px;padding-right:20px;
+		 width:500px;
+			height: 258px;
+			background-color:rgb(255, 255,255);
+			border-radius: 4px;
+			position: fixed;
+			left: 0;				
+			right: 0;
+			z-index: 10000000000000000000;
+			top: 20%;
+			margin: auto;">
+			<span id="alertSuccessDom"
+			style="cursor: pointer;font-size:25px;position: absolute;right: 16px;top:16px;transform: rotate(45deg);width: 20px;height: 20px;border-radius: 50%;">+</span>
+			   <div id="succsImg" style="border-radius: 50%;margin-left:auto;margin-top:60px;">
+				 <!-- <div class="succsImgChild" style="margin:15px auto;width: 4px; height: 27px;border: 1px solid transparent;">
+					<span style="display: block;width: 4px;height: 20px;background-color:white;margin-bottom: 2px;margin-top:13px"></span>
+					<span style="display: block;width: 4px;height: 4px;background-color: white;"></span>
+				 </div> -->
+				 <img src="@{'/public/images/succsImg.png'}" >
+			   </div>
+			    <p id="shujuSuccs" style="font-size:18px;font-style: normal;font-weight: 700;color:#373F4A;margin-bottom: 10px;margin-top: 20px;">数据提交成功</p>
+				<button id="yanzhengmgSucceBtn" style="font-family: Alibaba PuHuiTi;width: 120px;height: 40px;
+				font-style: normal;
+				font-family: PingFang SC;
+				font-weight: normal;
+				position: absolute;
+				left:192px;
+				top:191px;
+				text-align: center;
+				font-size: 14px;background-color: #6EAF32;color: #FFFFFF;
+				border-radius:5px;border: none;display: block;">确认</button>
+			   
+			  	</div>
+	
+	</div>
+
+		 <!-- <div class="main_title main_title_w">
+            <h3>云端应用信息详情</h3>
+			<a href="@{LatoWebDelegate.getAppInfoFormList()}" class="list_back">返回应用列表</a>
+		 </div> -->
+		 <!-- 开始的主页面 -->
+		  <div class="main_body">
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">应用ID</label>
+							 <label class="detail_text">${flash.应用ID}</label>
+						 </div>
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">产品名称</label>
+							 <label class="detail_text">${flash.产品名称}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">用户数</label>
+							  <label class="detail_text">${flash.用户数}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">模板数</label>
+							 <label class="detail_text">${flash.模板数}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">空间容量</label>
+							 <label class="detail_text " style="width: 150px !important;" >${flash.附件容量}   </label>
+							 <div class="servercode" style="margin: auto;">
+								(单位:G) <span style="color:red"> </span>
+							 </div>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">已使用空间</label>
+							 <label class="detail_text " style="width: 150px !important;">${flash.已使用空间容量}</label>
+							<div class="servercode" style="margin: auto;">
+								(单位:M) <span style="color:red"> 延迟24小时同步更新</span>
+							 </div>
+						 </div>
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">到期时间</label>
+							 <label class="detail_text">${flash.到期时间}</label>
+						 </div> 
+						 <div class="body_name body_menu1 clearfix">
+							 <label class="menu_name">应用访问地址</label>
+							 <label class="detail_text add_text">${flash.应用访问地址}</label>
+							 
+							 
+							 <div class="servercode">
+							   
+							   <div id="btn" class="js-copy" data-clipboard-text="${flash.应用访问地址}">
+									<button class="add_copy" onclick="">复制</button>
+								</div>
+							 </div>
+						 </div>
+						 
+						  <div class="body_name body_menu1 clearfix">
+							   <label class="menu_name">广告横幅链接</label>
+								<label class="detail_text">${flash.横幅图片链接}</label>
+						 </div>
+						  <div class="body_name body_menu1 clearfix">
+						   <label class="menu_name">应用图标链接</label>
+							<label class="detail_text">${flash.图标图片链接}</label>
+						 </div>
+						 <div class="body_name body_menu1 clearfix" id="importData">
+							<label class="menu_name">已安装产品</label>
+							<label class="detail_text">导入产品</label>
+						 </div>
+						 <div class="body_name body_menu1 clearfix" id="InstalledProduct" style="font-size: 0px;">
+							 <label style="font-size: 14px;">已安装产品</label>
+							 <label id="chanpinName" style="font-size: 14px;margin-left: 61px;text-indent:3px;text-align: left;width: 255px;height: 30px;line-height: 30px;border: 1px solid black;">产品名称</label>
+							 <label id="chanpinNumber" style="font-size: 14px;text-indent:3px;width:110px;height: 30px;line-height: 30px;border: 1px solid black;border-left: 0px;">产品编号</label>
+							 <button data-toggle="modal" data-target="#loca_app_back_model"
+							 data-toggle="modal"
+							 style="font-size: 14px;">升级新版本</button>
+							 <button style="font-size: 14px;" data-toggle="modal" data-target="#loca_app_back_model_history"
+							 data-toggle="modal">查看历史版本</button>
+						  </div>
+
+						 <div class="body_name body_menu1 menu_btnlist clearfix">
+								 <ul class="de_btn_list">
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getUpdateAppInfo(flash.全局应用ID,'',flash.应用ID,flash.全局应用ID)}">设置</a></li>
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getAppInfoFormPostpone(flash.应用ID,flash.全局应用ID)}">续费</a></li>
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getChangeAppInfoForm(flash.应用ID,flash.全局应用ID)}">升级</a></li>
+									<!-- <li><a class="de_anzhaung" id="productInstall" name="productInstall" style="visibility:visible" href="@{LatoWebDelegate.getInstallCloudsProduct(flash.产品名称,flash.应用ID,flash.电话,flash.全局应用ID,flash.应用名称)}"> 产品安装 </a></li> -->
+								    <li><a class="de_anzhaung" href="javascript:window.open('@{LatoWebDelegate.getAppBackup(flash.产品名称,flash.应用ID,flash.电话,flash.全局应用ID,flash.应用名称)}' )">模板库备份</a></li> 
+									<li><a class="de_anzhaung"  href="@{LatoWebDelegate.getResetAppPwd(flash.应用ID,flash.全局应用ID)}">重置应用密码</a></li> 
+								 </ul>
+						 </div>
+						 
+			</div>
+				
+    </div>
+	
+	
+	
+</div>
+
+<script type="text/javascript">
+
+ var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);//实例化
+
+    //复制成功执行的回调，可选
+    clipboard.on('success', function(e) {
+       alert('复制成功');
+    });
+
+    //复制失败执行的回调，可选
+    clipboard.on('error', function(e) {
+       alert('复制失败');
+    });
+
+ $(document).ready(function() {
+	  //	console.log('${flash}');
+		var productName = '${flash.产品名称}';
+		if(productName.length < 1){
+			var queryDevice=document.getElementById("productInstall");
+			queryDevice.style.visibility="hidden";
+		}
+		
+		$('#sub-item-2').addClass('in');	
+			
+    });
+	
+    
+
+	var urlData = location.search.slice(1).split('&')[1].split('=')[1];
+	var nameNumber=null;
+	var objectModelInit = '';
+	
+	ajaxuser();
+    console.log(urlData,123);
+	function ajaxuser() {
+		$.get('http://192.168.1.234:9001/console/api/getAppProductInfo?appCode=' + urlData, function (data) {
+			if(data){
+				objectModelInitString=data;
+				var responseJson = JSON.parse(data);
+				SelectedTemplateData=[responseJson];
+				console.log(responseJson,'872ajaxuser');
+				console.log(responseJson,'初始化数据');
+				var nameProduct = responseJson.产品名称;
+				nameNumber = responseJson.产品编号;
+				if (!nameNumber) {
+					$('#importData').show();
+					$('#InstalledProduct').hide();
+				} else {
+					$('#importData').hide();
+					$('#InstalledProduct').show();
+					$("#chanpinName").text(nameProduct);
+					$("#chanpinNumber").text(nameNumber);
+				}
+				objectModelInit = responseJson;
+			}
+		})
+	}
+	
+	
+	
+
+
+    $('#app_back_table_history').bootstrapTable({
+		url: 'http://192.168.1.234:9001/console/%E5%BA%94%E7%94%A8%E4%BA%A7%E5%93%81%E6%9B%B4%E6%8D%A2/%E6%9F%A5%E8%AF%A2%E6%9B%B4%E6%96%B0%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8(%E5%BA%94%E7%94%A8%E5%94%AF%E4%B8%80%E5%80%BC)/getJsonData?应用唯一值=' +
+			urlData + '&order=asc&limit=10&offset=0'
+	});
+	
+	$('#app_back_table').bootstrapTable({
+		url: 'http://192.168.1.234:9001/console/%E8%BD%AF%E4%BB%B6%E4%BA%A7%E5%93%81%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/%E6%9F%A5%E8%AF%A2%E5%85%81%E8%AE%B8%E6%9B%B4%E6%8D%A2%E7%9A%84%E4%BA%A7%E5%93%81%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%28%E4%BA%A7%E5%93%81%E7%BC%96%E5%8F%B7%29/getJsonData?order=asc&limit=10&offset=0&产品编号'+
+		nameNumber
+	});
+
+	function selectProdct() {
+		rowNewSelect = null;
+		var row = $("#app_back_table").bootstrapTable('getSelections');
+		SelectedTemplateData = row;
+		if (row.length > 0) {
+			$('#loca_app_back_model').modal('hide');
+			newOldDuiBi(row);
+		}
+	}
+	
+    var alertBoxWarningFourSpan = document.getElementById('alertBoxWarningFourSpan');
+	var alertBoxWarningThreeDom = document.getElementById('alertBoxWarningThree');
+	var ulMySystemLeftDom = document.getElementById('ulMySystemLeft');
+	var ulMySystemRightDom = document.getElementById('ulMySystemRight');
+	
+
+	function newOldDuiBi(rows) {
+		upDataModleData = rows[0];
+		console.log(upDataModleData,523);
+		arrLeft = [];
+		arrRight = [];
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		if (rows[0]) {
+			console.log(objectModelInitString,'objectModelInitString 1060');
+			let modelNum=rows[0]['产品编号'];
+			let modelBan=rows[0]['版本号'];
+			console.log(modelNum,modelBan,'1151');
+			if (objectModelInitString != '{}') {
+				console.log(upDataModleData['模板总数量'],'upDataModleData[模板总数量]1150');
+				console.log(objectModelInit['应用模板总数量'],'objectModelInit[应用模板总数量]1151');
+				if (objectModelInit['应用模板总数量']) {
+					if(!upDataModleData['模板总数量']){
+						upDataModleData['模板总数量']=0;
+					}
+					if(!objectModelInit['应用模板总数量']){
+						objectModelInit['应用模板总数量']=0;
+					}
+					//console.log('11应用模板总数量:'+objectModelInit['应用模板总数量'],upDataModleData['模板总数量'])
+					if (parseInt(objectModelInit['应用模板总数量']) < parseInt(upDataModleData['模板总数量'])) {
+						alertBoxWarningTwoDom.style.display = 'block'; // 升级模板库就显示
+						$('#loca_app_back_model').modal('hide');
+						$('#loca_app_back_model2').modal('hide');
+					} else {
+						$.get('http://192.168.1.234:9001/console/api/getProductInfoByCodeAndVersion?code='+modelNum+'&version='+modelBan,
+							function (data) {
+								objectModelUpdata = JSON.parse(data);
+								alertBoxWarningThreeDom.style.display = 'block';
+								$('#queRenUpData').attr('disabled',false);
+								$('#queRenUpData').css('backgroundColor','gray');
+								$('#queRenUpData').css('cursor','not-allowed');
+								arrRight = objectModelUpdata['模板列表'].replace("[", "").replace("]", "").split(',');
+								if (objectModelInit['模板列表']) {
+									arrLeft = objectModelInit['模板列表'].replace("[", "").replace("]", "").split(',');
+								}
+								console.log(arrRight, '1336');
+								if (arrLeft.length > 0) {
+									for (var i = 0; i < arrLeft.length; i++) {
+										var li = document.createElement('li');
+										li.innerHTML = arrLeft[i];
+										console.log(li, '1344');
+										ulMySystemLeftDom.appendChild(li);
+										li.style.fontSize = '14px';
+										li.style.width = '228px';
+										li.style.height = '44px';
+										li.style.paddingLeft = '26px';
+										li.style.lineHeight = '44px';
+										li.style.color = '#373F4A';
+									}
+                                }
+									for (var i = 0; i < arrRight.length; i++) {
+										var li = document.createElement('li');
+										li.innerHTML = arrRight[i];
+										ulMySystemRightDom.appendChild(li);
+										var str = li.innerHTML;
+										var index = -1;
+										if (arrLeft[0]) {
+											index = arrLeft.indexOf(str);
+										}
+										if (index == -1) {
+											li.style.color = 'red';
+										} else {
+											li.style.color = '#373F4A';
+										}
+										li.style.fontSize = '14px';
+										li.style.width = '228px';
+										li.style.height = '44px';
+										li.style.paddingLeft = '26px';
+										li.style.lineHeight = '44px';
+									}
+								  
+							})
+
+
+					}
+
+				}
+			}
+
+
+		}
+
+
+	}
+    
+    $('#fengxianInput').change(function(){
+		if($(this).prop('checked')){
+			$('#queRenUpData').attr('disabled',false);
+		    $('#queRenUpData').css('backgroundColor','#6EAF32');
+			$('#queRenUpData').css('cursor','pointer');
+		} else{
+			$('#queRenUpData').attr('disabled',true);
+		    $('#queRenUpData').css('backgroundColor','gray');
+			$('#queRenUpData').css('cursor','not-allowed');
+		}
+	})
+
+    var agreeMb = document.getElementById('agreeMb');
+	var ob = agreeMb.getElementsByTagName('b')[0];
+	var wenzi = document.getElementById('wenzi');
+	var onOff = true;
+	var agreeBtnDom = document.getElementById('agreeBtn'); // 确认更新div  
+	var agreeInputBtn = agreeBtnDom.getElementsByTagName('button'); // 确认更新button
+	ob.onclick = function (e) {
+		if (onOff) {
+			wenzi.style.display = 'block';
+		} else {
+			wenzi.style.display = 'none';
+		}
+		onOff = !onOff;
+		e.stopPropagation();
+
+	}
+	document.onclick = function () {
+		//console.log(wenzi)
+		wenzi.style.display = 'none'
+	}
+
+	
+	agreeInputBtn[0].onclick = function () { // 更新模板 取消按钮
+		agreeMbInput[0].checked = false; // 我已阅读模板更新库风险须知的input 按钮；  
+		alertBoxWarningThreeDom.style.display = 'none'; // 模板库更新div隐藏
+		ulMySystemLeftDom.innerHTML = ''; // 左边清空 
+		ulMySystemRightDom.innerHTML = ''; // 右边清空
+		//	dataIndexInput=-1;                                // 选择的input下标为-1； 
+	}
+
+	agreeInputBtn[1].onclick = function () { // 更新模板 确认更新按钮，验证码弹框就显示
+		if (agreeMbInput[0].checked) {
+			phoneNumber();
+		}
+	}
+
+
+</script>
+
+#{/set}

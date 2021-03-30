@@ -1,0 +1,73 @@
+﻿
+<html>
+<head>
+
+		
+	<script type="text/javascript" src="@{'public/vendor/jquery/jquery-1.10.2.min.js'}"></script>
+	<script type="text/javascript" src="@{'public/vendor/bootstrap/js/bootstrap.min.js'}"></script>
+	
+		<script src="@{'public/table/dist/bootstrap-table.js'}"></script>
+	
+
+    <title>委托单位选择</title>
+   
+</head>
+<body>
+		<div class="modal fade" id="wtdwModel" tabindex="-1"   role="dialog" 
+				   aria-labelledby="wtdwModel">
+				   <div class="modal-dialog" style="width:60%">
+					  <div class="modal-content">
+						 <div class="modal-header">
+							<button type="button" class="close" 
+							   data-dismiss="modal" aria-hidden="true">
+							</button>
+							<h4 class="modal-title" id="wtdwModel">
+								<span id="errorTypeSpan1">请选择对应委托单的数据</span>
+							</h4>
+						 </div>
+						 
+						 <div class="modal-body">
+							
+						<table data-toggle="table"  data-url="/委托单位列表/getJsonData"   data-height="300"  name="wtdwTable"  id="wtdwTable"  data-click-to-select="true" data-select-item-name="radioName">
+							<thead>
+							<tr>
+								<th data-field="lato_state" data-radio="true" data-formatter="stateFormatter"></th>
+								<th data-field="lato_bh" data-align="right">编号</th>
+								<th data-field="lato_dwmc" data-align="right">单位名称</th>
+								<th data-field="lato_lxr" data-align="center">联系人</th>
+								<th data-field="lato_lxdh" data-align="">联系电话</th>
+								<th data-field="lato_cz" data-align="">传真</th>
+								<th data-field="lato_txdz" data-align="">通讯地址</th>
+								<th data-field="lato_yb" data-align="">邮编</th>
+								<th data-field="lato_yx" data-align="">邮箱</th>
+							</tr>
+							</thead>
+						</table>
+						
+						 </div>
+						 <div class="modal-footer">
+							<button type="button" class="btn btn-lato" 
+							   data-dismiss="modal">取消
+							</button>
+							
+							 <button type="button" class="btn btn-primary" onclick="wtdwModal()" >
+							   选择完毕
+							</button>
+							
+						 </div>
+					  </div>
+				</div>
+				</div>
+				
+<script type="text/javascript">
+$(document).ready(function() {	
+
+		//打开模态框
+		 	$('#wtdwModel').modal({
+					keyboard: true
+				})
+	
+    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿
+        
+#{extends 'LatoWebDelegate/main.html' /}
+#{set title:'产品列表' /}
+	
+ <div  class="main"" >
+	  <div class="main_title main_title_w" style="margin-bottom: 23px;width: 99%;">
+	  	<a href="javascript:;" class="list_back list_back_a" onclick="history.go(-1)">
+			<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+		</a>
+        <h3>产品列表</h3>
+     </div>
+     <div class="main_body">
+          <div class="main_cloud_btn clearfix">
+          	   
+               <a class="btu_new_application" href="javascript:publishProduct();">发布新产品</a>
+           </div>
+          <div class="table server_table clearfix">
+          
+				<table data-toggle="table"  id="table" data-search="true" data-side-pagination="server"     data-pagination="true"    data-url="${flash.dataUrl}"  >
+					 <thead>
+						<tr>
+						#{list items:fieldList, as:'fieldObj' }
+								<th data-field="${fieldObj.field}" data-halign="center" class="${fieldObj.class}" data-switchable="true">${fieldObj.field}</th>
+						#{/list} 
+							
+							<th data-field="operate" data-formatter="operateFormatter" data-halign="center" data-events="operateEvents">操 &nbsp;&nbsp;&nbsp;  作</th>
+						</tr>
+						</thead>
+						
+				</table>	
+          </div>
+     </div> 
+ 
+ 
+</div>
+
+<script type="text/javascript">
+		
+	function publishProduct(){
+        location.href = "@{LatoWebDelegate.publishProduct()}";
+		//window.open("@{LatoWebDelegate.publishProduct()}",'_self','')
+	}	
+	
+	 $(document).ready(function() {
+	 
+	 
+	 $('#sub-item-5').addClass('in');
+	 
+	 
+		
+		}
+		)
+		
+		var result="";
+		//查询
+		function queryForm(temp){
+			
+			var prodctCode =	temp.产品编号;
+			var prodctName = temp.产品名称;
+		    var showUserAction = #{jsAction @LatoWebDelegate.getProdctVersionFormList(':prodctCode',':prodctName') /}
+		
+		
+			var  v2 =showUserAction({prodctCode: prodctCode,prodctName:prodctName}) 
+			
+			//openForm("${flash.templateName}",objectId);	
+			//window.open(v2,'_self',''); 
+            location.href = v2;
+		}
+		
+		//版本升级
+		function update(temp){
+			var prodctCode = temp.产品编号;
+			var prodctName = temp.产品名称;
+			
+		    var showUserAction = #{jsAction @LatoWebDelegate.publishproduct(':prodctCode',':prodctName') /}
+			var  v2 =showUserAction({prodctCode: prodctCode,prodctName:prodctName}) 
+			//window.open(v2,'_self',''); 
+			
+            location.href = v2;
+		}
+	
+    function operateFormatter(value, row, index) {
+		
+		return [
+				'<ul class="btu_list" style="position:relative">',
+				'<li style="width:100%;height:20px;"><a class="query xiangqing" href="javascript:" style="color: #65b8ea;text-align:center">详情&nbsp;&nbsp;</a><a class="update shezhi" href="javascript:" style="text-align:center">发布新版本</a></li></ul>'
+			].join('');
+		
+		
+    }
+
+// position:absolute;left:33%;
+// position:absolute;left:50%
+// '<li style="width:100%;height:20px;"><a class="update shezhi" href="javascript:" style="text-align:center">发布新版本</a></li>',
+    window.operateEvents = {
+        'click .query': function (e, value, row, index) {
+           	queryForm(row);
+        },
+        'click .update': function (e, value, row, index) {
+			
+			update(row);
+        }
+	};
+</script>
+
+<style>
+	 /* .table tr th:nth-child(3),.table tr th:nth-child(4),.table tr th:nth-child(5),.table tr th:nth-child(6),.table tr th:nth-child(7),.table tr th:nth-child(8){
+		min-width: 120px;
+		max-width: 120px;
+		width: 120px;
+	}
+*/
+    
+	.table tr th:nth-child(10){
+		min-width:200px;
+		max-width:200x;
+		width: 200px;
+	}  
+	.main .table table{
+		overflow: auto;
+	}
+
+
+
+</style>

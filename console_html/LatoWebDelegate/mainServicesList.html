@@ -1,0 +1,243 @@
+﻿
+
+#{extends 'LatoWebDelegate/main.html' /}
+#{set 'moreStyles'}
+#{stylesheet '../javascripts/1.0/layui/css/layui.css' /}
+#{stylesheet '../javascripts/1.0/layui/css/lato-layout.css' /}
+#{script '1.0/layui/layui.js' ,charset:'utf-8' /}
+#{script '1.0/layui/lib/lato-common.js' ,charset:'utf-8' /}
+<style>
+.lato-title-side {
+	position: absolute;
+	top: 50px;
+	left: 220px;
+	padding-top: 15px;
+}
+.lato-left-side{
+	position: absolute;
+	padding-top: 35px;
+	top: 120px;
+	left: 220px;
+	width: 200px!important;
+	bottom: 0px!important;
+	//border-right: 1px solid #eee;
+	//box-shadow: 0 0 4px rgba(0,0,0,.3);
+	background-color: #EAEDF1;
+}
+.lato-main-side{
+	position: absolute;
+	top: 120px;
+	left: 417px;
+	right: 0px;
+	background: #fff;
+	//box-shadow: 0 0 4px rgba(0,0,0,.3);
+	padding-top: 35px;
+	padding-bottom: 60px;
+	padding-left: 10px;
+	bottom: 0px!important;
+}
+.lato-main-side form{
+	margin: 20px;
+}
+.lato-main-side .main_title_w2 {
+	position: absolute;
+	top: -70px;
+	left: -200px;
+	right: -200px;
+	padding-top: 15px;
+}
+.lato-main-side .main_title_w span[lato-separator]{margin: 0 10px;color: #999;padding-left: 0px;font-size: inherit;}
+.layui-side-child .layui-side-scroll{width: 210px;}
+.layui-side-child .layui-nav{padding: 0px; width: 200px; border-radius: 0; background: none}
+.layui-side-child .layui-nav-child{border-radius: 0;}
+.layui-side-child .layui-nav .layui-nav-title a, 
+.layui-side-child .layui-nav .layui-nav-title a:hover, 
+.layui-side-child .layui-nav-itemed>a{color: #666 !important;}
+.layui-side-child .layui-nav-item{padding: 5px 10px;}
+.layui-side-child .layui-nav-itemed .layui-nav-child{margin-bottom: 10px; background: none !important;}
+.layui-side-child .layui-nav .layui-nav-item a{height: 30px;line-height: 30px;color: #666;}
+.layui-side-child .layui-nav .layui-nav-item a:hover{background: none !important;}
+.layui-side-child .layui-nav .layui-nav-child a{color: #999 !important;}
+.layui-side-child .layui-nav .layui-nav-more{display: none;}
+.layui-side-child .layui-nav-tree .layui-this, 
+.layui-side-child .layui-nav-tree .layui-this>a, 
+.layui-side-child .layui-nav-tree .layui-nav-child dd.layui-this, 
+.layui-side-child .layui-nav-tree .layui-nav-child dd.layui-this a{background-color: #EAEDF1;; color: #5FB878 !important;font-size: 14px;font-weight: 900;}
+.layui-side-child .layui-nav .layui-nav-child a:hover{color: #009688 !important} 
+.layui-side-child .layui-nav-bar{background-color: #5FB878;}
+
+.btu_update{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_update:hover{ background:#19be59;}
+.btu_postpone{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_postpone:hover{ background:#19be59;}
+.btu_upgrade{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_upgrade:hover{ background:#19be59;}
+.btu_new{ display:block; width:106px; height:32px; color:#fff; line-height:32px; text-align:center; background:#22cb64; box-shadow:0 6px 6px rgba( 18,189,84,.2); border-radius:4px; margin-top: 6px;float: left;}
+.btu_new:hover{ background:#19be59;}
+
+
+.product-nav-title {
+    width: 200px;
+    height: 70px;
+    line-height: 70px;
+    background: #D9DEE4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	text-align: center;
+}
+
+.qq_img {
+    display: block;
+    width: 200px;
+    height: 200px;
+    background: url(https://www.iyunbiao.com/wpa/qrcode) center no-repeat;
+    background-size: 120px 120px;
+}
+</style>
+#{/set}
+
+<div class="lato-title-side main_title_w main_title ">
+	<a href="#{get 'returnLink' /}" class="list_back">
+		<img style="width: 8px;height: 15px;margin-right:5px;padding-bottom: 2px;" src="@{'/public/images/vector_header.png'}" >
+	</a>
+	<h3 class="title">
+		<!-- #{get 'title' /} -->
+		<!-- <span lato-separator>&nbsp;</span>  -->
+		<span id="serverNameDom" style="font-size: 18px;
+		color: #222222;padding-left:0px;
+		line-height: 24px;"></span><span lato-separator>&nbsp;</span>
+	</h3>
+	
+</div>
+
+<div class="layui-side layui-side-child lato-left-side">
+
+  <div class="layui-side-scroll">
+    <!-- <div class="product-nav-title">
+      <a title="返回" href="@{LatoWebDelegate.getLocalServerAppFormList(serviceCode,serverName)}" >
+	    <img src="./public/images/1.0/goback.png" style="width: 30px"/>
+      </a>
+    </div> -->
+    <!-- 左侧子菜单 -->
+    <ul class="layui-nav layui-nav-tree site-demo-table-nav">
+      <li class="layui-nav-item #{if appInfo}layui-this#{/if}">
+	    #{if serviceCode}
+          <a href="@{LatoWebDelegate.getLocalServerApp(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">应用空间详情</a>
+        #{/if}
+        #{else}
+		  <a href="@{LatoWebDelegate.getAppInfo((serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode))}">应用空间详情</a>
+        #{/else}
+      </li>
+	  <!-- <li class="layui-nav-item #{if appProduct}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getAppProductInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">应用模板库<span class="layui-badge-dot"></span></a>
+	  </li> -->
+      <li class="layui-nav-item #{if sms}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServiceSmsInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">短信服务</a>
+      </li>
+      <li class="layui-nav-item #{if push}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServicePushInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">推送服务</a>
+      </li>
+	  <!-- <li class="layui-nav-item #{if datafocus}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getServiceDatafocusInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">datafocus服务<span class="layui-badge-dot"></span></a>
+      </li> -->
+	  <li class="layui-nav-item #{if wxThirdAuth}layui-this#{/if}">
+        <a href="@{LatoThirdAuthDelegate.getWxThirdAuthInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">微信第三方授权<span class="layui-badge-dot"></span></a>
+      </li>
+	  <li class="layui-nav-item" id="li_workwx" onclick="getName('企业微信授权')">
+        <a id="li_workwx_a" href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('workwx',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">企业微信授权<span class="layui-badge-dot"></span></a>
+      </li>
+      <!-- 本地服务器才出现这个选项 -->
+	  <li class="layui-nav-item #{if serviceCode==null}layui-hide#{/if}" id="li_dingtalk_app" onclick="getName('钉钉授权(微应用)')">
+        <a href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('dingtalk_app',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">钉钉授权(微应用)<span class="layui-badge-dot"></span></a>
+      </li>
+	  <li class="layui-nav-item" id="li_dingtalk_web" onclick="getName('钉钉授权(第三方网站)')">
+        <a  href="@{LatoThirdAuthDelegate.getOtherThirdAuthInfo('dingtalk_web',serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">钉钉授权(第三方网站)<span class="layui-badge-dot"></span></a>
+	  </li>
+	  <li class="layui-nav-item #{if appEpkBackupInfo}layui-this#{/if}">
+        <a href="@{LatoWebDelegate.getAppEpkBackupInfo(serviceCode,(serverAppId!=null?serverAppId:appId),(serverAppCode!=null?serverAppCode:appCode),serverName)}">模板库备份列表<span class="layui-badge-dot"></span></a>
+	  </li>
+	 <!-- #{if !serviceCode} -->
+	 
+     <!-- #{/if} -->
+
+	</ul>
+	
+
+	
+
+
+	</div>
+  
+
+
+
+
+
+
+</div>
+<script>
+layui.use(['element'], function(){
+	var element = layui.element;
+	
+});
+
+
+function getName(str){
+	window.localStorage.setItem('wxdd',str);
+}
+
+
+setTimeout(function(){
+	var nameServer=window.localStorage.getItem('nameServer');
+	var serverNameDom=document.getElementById('serverNameDom');
+	serverNameDom.innerHTML=nameServer+'的应用管理';
+})
+
+
+
+
+// valueFn();
+//       function valueFn(){
+// 		var url = window.location.search.slice(1);
+// 		var serverNameDom=document.getElementById('serverNameDom');
+//         var arr=url.split('&');
+// 		var str = 'serviceCode';
+//         var index = url.indexOf(str);
+//         var serverItem=null;
+//         var serverAppCode='${serverAppCode}';
+//         var serverAppId='${serverAppId}';
+//         console.log(serverAppCode,serverAppId,301);
+//         if (index != -1) {  // 本地
+//             var serviceCode='${serviceCode}';
+//             var serverName='${serverName}';
+//             var dataJson="serverAppCode="+serverAppCode+"&serverAppId="+serverAppId+"&serviceCode="+serviceCode+"&serverName="+serverName;
+//             $.get('@{LatoWebApiDelegate.getLocalServerAppInfo}?'+dataJson, function (data) {  
+// 			var objData = JSON.parse(data);		
+// 			console.log(objData,1111111)
+// 			  serverItem=objData.应用名称;
+// 			  serverNameDom.innerHTML=serverItem;
+//             })
+// 		} else {    // 云端
+//                 var dataJsonY="appCode="+serverAppCode+"&appId="+serverAppId;
+//                 $.get('@{LatoWebApiDelegate.getCloudAppInfo}?'+dataJsonY, function (data) {  
+			
+// 				var objData = JSON.parse(data);	
+// 				console.log(objData,222222);		
+// 				serverItem=objData.应用名称;
+// 				console.log(serverItem)
+// 				serverNameDom.innerHTML=serverItem;
+//           })
+// 		}
+// 	}
+
+  
+
+
+
+
+
+
+</script>
+#{get 'latoMainSide' /}
+
